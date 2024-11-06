@@ -22,7 +22,7 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="137dp"
+                android:layout_width="match_parent"
                 android:layout_height="51dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/logo" />
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="#388E3C"
-                android:text="Chọn vị trí bạn muốn giao"
+                android:text="Chon vi tri muon giao"
                 android:textColor="#FFFFFF"
                 app:icon="@android:drawable/ic_dialog_map"
                 app:iconGravity="textEnd"
@@ -55,10 +55,12 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:gravity="center"
+                android:text=""
                 app:icon="@android:drawable/ic_menu_sort_by_size"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                app:iconTint="#0BED14"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <EditText
                 android:id="@+id/editTimkiem"
@@ -76,10 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
+                android:text=" "
                 app:icon="@android:drawable/ic_btn_speak_now"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                app:iconTint="#0BED14"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/btnGiohang"
@@ -91,7 +95,8 @@
                 app:icon="@drawable/shoppingcart"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                app:iconTint="#0BED14"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
             <Button
                 android:id="@+id/btnThongbao"
@@ -103,13 +108,15 @@
                 app:icon="@drawable/off"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                app:iconTint="#0BED14"
+                tools:ignore="SpeakableTextPresentCheck"/>
 
         </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="617dp">
+            android:layout_height="647dp"
+            tools:ignore="SpeakableTextPresentCheck">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,7 +168,7 @@
                 app:iconTint="#4CAF50" />
 
             <Button
-                android:id="@+id/btnGiohang"
+                android:id="@+id/btnGH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
