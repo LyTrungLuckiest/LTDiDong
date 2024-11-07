@@ -7,13 +7,89 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_background"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <Button
+            android:id="@+id/btnSanpham"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="sản phẩm"
+            android:textColor="#4CAF50"
+            android:textSize="14sp"
+            app:icon="@drawable/menubutton"
+            app:iconGravity="textTop"
+            app:iconTint="#4CAF50" />
+
+        <Button
+            android:id="@+id/btnKhuyenmai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="khuyen mai"
+            android:textColor="#4CAF50"
+            app:icon="@drawable/discount"
+            app:iconGravity="textTop"
+            app:iconTint="#4CAF50" />
+
+        <Button
+            android:id="@+id/btnTichdiem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="Tích điểm"
+            android:textColor="#4CAF50"
+            app:icon="@drawable/qr"
+            app:iconGravity="textTop"
+            app:iconTint="#4CAF50" />
+
+        <Button
+            android:id="@+id/btnGiohang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="Gio hàng"
+            android:textColor="#4CAF50"
+            app:icon="@drawable/shoppingcart"
+            app:iconGravity="textTop"
+            app:iconTint="#4CAF50"
+            tools:ignore="DuplicateIds" />
+
+        <Button
+            android:id="@+id/btnTaikhoan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:text="Tài khoản"
+            android:textColor="#4CAF50"
+            app:icon="@drawable/user"
+            app:iconGravity="textTop"
+            app:iconTint="#4CAF50" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+
         android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
         android:background="#4CAF50"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,7 +154,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:text=" "
                 app:icon="@android:drawable/ic_btn_speak_now"
                 app:iconGravity="start"
                 app:iconSize="20dp"
@@ -96,7 +171,7 @@
                 app:iconGravity="start"
                 app:iconSize="20dp"
                 app:iconTint="#0BED14"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                tools:ignore="DuplicateIds,SpeakableTextPresentCheck" />
 
             <Button
                 android:id="@+id/btnThongbao"
@@ -109,88 +184,49 @@
                 app:iconGravity="start"
                 app:iconSize="20dp"
                 app:iconTint="#0BED14"
-                tools:ignore="SpeakableTextPresentCheck"/>
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="647dp"
+            android:layout_height="641dp"
             tools:ignore="SpeakableTextPresentCheck">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical">
+
+                <ViewFlipper
+                    android:id="@+id/viewFlipper"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+
+                </ViewFlipper>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Sản phẩm mới nhất"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
         </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnSanpham"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text="sản phẩm"
-                android:textColor="#4CAF50"
-                android:textSize="14sp"
-                app:icon="@drawable/menubutton"
-                app:iconGravity="textTop"
-                app:iconTint="#4CAF50" />
-
-            <Button
-                android:id="@+id/btnKhuyenmai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text="khuyen mai"
-                android:textColor="#4CAF50"
-                app:icon="@drawable/discount"
-                app:iconGravity="textTop"
-                app:iconTint="#4CAF50" />
-
-            <Button
-                android:id="@+id/btnTichdiem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text="tích diem"
-                android:textColor="#4CAF50"
-                app:icon="@drawable/qr"
-                app:iconGravity="textTop"
-                app:iconTint="#4CAF50" />
-
-            <Button
-                android:id="@+id/btnGH"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text="Gio hàng"
-                android:textColor="#4CAF50"
-                app:icon="@drawable/shoppingcart"
-                app:iconGravity="textTop"
-                app:iconTint="#4CAF50" />
-
-            <Button
-                android:id="@+id/btnTaikhoan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text="Tài khoản"
-                android:textColor="#4CAF50"
-                app:icon="@drawable/user"
-                app:iconGravity="textTop"
-                app:iconTint="#4CAF50" />
-        </LinearLayout>
 
     </LinearLayout>
 
