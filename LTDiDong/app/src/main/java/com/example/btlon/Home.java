@@ -11,11 +11,10 @@ import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class Home extends AppCompatActivity {
     ViewFlipper  viewFlipper;
     RecyclerView recyclerView;
 
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home);
         MakeToast();
         ActionViewFlipper();
 
