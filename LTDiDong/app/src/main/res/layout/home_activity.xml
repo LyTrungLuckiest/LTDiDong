@@ -139,8 +139,7 @@
         app:layout_constraintTop_toBottomOf="@id/topSection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintHeight_percent="0.75"> <!-- Mid chiếm 65% chiều cao màn hình -->
+        app:layout_constraintBottom_toTopOf="@id/bottomSection"> <!-- Mid chiếm 65% chiều cao màn hình -->
 
         <!-- Nội dung chính bên trong phần mid (ví dụ RecyclerView, ScrollView) -->
 
@@ -189,75 +188,114 @@
     <!-- Phần Bottom (sẽ tự điều chỉnh theo nội dung bên trong) -->
     <LinearLayout
         android:id="@+id/bottomSection"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/white"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/midSection"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/midSection">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Nội dung bên trong phần bottom (ví dụ thanh điều hướng) -->
-
-        <Button
-
-            android:layout_width="0dp"
+        <!-- LinearLayout mới để chứa icon hoặc nội dung khác -->
+        <LinearLayout
+            android:id="@+id/topIconsLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:drawableTop="@drawable/store"
-            android:text="Sản Phẩm"
-            android:textColor="@color/text_color"
-            android:textSize="10sp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@color/white">
 
-        <Button
+            <!-- Thêm các icon hoặc các nút bạn muốn -->
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/percent_icon"
+                android:contentDescription="Icon 1" />
 
-            android:layout_width="0dp"
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/food_add_icon"
+                android:contentDescription="Icon 2"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/shopping_cart_icon"
+                android:contentDescription="Icon 3" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/user_icon"
+                android:contentDescription="Icon 3" />
+
+        </LinearLayout>
+
+        <!-- TabLayout ở dưới, giữ nguyên như trước -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:drawableTop="@drawable/percent"
-            android:text="Khuyến mãi"
-            android:textColor="@color/text_color"
-            android:textSize="10sp" />
+            app:tabSelectedTextColor="@color/lightGreen"
+            app:tabBackground="@color/white"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="5dp"
+            app:tabIndicatorColor="@color/white"
+            >
 
-        <Button
+            <!-- Tab 1: Khuyến mãi -->
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/percent_icon"
+                android:text="Khuyến mãi"
+                android:textSize="10sp"
+                android:textColor="@color/text_color"
+                />
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:drawableTop="@drawable/scan"
-            android:text="Quét "
-            android:textColor="@color/text_color"
-            android:textSize="10sp" />
+            <!-- Tab 2: Sản phẩm -->
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/food_add_icon"
+                android:text="Sản Phẩm"
+                android:textSize="10sp"
+                android:textColor="@color/text_color" />
 
+            <!-- Tab 3: Giỏ hàng -->
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/shopping_cart_icon"
+                android:text="Giỏ hàng"
+                android:textSize="10sp"
+                android:textColor="@color/text_color" />
 
-        <Button
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:drawableTop="@drawable/shoppingcart2"
-            android:text="Giỏ hàng"
-            android:textColor="@color/text_color"
-            android:textSize="10sp" />
-
-
-        <Button
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:drawableTop="@drawable/account"
-            android:text="Tài khoản"
-            android:textColor="@color/text_color"
-            android:textSize="10sp" />
-        <!-- Thêm nội dung tùy thích ở đây -->
+            <!-- Tab 4: Tài khoản -->
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/user_icon"
+                android:text="Tài khoản"
+                android:textSize="10sp"
+                android:textColor="@color/text_color" />
+        </com.google.android.material.tabs.TabLayout>
 
     </LinearLayout>
+        <!-- Thêm nội dung tùy thích ở đây -->
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
