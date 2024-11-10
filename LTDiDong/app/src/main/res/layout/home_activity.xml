@@ -11,20 +11,16 @@
         android:id="@+id/topSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#05F40F"
         android:orientation="vertical"
-        android:background="@color/lightGreen"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/midSection"
         app:layout_constraintEnd_toEndOf="parent"
-        >
-
-        <!-- Nội dung bên trong phần top (ví dụ logo và thanh tìm kiếm) -->
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:background="@color/lightGreen"
             android:orientation="horizontal">
 
             <ImageView
@@ -32,31 +28,35 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:paddingTop="5dp"
                 app:srcCompat="@drawable/logo_icon" />
 
             <Button
                 android:id="@+id/btnGps"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="8"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="#388E3C"
+                android:layout_weight="6"
+                android:backgroundTint="#4CAF50"
+                android:paddingTop="10dp"
                 android:text="Chọn vị trí bạn muốn giao"
                 android:textColor="#FFFFFF"
                 app:icon="@android:drawable/ic_dialog_map"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:paddingEnd="5dp"
-            android:background="@drawable/squre_shape"
-            android:orientation="horizontal">
-
+            android:background="@drawable/toolbar_background"
+            android:orientation="horizontal"
+            android:paddingEnd="5dp">
 
             <Button
                 android:id="@+id/btnMenu"
@@ -64,13 +64,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:gravity="center"
-
-                app:icon="@android:drawable/ic_menu_sort_by_size"
-                app:iconGravity="start"
-                app:iconSize="20dp"
-                app:iconTint="#0BED14"
-                android:contentDescription="Menu"/>
+                android:contentDescription="Menu"
+                android:gravity="center_vertical"
+                app:icon="@drawable/menu"
+                app:iconSize="30dp"
+                app:iconTint="#0BED14" />
 
             <EditText
                 android:id="@+id/editTimkiem"
@@ -80,9 +78,7 @@
                 android:drawableLeft="@android:drawable/ic_menu_search"
                 android:ems="10"
                 android:hint="Tìm kiếm"
-
-                android:inputType="text"
-                />
+                android:inputType="text" />
 
             <Button
                 android:id="@+id/btnGiongnoi"
@@ -90,11 +86,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
+                android:contentDescription="Giọng nói"
                 app:icon="@android:drawable/ic_btn_speak_now"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14"
-                android:contentDescription="Giọng nói"/>
+                app:iconTint="#0BED14" />
 
             <Button
                 android:id="@+id/btnGiohang"
@@ -102,13 +98,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
+                android:contentDescription="Giỏ hàng"
                 android:gravity="center"
-                app:icon="@drawable/shoppingcart"
+                app:icon="@drawable/shoppingcart2"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14"
-                android:contentDescription="Giỏ hàng"
-                />
+                app:iconTint="#0BED14" />
 
             <Button
                 android:id="@+id/btnThongbao"
@@ -116,18 +111,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
+                android:contentDescription="Thông báo"
                 android:gravity="center"
                 app:icon="@drawable/off"
                 app:iconGravity="start"
                 app:iconSize="20dp"
-                app:iconTint="#0BED14"
-                android:contentDescription="Thông báo"/>
-
+                app:iconTint="#0BED14" />
         </LinearLayout>
-        <!-- Thêm nội dung tùy thích ở đây -->
     </LinearLayout>
 
-    <!-- Phần Mid (chiếm 60-70% chiều cao màn hình) -->
+    <!-- Phần Mid  -->
     <LinearLayout
         android:id="@+id/midSection"
         android:layout_width="0dp"
@@ -145,40 +138,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:ignore="SpeakableTextPresentCheck">
+         <FrameLayout
+             android:id="@+id/frameLayout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ViewFlipper
-                    android:id="@+id/viewFlipper"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp">
-
-
-                </ViewFlipper>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Sản phẩm mới nhất"
-                    android:textColor="@android:color/holo_red_light"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-            <!-- Thêm nội dung tùy thích ở đây -->
         </ScrollView>
     </LinearLayout>
 

@@ -1,12 +1,15 @@
 package com.example.btlon;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -18,43 +21,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-    ViewFlipper  viewFlipper;
-    RecyclerView recyclerView;
+    FrameLayout frameLayout;
+    TabLayout tabLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tablayout);
 
-        MakeToast();
-        ActionViewFlipper();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new FirstFragment())
+                .addToBackStack(null)
+                .commit();
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Fragment fragment= null;
+                switch (tab.getPosition()){
+                    case  0:
+                        fragment= new FirstFragment();
+                        break;
+                    case  1:
+                        fragment= new SecondFragment();
+                        break;
+                    case  2:
+                        fragment= new ThirdFragment();
+                        break;
+                    case  3:
+                        fragment= new FourFragment();
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,fragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
     }
 
 
-    private void MakeToast() {
-        viewFlipper= findViewById(R.id.viewFlipper);
-        recyclerView=findViewById(R.id.recyclerview);
-    }
-    private void ActionViewFlipper(){
-        List<String> mangquangcao=new ArrayList<>();
-        mangquangcao.add("https://www.bigc.vn/files/a-31-08-2023-11-41-07/21-31-01-si-u-h-i-tr-i-c-y-1080go.jpg");
-        mangquangcao.add("https://www.bigc.vn/files/banners/2022/feb/tra-i-ca-y-giao-mu-a-1080x540-bigc.jpg");
-        mangquangcao.add("https://www.bigc.vn/files/banners/new-node-31-05-2023-11-41-17/mega-mid-june-15-06-2023-16-56-56/1080-g-15-28-06-fruit-festival.jpg");
-        for (int i=0;i<mangquangcao.size();i++){
-            ImageView imageView=new ImageView(getApplicationContext());
-            Glide.with(getApplicationContext()).load(mangquangcao.get(i)).into(imageView);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            viewFlipper.addView(imageView);
 
-        }
-        viewFlipper.setFlipInterval(3000);
-        viewFlipper.setAutoStart(true);
-        Animation slide_in= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_in_right);
-        Animation slide_out=AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_out_right);
-        viewFlipper.setInAnimation(slide_in);
-        viewFlipper.setOutAnimation(slide_out);
-    }
 
 }
