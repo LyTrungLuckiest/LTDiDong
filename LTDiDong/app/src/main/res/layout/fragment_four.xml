@@ -1,17 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ThirdFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E4E4E4"
+    android:paddingEnd="20dp"
+    android:paddingLeft="20dp"
+    >
+    
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+         android:orientation="vertical"
+         android:background="@drawable/toolbar_background"
+         android:layout_marginBottom="20dp"
+         android:layout_marginTop="20dp"
+         >
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="40dp"
+             android:text="Thông tin cá nhân"
+             android:textSize="17sp"
+             android:textAlignment="center"
+             android:layout_marginTop="10dp"
+             android:background="@drawable/user_tab_btshape"
+            />
+
+         <Button
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+
+             android:background="@drawable/user_tab_btshape"
+             android:drawableLeft="@drawable/user_icon"
+             android:drawableRight="@drawable/arrow_right_icon"
+             android:backgroundTint="@null"
+             app:backgroundTint="@null"
+             android:text="Sửa thông tin cá nhân"
+             android:textAlignment="textStart"
+             android:textColor="@color/text_color" />
+         <Button
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:background="@drawable/user_tab_btshape"
+             android:drawableLeft="@drawable/location_icon"
+             android:drawableRight="@drawable/arrow_right_icon"
+             android:backgroundTint="@null"
+             app:backgroundTint="@null"
+             android:text="Địa chỉ nhận hàng"
+             android:textAlignment="textStart"
+             android:textColor="@color/text_color" />
+         <Button
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+             android:background="@drawable/user_tab_bot"
+             android:drawableLeft="@drawable/assignment_icon"
+             android:drawableRight="@drawable/arrow_right_icon"
+             android:backgroundTint="@null"
+             app:backgroundTint="@null"
+             android:text="Đơn hàng từng mua"
+             android:textAlignment="textStart"
+             android:textColor="@color/text_color" />
+
+
+
+     </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="34dp"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:background="@drawable/toolbar_background"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Hỗ trợ khách hàng"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/user_tab_btshape"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/user_tab_btshape"
+            android:drawableLeft="@drawable/phone_icon"
+            android:drawableRight="@drawable/arrow_right_icon"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:text="Tổng đài tư vấn"
+            android:textAlignment="textStart"
+            android:textColor="@color/text_color" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/user_tab_btshape"
+            android:drawableLeft="@drawable/email_icon"
+            android:drawableRight="@drawable/arrow_right_icon"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:text="Góp ý / Liên hệ"
+            android:textAlignment="textStart"
+            android:textColor="@color/text_color" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/user_tab_bot"
+            android:drawableLeft="@drawable/location_on_icon"
+            android:drawableRight="@drawable/arrow_right_icon"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:text="Tìm kiếm siêu thị"
+            android:textAlignment="textStart"
+            android:textColor="@color/text_color" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:background="@drawable/toolbar_background"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Ưu đãi"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/user_tab_btshape"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/user_tab_btshape"
+            android:drawableLeft="@drawable/gift_icon"
+            android:drawableRight="@drawable/arrow_right_icon"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:text="Quà của tôi"
+            android:textAlignment="textStart"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/user_tab_bot"
+            android:drawableLeft="@drawable/diamond_icon"
+            android:drawableRight="@drawable/arrow_right_icon"
+            android:backgroundTint="@null"
+            app:backgroundTint="@null"
+            android:text="Tích điểm đổi quà"
+            android:textAlignment="textStart"
+            android:textColor="@color/text_color" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/squre_shape"
+        android:backgroundTint="@null"
+        app:backgroundTint="@null"
+        android:text="Đăng xuất"
+        android:textSize="17dp"
         android:textAlignment="center"
-        android:text="Four" />
-    />
+        android:textColor="@color/text_color"
+        android:layout_marginBottom="20dp"/>
+
+
+</LinearLayout>
+
+
 
 </FrameLayout>

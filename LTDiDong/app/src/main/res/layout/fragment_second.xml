@@ -12,6 +12,6 @@
         android:textSize="34dp"
         android:textAlignment="center"
         android:text="Second" />
-    />
+
 
 </FrameLayout>

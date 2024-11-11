@@ -46,16 +46,19 @@ public class SignupTabFragment extends Fragment {
             } else if (!password.equals(confirmPassword)) {
                 Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             } else {
-                // Ghi dữ liệu vào cơ sở dữ liệu
+                // Ghi dữ liệu vào cơ sở dữ liệu, kiểm tra trùng lặp tài khoản
                 boolean isInserted = sqliteHelper.insertData(username, password);
                 if (isInserted) {
-                    Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
-                      if (tabLayout != null) {
-                        TabLayout.Tab tab = tabLayout.getTabAt(0); // Tab 1 là tab Đăng ký
+                    Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+
+                    // Chuyển sang tab Đăng nhập
+                    TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
+                    if (tabLayout != null) {
+                        TabLayout.Tab tab = tabLayout.getTabAt(0); // Tab 0 là tab Đăng nhập
                         if (tab != null) tab.select();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Đăng ký không thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
