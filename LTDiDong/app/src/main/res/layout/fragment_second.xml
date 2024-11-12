@@ -5,12 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F5F5F5">
-
 
         <HorizontalScrollView
             android:id="@+id/topNavigation"
@@ -29,7 +27,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:src="@drawable/traicay"
                     android:layout_margin="5dp"
                     android:text="trái cây" />
 
@@ -38,7 +35,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:layout_margin="5dp"
-                    android:src="@drawable/traicay"
                     android:text="trái cây" />
 
                 <TextView
@@ -46,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:layout_margin="5dp"
-                    android:src="@drawable/traicay"
                     android:text="trái cây" />
 
                 <TextView
@@ -54,7 +49,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:layout_margin="5dp"
-                    android:src="@drawable/traicay"
                     android:text="trái cây" />
 
                 <TextView
@@ -62,19 +56,15 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:layout_margin="5dp"
-                    android:src="@drawable/traicay"
                     android:text="trái cây" />
             </LinearLayout>
         </HorizontalScrollView>
-
 
         <ImageView
             android:id="@+id/bannerImage"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop" />
-
-
 
         <TextView
             android:layout_width="100dp"
@@ -92,9 +82,7 @@
             android:background="#B5D7B8"
             android:orientation="horizontal"
             android:padding="8dp"
-            android:gravity="center"  >
-
-
+            android:gravity="center" >
 
             <Button
                 android:layout_width="0dp"
@@ -152,7 +140,6 @@
                 android:text="Xem các loại khác" />
         </LinearLayout>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
@@ -160,12 +147,9 @@
             android:layout_above="@+id/bottomNavigation"
             android:layout_below="@id/categoryTabs"
             android:layout_marginBottom="50dp"
-            android:layoutManager="GridLayoutManager"
-            android:padding="8dp"
-            android:spanCount="2"  />
-
-
-
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            android:padding="8dp" />
 
         <LinearLayout
             android:id="@+id/bottomNavigation"
@@ -182,8 +166,5 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop" />
 
-
-
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
