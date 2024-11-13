@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
 
     <!-- Phần Top (sẽ tự điều chỉnh theo nội dung bên trong) -->
     <LinearLayout
@@ -92,6 +93,7 @@
                 app:iconSize="20dp"
                 app:iconTint="#0BED14" />
 
+
             <Button
                 android:id="@+id/btnGiohang"
                 android:layout_width="0dp"
@@ -125,12 +127,12 @@
         android:id="@+id/midSection"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:background="@color/blue"
-        app:layout_constraintTop_toBottomOf="@id/topSection"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/bottomSection"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomSection"> <!-- Mid chiếm 65% chiều cao màn hình -->
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topSection"> <!-- Mid chiếm 65% chiều cao màn hình -->
 
         <!-- Nội dung chính bên trong phần mid (ví dụ RecyclerView, ScrollView) -->
 
@@ -138,10 +140,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:ignore="SpeakableTextPresentCheck">
-         <FrameLayout
-             android:id="@+id/frameLayout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"/>
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </ScrollView>
     </LinearLayout>
@@ -152,50 +155,53 @@
         android:id="@+id/bottomSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/midSection"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/midSection">
 
         <!-- LinearLayout mới để chứa icon hoặc nội dung khác -->
         <LinearLayout
             android:id="@+id/topIconsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="5dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="horizontal">
 
             <!-- Thêm các icon hoặc các nút bạn muốn -->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/percent_icon"
-                android:contentDescription="Icon 1" />
+
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/food_add_icon"
                 android:contentDescription="Icon 2"
-                 />
+                app:srcCompat="@drawable/food_add_icon" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/shopping_cart_icon"
-                android:contentDescription="Icon 3" />
+                android:contentDescription="Icon 1"
+                app:srcCompat="@drawable/percent_icon" />
+
+
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/user_icon"
-                android:contentDescription="Icon 3" />
+                android:contentDescription="Icon 3"
+                app:srcCompat="@drawable/shopping_cart_icon" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="Icon 3"
+                app:srcCompat="@drawable/user_icon" />
 
         </LinearLayout>
 
@@ -204,13 +210,22 @@
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabSelectedTextColor="@color/lightGreen"
             app:tabBackground="@color/white"
-            app:tabMode="fixed"
             app:tabGravity="fill"
-            app:tabIndicatorHeight="5dp"
             app:tabIndicatorColor="@color/white"
-            >
+            app:tabIndicatorHeight="5dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/lightGreen">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/food_add_icon"
+                android:text="Sản Phẩm"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_medium_size" />
+
 
             <!-- Tab 1: Khuyến mãi -->
             <com.google.android.material.tabs.TabItem
@@ -219,19 +234,9 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/percent_icon"
                 android:text="Khuyến mãi"
-                android:textSize="@dimen/text_medium_size"
                 android:textColor="@color/text_color"
-                />
+                android:textSize="@dimen/text_medium_size" />
 
-            <!-- Tab 2: Sản phẩm -->
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/food_add_icon"
-                android:text="Sản Phẩm"
-                android:textSize="@dimen/text_medium_size"
-                android:textColor="@color/text_color" />
 
             <!-- Tab 3: Giỏ hàng -->
             <com.google.android.material.tabs.TabItem
@@ -240,8 +245,8 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/shopping_cart_icon"
                 android:text="Giỏ hàng"
-                android:textSize="@dimen/text_medium_size"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_medium_size" />
 
             <!-- Tab 4: Tài khoản -->
             <com.google.android.material.tabs.TabItem
@@ -250,8 +255,8 @@
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/user_icon"
                 android:text="Tài khoản"
-                android:textSize="@dimen/text_medium_size"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_medium_size" />
         </com.google.android.material.tabs.TabLayout>
 
     </LinearLayout>
