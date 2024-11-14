@@ -22,6 +22,9 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+    buildFeatures{
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -30,6 +33,8 @@ android {
 
 dependencies {
 
+    implementation("androidx.navigation:navigation-fragment:2.8.4")
+    implementation("androidx.navigation:navigation-ui:2.8.4")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
 
@@ -43,6 +48,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
-
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.6.0")
 
 }

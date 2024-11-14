@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/settingsFragment">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.btlon.AdminFragment.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminInfoFragment"
+        android:name="com.example.btlon.AdminFragment.AdminInfoFragment"
+        android:label="fragment_exit"
+        tools:layout="@layout/fragment_admininfo" />
+</navigation>

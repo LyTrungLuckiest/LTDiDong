@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirstFragment extends Fragment {
+public class ProductFragment extends Fragment {
     private ViewFlipper viewFlipper;
     private RecyclerView recyclerView;
     private FrameLayout frameLayout;
@@ -35,12 +35,12 @@ public class FirstFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FirstFragment() {
+    public ProductFragment() {
         // Required empty public constructor
     }
 
-    public static FirstFragment newInstance(String param1, String param2) {
-        FirstFragment fragment = new FirstFragment();
+    public static ProductFragment newInstance(String param1, String param2) {
+        ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,7 +60,7 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_first, container, false);
+        View view = inflater.inflate(R.layout.fragment_product, container, false);
         viewFlipper = view.findViewById(R.id.viewFlipper);
         recyclerView = view.findViewById(R.id.recyclerview);
         frameLayout = view.findViewById(R.id.frameLayout);
