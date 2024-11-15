@@ -11,12 +11,27 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.common.SignInButton;
+
 public class LoginTabFragment extends Fragment {
 
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
     private SqliteHelper sqliteHelper;
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 9001;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,9 +41,23 @@ public class LoginTabFragment extends Fragment {
         usernameEditText = view.findViewById(R.id.login_user);
         passwordEditText = view.findViewById(R.id.login_password);
         loginButton = view.findViewById(R.id.btLogin);
+        SignInButton signInButton = view.findViewById(R.id.sign_in_button); // Button Google Sign-In
 
         sqliteHelper = new SqliteHelper(getContext());
+        mAuth = FirebaseAuth.getInstance();
 
+        // Cấu hình Google Sign-In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))  // Lấy từ strings.xml
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+
+        // Đăng ký sự kiện cho nút Google Sign-In
+        signInButton.setOnClickListener(v -> signInWithGoogle());
+
+        // Đăng ký sự kiện cho nút đăng nhập bình thường
         loginButton.setOnClickListener(v -> {
             String user = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
@@ -46,21 +75,57 @@ public class LoginTabFragment extends Fragment {
                     startActivity(intent);
                     getActivity().finish();
                 } else {
-                    // Thông báo lỗi nếu tài khoản không tồn tại
+                    // Thông báo lỗi nếu tài khoản không hợp lệ
                     Toast.makeText(getContext(), "Tài khoản không hợp lệ ", Toast.LENGTH_LONG).show();
-
-                    // Tùy chọn: Tự động chuyển sang tab Đăng ký
-                    /*TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
-                      if (tabLayout != null) {
-                        TabLayout.Tab tab = tabLayout.getTabAt(1); // Tab 1 là tab Đăng ký
-                        if (tab != null) tab.select();
-                    }*/
                 }
             }
         });
 
-
         return view;
     }
 
+    // Hàm thực hiện đăng nhập Google
+    private void signInWithGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                Toast.makeText(getContext(), "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        updateUI(null);
+                    }
+                });
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            // Chuyển hướng người dùng sau khi đăng nhập thành công
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        } else {
+            // Xử lý nếu đăng nhập thất bại
+            Toast.makeText(getContext(), "Authentication Failed.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

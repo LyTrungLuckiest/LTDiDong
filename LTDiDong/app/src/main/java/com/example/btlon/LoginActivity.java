@@ -1,5 +1,6 @@
 package com.example.btlon;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager);

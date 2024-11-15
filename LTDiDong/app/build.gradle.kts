@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -50,6 +51,18 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("androidx.navigation:navigation-fragment-ktx:2.6.0")
     implementation ("androidx.navigation:navigation-ui-ktx:2.6.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-analytics")
+    // Firebase Authentication
+    implementation ("com.google.firebase:firebase-auth:22.1.1")
+
+// Google Sign-In
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
+// Facebook SDK
+    implementation ("com.facebook.android:facebook-android-sdk:16.0.1")
+
+
 
 
 }
