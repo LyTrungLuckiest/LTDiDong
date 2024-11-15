@@ -12,7 +12,7 @@
         android:id="@+id/topSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#05F40F"
+        android:background="#7EF483"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/midSection"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,14 +123,17 @@
     </LinearLayout>
 
     <!-- Phần Mid  -->
+
+    <!-- Phần Bottom (sẽ tự điều chỉnh theo nội dung bên trong) -->
+
     <LinearLayout
         android:id="@+id/midSection"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/blue"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/bottomSection"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topSection"> <!-- Mid chiếm 65% chiều cao màn hình -->
 
@@ -143,8 +146,6 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_home" />
     </LinearLayout>
-
-    <!-- Phần Bottom (sẽ tự điều chỉnh theo nội dung bên trong) -->
 
     <LinearLayout
         android:id="@+id/bottomSection"

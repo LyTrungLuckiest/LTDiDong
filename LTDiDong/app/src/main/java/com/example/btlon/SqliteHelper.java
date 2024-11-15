@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class SqliteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "appsellFruit.db";
@@ -132,5 +133,23 @@ public class SqliteHelper extends SQLiteOpenHelper {
             Log.e("Database", "Database file does not exist.");
         }
     }
+    public ArrayList<Product> getAllProducts() {
+        ArrayList<Product> productList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Products", null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String price = cursor.getString(3);
+                String image = cursor.getString(4); // Nếu lưu ID của hình ảnh trong drawable
+                productList.add(new Product(image, name, price));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return productList;
+    }
+
 
 }

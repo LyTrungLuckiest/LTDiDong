@@ -1,0 +1,6 @@
+<!-- item_border.xml (tạo trong thư mục res/drawable) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white"/> <!-- Màu nền trắng -->
+    <stroke android:color="#000000" android:width="2dp"/> <!-- Viền màu đen và độ dày 2dp -->
+    <corners android:radius="2dp"/> <!-- Bo góc -->
+</shape>
