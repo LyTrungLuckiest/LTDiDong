@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
 
-
     <!-- Phần Top (sẽ tự điều chỉnh theo nội dung bên trong) -->
     <LinearLayout
         android:id="@+id/topSection"
@@ -22,7 +21,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
 
             <ImageView
                 android:id="@+id/logo"
@@ -38,10 +38,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="6"
-                android:backgroundTint="#4CAF50"
-                android:paddingTop="10dp"
+                android:background="@drawable/rounded_background"
                 android:text="Chọn vị trí bạn muốn giao"
                 android:textColor="#FFFFFF"
+                app:backgroundTint="@null"
                 app:icon="@android:drawable/ic_dialog_map"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
@@ -59,66 +59,59 @@
             android:orientation="horizontal"
             android:paddingEnd="5dp">
 
-            <Button
-                android:id="@+id/btnMenu"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="Menu"
-                android:gravity="center_vertical"
-                app:icon="@drawable/menu"
-                app:iconSize="30dp"
-                app:iconTint="#0BED14" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editTimkiem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:drawableLeft="@android:drawable/ic_menu_search"
-                android:ems="10"
-                android:hint="Tìm kiếm"
-                android:inputType="text" />
+                <ImageButton
+                    android:id="@+id/btnMenu"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/custom_button"
+                    android:contentDescription="Menu"
+                    android:scaleType="center"
+                    android:src="@drawable/menu" />
 
-            <Button
-                android:id="@+id/btnGiongnoi"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="Giọng nói"
-                app:icon="@android:drawable/ic_btn_speak_now"
-                app:iconGravity="start"
-                app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                <SearchView
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/edittext_bkg"
+                    android:paddingTop="4dp" />
 
+                <ImageButton
+                    android:id="@+id/btnGiongnoi"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/custom_button"
+                    android:contentDescription="Giọng nói"
+                    android:scaleType="center"
+                    android:src="@android:drawable/ic_btn_speak_now" />
 
-            <Button
-                android:id="@+id/btnGiohang"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="Giỏ hàng"
-                android:gravity="center"
-                app:icon="@drawable/shoppingcart2"
-                app:iconGravity="start"
-                app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                <ImageButton
+                    android:id="@+id/btnGiohang"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/custom_button"
+                    android:contentDescription="Giỏ hàng"
+                    android:scaleType="center"
+                    android:src="@drawable/shoppingcart2" />
 
-            <Button
-                android:id="@+id/btnThongbao"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="Thông báo"
-                android:gravity="center"
-                app:icon="@drawable/off"
-                app:iconGravity="start"
-                app:iconSize="20dp"
-                app:iconTint="#0BED14" />
+                <ImageButton
+                    android:id="@+id/btnThongbao"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/custom_button"
+                    android:contentDescription="Thông báo"
+                    android:scaleType="center"
+                    android:src="@drawable/notification" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -162,8 +155,8 @@
             android:id="@+id/bottomNavigationHome"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:menu="@menu/homemenu"
-            app:labelVisibilityMode="labeled"/>
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/homemenu" />
     </LinearLayout>
 
 

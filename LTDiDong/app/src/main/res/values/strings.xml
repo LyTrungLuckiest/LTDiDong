@@ -2,6 +2,7 @@
     <string name="app_name">BTLon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="default_web_client_id">AIzaSyCT8HoX7ijsmF3_lgqQEh1cRUt4MM7N_HQ</string>
+    <string name="default_web_client_id">485565591896-ktjhui5s1kdp2ucgvnc8ltshps3jng1h.apps.googleusercontent.com</string>
+
 
 </resources>

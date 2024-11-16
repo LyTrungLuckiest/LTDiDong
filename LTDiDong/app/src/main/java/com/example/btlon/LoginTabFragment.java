@@ -2,6 +2,7 @@ package com.example.btlon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class LoginTabFragment extends Fragment {
 
         // Cấu hình Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))  // Lấy từ strings.xml
+                .requestIdToken(getString(R.string.default_web_client_id))  // Web Client ID trong strings.xml
                 .requestEmail()
                 .build();
 
@@ -99,19 +100,23 @@ public class LoginTabFragment extends Fragment {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
+                Log.w("Login", "Google sign-in failed", e);
                 Toast.makeText(getContext(), "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        Log.d("Login", "Attempting Firebase Auth with Google...");
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
+                        Log.d("Login", "Firebase Auth Successful: " + user.getEmail());
                         updateUI(user);
                     } else {
+                        Log.w("Login", "Firebase Auth Failed", task.getException());
                         updateUI(null);
                     }
                 });
@@ -119,12 +124,12 @@ public class LoginTabFragment extends Fragment {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            // Chuyển hướng người dùng sau khi đăng nhập thành công
+            Log.d("Login", "User is authenticated: " + user.getDisplayName());
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
-            getActivity().finish();
+            getActivity().finish();  // Đảm bảo rằng activity hiện tại sẽ bị đóng.
         } else {
-            // Xử lý nếu đăng nhập thất bại
+            Log.d("Login", "Authentication failed");
             Toast.makeText(getContext(), "Authentication Failed.", Toast.LENGTH_SHORT).show();
         }
     }
