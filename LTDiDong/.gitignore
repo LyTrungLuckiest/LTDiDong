@@ -15,3 +15,5 @@ build.gradle.kts
 .externalNativeBuild
 .cxx
 local.properties
+google-services.json
+
