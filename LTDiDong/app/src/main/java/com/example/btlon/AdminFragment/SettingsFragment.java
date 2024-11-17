@@ -34,15 +34,20 @@ public class SettingsFragment extends Fragment {
 
         // Create a list of items for the RecyclerView
         List<ItemManager> itemList = new ArrayList<>();
-        itemList.add(new ItemManager("Item 1", R.drawable.user_icon));
-        itemList.add(new ItemManager("Item 2", R.drawable.user_icon));
-        itemList.add(new ItemManager("Item 3", R.drawable.user_icon));
-        itemList.add(new ItemManager("Item 4", R.drawable.user_icon));
+
+        AddItems(itemList);
 
         // Set the adapter to RecyclerView
         ItemManagerAdapter adapter = new ItemManagerAdapter(itemList);
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    private static void AddItems(List<ItemManager> itemList) {
+        itemList.add(new ItemManager("Người dùng", R.drawable.user_icon));
+        itemList.add(new ItemManager("Item 2", R.drawable.user_icon));
+        itemList.add(new ItemManager("Item 3", R.drawable.user_icon));
+        itemList.add(new ItemManager("Item 4", R.drawable.user_icon));
     }
 }

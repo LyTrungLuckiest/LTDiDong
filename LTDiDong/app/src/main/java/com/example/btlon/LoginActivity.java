@@ -56,11 +56,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Sử dụng Glide để tải ảnh nền vào ImageView
-        ImageView backgroundImage = findViewById(R.id.background_image);
-        Glide.with(this)
-                .load(R.drawable.background) // Thay thế bằng ảnh tài nguyên của bạn
-                .centerCrop()  // Cắt ảnh sao cho phù hợp với ImageView
-                .into(backgroundImage); // Hiển thị ảnh vào ImageView
+
     }
 }

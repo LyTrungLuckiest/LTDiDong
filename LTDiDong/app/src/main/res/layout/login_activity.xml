@@ -4,16 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/background"
+    >
 
-    <!-- ImageView đặt ảnh nền -->
-    <ImageView
-        android:id="@+id/background_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background" />
+
 
     <!-- LinearLayout chứa TabLayout và ViewPager2 -->
     <LinearLayout
@@ -25,14 +20,17 @@
         app:layout_constraintHeight_percent="0.65"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="1">
+        app:layout_constraintWidth_percent="1"
+        >
 
         <!-- TabLayout để quản lý tab cho ViewPager2 -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:layout_weight="0.15" />
+            android:layout_weight="0.15"
+            android:background="@drawable/tab_bkg"
+            />
 
         <!-- ViewPager2 cho các fragment -->
         <androidx.viewpager2.widget.ViewPager2
@@ -40,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/edittext_bkg" />
+            android:background="@drawable/viewpager_bkg"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,14 +70,19 @@ public class LoginTabFragment extends Fragment {
                 String loggedInUserName = sqliteHelper.checkLogin(user, password);
 
                 if (loggedInUserName != null) {
-                    // Đăng nhập thành công, chuyển sang màn hình chính
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    // Đăng nhập thành công, kiểm tra loại người dùng (admin hay người dùng bình thường)
+                    Intent intent;
+                    if (user.equals("admin")) {
+                        intent = new Intent(getActivity(), AdminActivity.class);  // Màn hình cho admin
+                    } else {
+                        intent = new Intent(getActivity(), HomeActivity.class);  // Màn hình cho người dùng bình thường
+                    }
                     intent.putExtra("USERNAME", loggedInUserName);
                     startActivity(intent);
-                    getActivity().finish();
+                    getActivity().finish();  // Đảm bảo đóng activity hiện tại
                 } else {
                     // Thông báo lỗi nếu tài khoản không hợp lệ
-                    Toast.makeText(getContext(), "Tài khoản không hợp lệ ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Tài khoản không hợp lệ", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -127,10 +132,11 @@ public class LoginTabFragment extends Fragment {
             Log.d("Login", "User is authenticated: " + user.getDisplayName());
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
-            getActivity().finish();  // Đảm bảo rằng activity hiện tại sẽ bị đóng.
+            getActivity().finish();  // Đảm bảo activity hiện tại sẽ bị đóng.
         } else {
             Log.d("Login", "Authentication failed");
             Toast.makeText(getContext(), "Authentication Failed.", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

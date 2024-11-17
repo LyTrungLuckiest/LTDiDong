@@ -19,6 +19,8 @@ public class SqliteHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "Users";
     private static final String COL_2 = "username";
     private static final String COL_3 = "password";
+
+
     private static final int DATABASE_VERSION = 1;
     private static final String DB_PATH_SUFFIX = "/databases/";
 
@@ -66,8 +68,11 @@ public class SqliteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Tạo bảng "Users" nếu chưa có trong cơ sở dữ liệu
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, role TEXT)");
+
+
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

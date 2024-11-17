@@ -14,7 +14,7 @@
         <ViewFlipper
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:background="@color/white">
 
 
@@ -36,7 +36,8 @@
             android:background="#7EF483"
             android:horizontalSpacing="5dp"
             android:numColumns="2"
-            android:verticalSpacing="5dp" />
+            android:verticalSpacing="5dp"
+            android:padding="5dp"/>
 
         <Button
             android:layout_width="wrap_content"
