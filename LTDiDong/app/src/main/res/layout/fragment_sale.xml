@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".SaleFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomeActivity">
@@ -22,7 +20,7 @@
                 android:id="@+id/topNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#A7D5A7"
+                android:background="@color/white"
                 android:scrollbarSize="50dp"
                 android:layout_margin="5dp"
                 android:padding="10dp">
@@ -75,15 +73,27 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
+            <ViewFlipper
+                android:id="@+id/viewflipper"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+            </ViewFlipper>
+
+
+
+
             <!-- Banner Image -->
+
+            <!-- TextView "Bảng sản phẩm" nằm giữa màn hình -->
+
             <ImageView
                 android:id="@+id/bannerImage"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_below="@id/topNavigation"
+                android:layout_marginTop="9dp"
                 android:scaleType="centerCrop" />
 
-            <!-- TextView "Bảng sản phẩm" nằm giữa màn hình -->
             <TextView
                 android:id="@+id/productBoardText"
                 android:layout_width="wrap_content"
@@ -91,10 +101,9 @@
                 android:layout_below="@id/bannerImage"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:background="#58F45C"
                 android:gravity="center"
                 android:text="Bảng sản phẩm"
-                android:textColor="#3A3939"
+                android:textColor="@color/white"
                 android:textSize="25sp" />
 
             <!-- Category Tabs -->
@@ -103,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/productBoardText"
-                android:background="#B5D7B8"
+                android:background="#E5F8E6"
                 android:orientation="horizontal"
                 android:padding="8dp"
                 android:gravity="center">
@@ -117,7 +126,7 @@
                     android:padding="5dp"
                     android:gravity="center"
                     android:textColor="#3F4349"
-                    android:backgroundTint="#AAE9A3"
+                    android:backgroundTint="#D9E7D9"
                     android:text="Thịt heo" />
 
                 <Button
@@ -127,7 +136,7 @@
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:textColor="#3F4349"
-                    android:backgroundTint="#AAE9A3"
+                    android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:text="Cá, hải sản, khô" />
 
@@ -138,7 +147,7 @@
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:textColor="#3F4349"
-                    android:backgroundTint="#AAE9A3"
+                    android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:text="Thịt sơ chế" />
 
@@ -147,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#AAE9A3"
+                    android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Thịt gà, vịt, chim"
@@ -160,7 +169,7 @@
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:textColor="#3F4349"
-                    android:backgroundTint="#AAE9A3"
+                    android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:text="Xem các loại khác" />
             </LinearLayout>

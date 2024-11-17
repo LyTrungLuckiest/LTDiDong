@@ -4,8 +4,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toolbar;
+import android.widget.ViewFlipper;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +34,11 @@ public class SaleFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ViewFlipper viewFlipper;
+    Toolbar toolbar;
+    RecyclerView navigationView;
+    ListView listViewManHinhChinh;
+
 
     public SaleFragment() {
         // Required empty public constructor
@@ -45,6 +62,8 @@ public class SaleFragment extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,4 +79,31 @@ public class SaleFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sale, container, false);
     }
+
+    private void ActionViewFlipper(){
+        List<String> mangquangcao= new ArrayList<>();
+        mangquangcao.add("https://www.bigc.vn/files/a-31-08-2023-11-41-07/21-31-01-si-u-h-i-tr-i-c-y-1080go.jpg");
+        mangquangcao.add("https://img.pikbest.com/templates/20240706/fruit-fruit-banner-for-supermarket-store-green-background_10654794.jpg!bwr800");
+        mangquangcao.add("https://img.pikbest.com/templates/20240819/strawberry-fruit-sale-promotion-banner-for-supermarkets_10740343.jpg!bwr800");
+
+        for(int i=0 ;i< mangquangcao.size();i++)
+        {
+            ImageView imageView= new ImageView(getActivity().getApplicationContext());
+            Glide.with(getActivity().getApplicationContext()).load(mangquangcao.get(i)).into(imageView);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            viewFlipper.addView(imageView);
+
+        }
+        viewFlipper.setFlipInterval(3000);
+        viewFlipper.setAutoStart(true);
+        Animation slide_in_right_sale = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_in_right_sale);
+        Animation slide_out_right_sale = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_out_right_sale);
+        viewFlipper.setInAnimation(slide_in_right_sale);
+        viewFlipper.setInAnimation(slide_out_right_sale);
+
+    }
+
+
+
+
 }
