@@ -120,6 +120,28 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> userList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int userId = cursor.getInt(0);
+                String username = cursor.getString(1);
+                String password = cursor.getString(2);
+                String role = cursor.getString(3);
+
+                User user = new User(userId, username, password, role);
+                userList.add(user);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return userList;
+    }
+
     public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase(); // Mở cơ sở dữ liệu ở chế độ ghi
         db.delete(TABLE_NAME, null, null); // Xóa tất cả các hàng trong bảng "Users"
