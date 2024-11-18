@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toolbar;
@@ -35,6 +36,9 @@ public class SaleFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     ViewFlipper viewFlipper;
+    private GridView gridView;
+    private SqliteHelper sqliteHelper;
+
     Toolbar toolbar;
     RecyclerView navigationView;
     ListView listViewManHinhChinh;
@@ -77,31 +81,50 @@ public class SaleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sale, container, false);
+        View view = inflater.inflate(R.layout.fragment_sale, container, false);
+
+        // Ánh xạ viewFlipper
+        viewFlipper = view.findViewById(R.id.viewFlipper);
+        gridView = view.findViewById(R.id.gridView);
+        sqliteHelper = new SqliteHelper(getContext());
+
+        // Thực hiện hành động ViewFlipper
+        ActionViewFlipper();
+        loadProductsToGridView();
+
+        return view;
+
     }
 
-    private void ActionViewFlipper(){
-        List<String> mangquangcao= new ArrayList<>();
-        mangquangcao.add("https://www.bigc.vn/files/a-31-08-2023-11-41-07/21-31-01-si-u-h-i-tr-i-c-y-1080go.jpg");
+    private void ActionViewFlipper() {
+        List<String> mangquangcao = new ArrayList<>();
+        mangquangcao.add("https://img.pikbest.com/templates/20240819/fruit-sale-promotion-banner-for-supermarkets_10740211.jpg!bwr800");
         mangquangcao.add("https://img.pikbest.com/templates/20240706/fruit-fruit-banner-for-supermarket-store-green-background_10654794.jpg!bwr800");
         mangquangcao.add("https://img.pikbest.com/templates/20240819/strawberry-fruit-sale-promotion-banner-for-supermarkets_10740343.jpg!bwr800");
 
-        for(int i=0 ;i< mangquangcao.size();i++)
-        {
-            ImageView imageView= new ImageView(getActivity().getApplicationContext());
-            Glide.with(getActivity().getApplicationContext()).load(mangquangcao.get(i)).into(imageView);
+        for (String url : mangquangcao) {
+            ImageView imageView = new ImageView(requireContext());
+            Glide.with(requireContext()).load(url).into(imageView);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             viewFlipper.addView(imageView);
-
         }
-        viewFlipper.setFlipInterval(3000);
-        viewFlipper.setAutoStart(true);
-        Animation slide_in_right_sale = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_in_right_sale);
-        Animation slide_out_right_sale = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_out_right_sale);
-        viewFlipper.setInAnimation(slide_in_right_sale);
-        viewFlipper.setInAnimation(slide_out_right_sale);
 
+        viewFlipper.setFlipInterval(3000); // 3 seconds
+        viewFlipper.setAutoStart(true);
+
+        Animation slide_in_right_sale = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right_sale);
+        Animation slide_out_right_sale = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_right_sale);
+        viewFlipper.setInAnimation(slide_in_right_sale);
+        viewFlipper.setOutAnimation(slide_out_right_sale);
     }
+
+    private void loadProductsToGridView() {
+        // Lấy danh sách sản phẩm từ SQLite
+        ArrayList<Product> productList = sqliteHelper.getAllProducts();
+        MyArrayAdapter adapter = new MyArrayAdapter(getActivity(), R.layout.item_product, productList);
+        gridView.setAdapter(adapter);
+    }
+
 
 
 

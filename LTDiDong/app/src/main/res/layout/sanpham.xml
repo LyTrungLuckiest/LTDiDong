@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:elevation="8dp"
-    app:circularflow_radiusInDP="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,8 +14,8 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_gravity="top|right"
-            android:layout_width="50dp"
-            android:layout_height="150dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:srcCompat="@android:drawable/ic_menu_gallery"
             tools:srcCompat="@drawable/anhnew" />
 
@@ -28,28 +27,28 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="150dp"
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
 
             <TextView
                 android:id="@+id/textView"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thịt" />
+                android:gravity="center"
+                android:text="Thịt"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView2"
-                android:textSize="15sp"
-                android:textColor="@android:color/holo_red_light"
-                android:textStyle="bold"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="80.000đ/1kg" />
+                android:gravity="center"
+                android:text="80.000đ/1kg"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

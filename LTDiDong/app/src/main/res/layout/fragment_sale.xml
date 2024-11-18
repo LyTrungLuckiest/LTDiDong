@@ -5,188 +5,213 @@
     android:layout_height="match_parent"
     tools:context=".SaleFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomeActivity">
+        android:background="#F5F5F5">
 
-        <RelativeLayout
+        <!-- HorizontalScrollView for navigation -->
+        <HorizontalScrollView
+            android:id="@+id/topNavigation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#F5F5F5">
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@color/white"
+            android:padding="5dp">
 
-            <!-- HorizontalScrollView cho thanh điều hướng -->
-            <HorizontalScrollView
-                android:id="@+id/topNavigation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:scrollbarSize="50dp"
-                android:layout_margin="5dp"
-                android:padding="10dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- Các mục trong HorizontalScrollView -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:background="#AAE9A3"
-                        android:layout_margin="5dp"
-                        android:text="trái cây" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:background="#AAE9A3"
-                        android:layout_margin="5dp"
-                        android:text="trái cây" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:layout_margin="5dp"
-                        android:background="#AAE9A3"
-                        android:text="trái cây" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:layout_margin="5dp"
-                        android:background="#AAE9A3"
-                        android:text="trái cây" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:background="#AAE9A3"
-                        android:layout_margin="5dp"
-                        android:text="trái cây" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <ViewFlipper
-                android:id="@+id/viewflipper"
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-            </ViewFlipper>
-
-
-
-
-            <!-- Banner Image -->
-
-            <!-- TextView "Bảng sản phẩm" nằm giữa màn hình -->
-
-            <ImageView
-                android:id="@+id/bannerImage"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_below="@id/topNavigation"
-                android:layout_marginTop="9dp"
-                android:scaleType="centerCrop" />
-
-            <TextView
-                android:id="@+id/productBoardText"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/bannerImage"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="Bảng sản phẩm"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
+                android:orientation="horizontal">
 
-            <!-- Category Tabs -->
-            <LinearLayout
-                android:id="@+id/categoryTabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/productBoardText"
-                android:background="#E5F8E6"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:gravity="center">
-
-                <!-- Các nút lựa chọn sản phẩm -->
+                <!-- Navigation buttons -->
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:gravity="center"
-                    android:textColor="#3F4349"
-                    android:backgroundTint="#D9E7D9"
-                    android:text="Thịt heo" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:textColor="#3F4349"
-                    android:backgroundTint="#D9E7D9"
-                    android:gravity="center"
-                    android:text="Cá, hải sản, khô" />
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:textColor="#3F4349"
-                    android:backgroundTint="#D9E7D9"
-                    android:gravity="center"
-                    android:text="Thịt sơ chế" />
-
-                <Button
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Thịt gà, vịt, chim"
+                    android:text="Cam"
                     android:textColor="#3F4349" />
-
                 <Button
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="5dp"
-                    android:padding="5dp"
-                    android:textColor="#3F4349"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
-                    android:text="Xem các loại khác" />
+                    android:padding="5dp"
+                    android:text="Ổi"
+                    android:textColor="#3F4349" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#D9E7D9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Mận"
+                    android:textColor="#3F4349" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#D9E7D9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Xoài"
+                    android:textColor="#3F4349" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#D9E7D9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Nho"
+                    android:textColor="#3F4349" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#D9E7D9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Lê"
+                    android:textColor="#3F4349" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="#D9E7D9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Táo"
+                    android:textColor="#3F4349" />
+                <!-- Repeat as necessary for additional buttons -->
             </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- ViewFlipper -->
+        <ViewFlipper
+            android:id="@+id/viewFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/topNavigation"
+            android:layout_marginTop="4dp" />
+
+        <!-- Banner Image -->
+        <ImageView
+            android:id="@+id/bannerImage"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@id/viewFlipper"
+            android:layout_marginTop="9dp"
+            android:scaleType="centerCrop" />
+
+        <!-- Product Board Text -->
+        <TextView
+            android:id="@+id/productBoardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bannerImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Bảng sản phẩm"
+            android:textColor="@color/red"
+            android:textSize="25sp" />
 
 
+        <!-- Category Tabs -->
+        <LinearLayout
+            android:id="@+id/categoryTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/productBoardText"
+            android:background="#E5F8E6"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-            <!-- Bottom Navigation -->
-            <LinearLayout
-                android:id="@+id/bottomNavigation"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:background="#E0E0E0"
+            <!-- Example buttons for categories -->
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:backgroundTint="#D9E7D9"
                 android:gravity="center"
-                android:orientation="horizontal" />
+                android:padding="5dp"
+                android:text="Cam"
+                android:textColor="#3F4349" />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:backgroundTint="#D9E7D9"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Nho"
+                android:textColor="#3F4349" />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:backgroundTint="#D9E7D9"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Ổi"
+                android:textColor="#3F4349" />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:backgroundTint="#D9E7D9"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Táo"
+                android:textColor="#3F4349" />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:backgroundTint="#D9E7D9"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Xoài"
+                android:textColor="#3F4349" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- GridView for products -->
+
+        <!-- Bottom Navigation -->
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/bottomNavigation"
+            android:layout_below="@id/categoryTabs"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="#7EF483"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:padding="5dp"
+            android:verticalSpacing="5dp" />
+
+        <LinearLayout
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#E0E0E0"
+            android:gravity="center"
+            android:orientation="horizontal" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
