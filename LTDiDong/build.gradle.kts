@@ -3,12 +3,13 @@ plugins {
     id("com.android.application") version "8.7.2" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
 
+
 }
 buildscript {
     repositories {
         google()  // Thêm Google Maven repository
     }
     dependencies {
-        classpath ("com.google.gms:google-services:4.3.15") // Phiên bản mới nhất của plugin Firebase
+        classpath ("com.google.gms:google-services:4.4.2") // Phiên bản mới nhất của plugin Firebase
     }
 }

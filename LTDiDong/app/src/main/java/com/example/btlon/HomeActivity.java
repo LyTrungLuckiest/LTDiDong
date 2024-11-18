@@ -26,12 +26,9 @@ import android.widget.Toast;
 import java.util.Locale;
 
 
-
 public class HomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
-
-
 
 
     @Override
@@ -40,13 +37,13 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
 
 
-
-            Log.d("HomeActivity", "Home Activity is started!");
-
+        Log.d("HomeActivity", "Home Activity is started!");
 
 
 
         ImageButton btnMicrophone = findViewById(R.id.btnGiongnoi);
+
+
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,10 +52,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Thiết lập NavController cho BottomNavigationView
-        BottomNavigationView bottomNavigationView =(BottomNavigationView) findViewById(R.id.bottomNavigationHome);
-        NavController navController =(NavController) Navigation.findNavController(this, R.id.fragmentContainerViewHome);
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationHome);
+        NavController navController = (NavController) Navigation.findNavController(this, R.id.fragmentContainerViewHome);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
+
     private void startVoiceRecognition() {
         // Check if the device supports speech recognition
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
@@ -78,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -92,8 +91,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 
 }
