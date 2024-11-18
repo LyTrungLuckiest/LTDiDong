@@ -46,8 +46,8 @@ public class SettingsFragment extends Fragment {
 
     private static void AddItems(List<ItemManager> itemList) {
         itemList.add(new ItemManager("Người dùng", R.drawable.user_icon));
-        itemList.add(new ItemManager("Item 2", R.drawable.user_icon));
-        itemList.add(new ItemManager("Item 3", R.drawable.user_icon));
-        itemList.add(new ItemManager("Item 4", R.drawable.user_icon));
+        itemList.add(new ItemManager("Danh mục sản phẩm", R.drawable.list_product));
+        itemList.add(new ItemManager("Sản phẩm", R.drawable.food_add_icon));
+        itemList.add(new ItemManager("Hóa đơn", R.drawable.oder_icon));
     }
 }

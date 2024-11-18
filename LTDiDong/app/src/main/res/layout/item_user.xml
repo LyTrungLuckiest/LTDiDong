@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="8dp"
     android:weightSum="4"
@@ -35,13 +37,23 @@
         android:gravity="center"
         android:text="Password"
         android:textSize="16sp" />
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.5"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <Button
+        android:id="@+id/btAction"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/create_icon"
+        app:backgroundTint="@null"
 
-        <Button
-            android:id="@+id/btAction"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-           />
+        />
+
+</LinearLayout>
+
 
 
 

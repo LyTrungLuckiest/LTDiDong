@@ -28,11 +28,11 @@
             android:exported="false" />
 
         <activity
-            android:name=".AdminActivity"
+            android:name=".LoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".AdminActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

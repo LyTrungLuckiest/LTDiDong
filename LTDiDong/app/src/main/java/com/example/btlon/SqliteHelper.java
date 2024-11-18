@@ -142,6 +142,23 @@ public class SqliteHelper extends SQLiteOpenHelper {
         return userList;
     }
 
+    public void updateUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", user.getUsername());
+        values.put("password", user.getPassword());
+
+        db.update("Users", values, "user_id = ?", new String[]{String.valueOf(user.getUserId())});
+        db.close();
+    }
+
+    public void deleteUser(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("Users", "user_id = ?", new String[]{String.valueOf(userId)});
+        db.close();
+    }
+
+
     public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase(); // Mở cơ sở dữ liệu ở chế độ ghi
         db.delete(TABLE_NAME, null, null); // Xóa tất cả các hàng trong bảng "Users"
