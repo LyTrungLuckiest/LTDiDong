@@ -79,7 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@drawable/edittext_bkg"
-                    android:paddingTop="4dp" />
+                    android:paddingTop="4dp"
+                    />
 
                 <ImageButton
                     android:id="@+id/btnGiongnoi"
@@ -128,7 +129,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topSection"> <!-- Mid chiếm 65% chiều cao màn hình -->
+        app:layout_constraintTop_toBottomOf="@id/topSection"
+        android:background="#E4E4E4"> <!-- Mid chiếm 65% chiều cao màn hình -->
 
 
         <fragment

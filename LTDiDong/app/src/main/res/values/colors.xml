@@ -8,4 +8,5 @@
     <color name="red">#FF1744</color>
     <color name="text_color">#505050</color>
     <color name="green">#00D809</color>
+    <color name="icon_color">#3C3C3C</color>
 </resources>
