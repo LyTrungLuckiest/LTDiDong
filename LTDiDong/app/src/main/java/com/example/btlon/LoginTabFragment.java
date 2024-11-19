@@ -29,6 +29,7 @@ public class LoginTabFragment extends Fragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private SignInButton signInButton; // Nút Google Sign-In
     private SqliteHelper sqliteHelper;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -42,23 +43,23 @@ public class LoginTabFragment extends Fragment {
         usernameEditText = view.findViewById(R.id.login_user);
         passwordEditText = view.findViewById(R.id.login_password);
         loginButton = view.findViewById(R.id.btLogin);
-        SignInButton signInButton = view.findViewById(R.id.sign_in_button); // Button Google Sign-In
+        signInButton = view.findViewById(R.id.sign_in_button);
 
         sqliteHelper = new SqliteHelper(getContext());
         mAuth = FirebaseAuth.getInstance();
 
         // Cấu hình Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))  // Web Client ID trong strings.xml
+                .requestIdToken(getString(R.string.default_web_client_id)) // Web Client ID từ Google Console
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
-        // Đăng ký sự kiện cho nút Google Sign-In
+        // Đăng ký sự kiện nút Google Sign-In
         signInButton.setOnClickListener(v -> signInWithGoogle());
 
-        // Đăng ký sự kiện cho nút đăng nhập bình thường
+        // Đăng ký sự kiện nút đăng nhập thường
         loginButton.setOnClickListener(v -> {
             String user = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
@@ -66,22 +67,20 @@ public class LoginTabFragment extends Fragment {
             if (user.isEmpty() || password.isEmpty()) {
                 Toast.makeText(getContext(), "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show();
             } else {
-                // Kiểm tra tài khoản trong cơ sở dữ liệu
+                // Kiểm tra tài khoản trong SQLite
                 String loggedInUserName = sqliteHelper.checkLogin(user, password);
 
                 if (loggedInUserName != null) {
-                    // Đăng nhập thành công, kiểm tra loại người dùng (admin hay người dùng bình thường)
                     Intent intent;
                     if (user.equals("admin")) {
-                        intent = new Intent(getActivity(), AdminActivity.class);  // Màn hình cho admin
+                        intent = new Intent(getActivity(), AdminActivity.class);
                     } else {
-                        intent = new Intent(getActivity(), HomeActivity.class);  // Màn hình cho người dùng bình thường
+                        intent = new Intent(getActivity(), HomeActivity.class);
                     }
                     intent.putExtra("USERNAME", loggedInUserName);
                     startActivity(intent);
-                    getActivity().finish();  // Đảm bảo đóng activity hiện tại
+                    getActivity().finish();
                 } else {
-                    // Thông báo lỗi nếu tài khoản không hợp lệ
                     Toast.makeText(getContext(), "Tài khoản không hợp lệ", Toast.LENGTH_LONG).show();
                 }
             }
@@ -90,15 +89,18 @@ public class LoginTabFragment extends Fragment {
         return view;
     }
 
-    // Hàm thực hiện đăng nhập Google
     private void signInWithGoogle() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        // Đảm bảo người dùng phải chọn tài khoản mỗi lần
+        mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -132,11 +134,10 @@ public class LoginTabFragment extends Fragment {
             Log.d("Login", "User is authenticated: " + user.getDisplayName());
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
-            getActivity().finish();  // Đảm bảo activity hiện tại sẽ bị đóng.
+            getActivity().finish();
         } else {
             Log.d("Login", "Authentication failed");
             Toast.makeText(getContext(), "Authentication Failed.", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
