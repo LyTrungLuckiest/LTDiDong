@@ -36,7 +36,7 @@
                 android:layout_height="60dp"
                 android:layout_marginBottom="16dp"
                 android:hint="Tên đăng nhập"
-                android:drawableLeft="@drawable/user"
+                android:drawableLeft="@drawable/user1"
                 android:drawablePadding="8dp"
                 android:maxLines="1"
                 android:inputType="text"

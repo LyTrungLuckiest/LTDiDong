@@ -65,6 +65,10 @@ dependencies {
 // Facebook SDK
     implementation("com.facebook.android:facebook-android-sdk:16.0.1")
 
+        implementation ("com.facebook.android:facebook-login:15.0.0")  // Đảm bảo bạn thêm đúng phiên bản Facebook SDK
+
+
+
 
 }
 
