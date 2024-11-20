@@ -36,22 +36,12 @@
             android:background="#7EF483"
             android:horizontalSpacing="5dp"
             android:numColumns="2"
-            android:verticalSpacing="5dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:verticalSpacing="5dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="delete all db"
-            android:id="@+id/buttonXoa"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="out"
-            android:id="@+id/buttonOut"/>
+
     </LinearLayout>
     <!-- Thêm nội dung tùy thích ở đây -->
-
 
 
 </FrameLayout>

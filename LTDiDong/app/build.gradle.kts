@@ -39,6 +39,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment:2.8.4")
     implementation("androidx.navigation:navigation-ui:2.8.4")
+    implementation("com.android.volley:volley:1.2.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
 
@@ -64,6 +65,14 @@ dependencies {
 
 // Facebook SDK
     implementation("com.facebook.android:facebook-android-sdk:16.0.1")
+    implementation ("com.facebook.android:facebook-android-sdk:[latest_version]")
+
+
+    implementation ("com.facebook.android:facebook-login:16.0.1")
+    implementation ("com.facebook.android:facebook-login:latest.release")
+// Đảm bảo bạn thêm đúng phiên bản Facebook SDK
+
+
 
 
 }

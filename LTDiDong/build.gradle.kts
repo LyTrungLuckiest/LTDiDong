@@ -7,7 +7,9 @@ plugins {
 }
 buildscript {
     repositories {
-        google()  // Thêm Google Maven repository
+        google()
+        mavenCentral()
+
     }
     dependencies {
         classpath ("com.google.gms:google-services:4.4.2") // Phiên bản mới nhất của plugin Firebase

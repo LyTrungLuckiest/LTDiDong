@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import java.util.Locale;
 
 
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
@@ -35,6 +38,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        // Khởi tạo Facebook SDK
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this.getApplication());
 
 
         Log.d("HomeActivity", "Home Activity is started!");

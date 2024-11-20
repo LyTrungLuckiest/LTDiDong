@@ -67,28 +67,7 @@ public class ProductFragment extends Fragment {
         gridView = view.findViewById(R.id.gridView);
         frameLayout = view.findViewById(R.id.frameLayout);
         sqliteHelper = new SqliteHelper(getContext());
-        btnDeleteAll = view.findViewById(R.id.buttonXoa);
-        btnOut = view.findViewById(R.id.buttonOut);
 
-        // Nút xóa tất cả
-        btnDeleteAll.setOnClickListener(v -> {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Xác nhận")
-                    .setMessage("Bạn có chắc muốn xóa toàn bộ dữ liệu?")
-                    .setPositiveButton("Có", (dialog, which) -> {
-                        sqliteHelper.deleteAllData();
-                        Toast.makeText(getActivity(), "Đã xóa tất cả dữ liệu", Toast.LENGTH_SHORT).show();
-                        loadProductsToGridView(); // Refresh GridView
-                    })
-                    .setNegativeButton("Không", null)
-                    .show();
-        });
-
-        // Nút đăng xuất
-        btnOut.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        });
 
         // Gọi các hàm cần thiết
         ActionViewFlipper();

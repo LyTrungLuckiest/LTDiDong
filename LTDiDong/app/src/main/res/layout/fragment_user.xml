@@ -168,6 +168,7 @@
 
 
         <Button
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/squre_shape"
