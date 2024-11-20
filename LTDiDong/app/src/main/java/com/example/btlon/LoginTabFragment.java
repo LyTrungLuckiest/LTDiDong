@@ -1,6 +1,8 @@
 package com.example.btlon;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,8 @@ import com.google.android.gms.common.SignInButton;
 
 public class LoginTabFragment extends Fragment {
 
+
+    private boolean isLogin=false;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -44,6 +48,7 @@ public class LoginTabFragment extends Fragment {
         passwordEditText = view.findViewById(R.id.login_password);
         loginButton = view.findViewById(R.id.btLogin);
         signInButton = view.findViewById(R.id.sign_in_button);
+
 
         sqliteHelper = new SqliteHelper(getContext());
         mAuth = FirebaseAuth.getInstance();
@@ -71,6 +76,12 @@ public class LoginTabFragment extends Fragment {
                 String loggedInUserName = sqliteHelper.checkLogin(user, password);
 
                 if (loggedInUserName != null) {
+                    // Lưu trạng thái đăng nhập vào SharedPreferences
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isLogin", true);  // Lưu trạng thái đăng nhập
+                    editor.putString("USERNAME", loggedInUserName);  // Lưu tên đăng nhập
+                    editor.apply();
                     Intent intent;
                     if (user.equals("admin")) {
                         intent = new Intent(getActivity(), AdminActivity.class);

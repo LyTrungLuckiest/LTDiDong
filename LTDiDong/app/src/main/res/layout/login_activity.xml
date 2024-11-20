@@ -5,15 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
-
     <!-- ImageView đặt ảnh nền -->
     <ImageView
         android:id="@+id/background_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/background" />
+        android:src="@drawable/background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- Button Back -->
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:backgroundTint="@color/light_green"/>
 
     <!-- LinearLayout chứa TabLayout và ViewPager2 -->
     <LinearLayout
@@ -33,7 +49,9 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:layout_weight="0.15"
-            android:background="@drawable/tab_bkg"/>
+            android:background="@drawable/tab_bkg"
+            android:contentDescription="Tabs for navigation" />
+
 
         <!-- ViewPager2 cho các fragment -->
         <androidx.viewpager2.widget.ViewPager2

@@ -168,12 +168,13 @@
 
 
         <Button
+            android:id="@+id/bt_login_logout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/squre_shape"
             android:backgroundTint="@null"
             app:backgroundTint="@null"
-            android:text="Đăng xuất"
+            android:text="Đăng nhập"
             android:textSize="17dp"
             android:textAlignment="center"
             android:textColor="@color/text_color"

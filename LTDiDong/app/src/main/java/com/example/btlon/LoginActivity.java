@@ -1,6 +1,9 @@
 package com.example.btlon;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +14,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private Button backButton;
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private ViewPagerAdapter adapter;
     private SqliteHelper sqliteHelper;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         // Khởi tạo các thành phần
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager);
+        backButton = findViewById(R.id.back_button);
+
         sqliteHelper = new SqliteHelper(this);
 
         // Khởi tạo các tab và ViewPager2 với các Fragment
@@ -34,6 +41,16 @@ public class LoginActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         adapter = new ViewPagerAdapter(fragmentManager, getLifecycle());
         viewPager2.setAdapter(adapter);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent); // Start the activity
+                finish();
+            }
+        });
 
         // Đồng bộ việc chọn tab và chuyển trang trong ViewPager2
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
