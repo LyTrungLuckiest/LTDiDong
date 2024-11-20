@@ -65,14 +65,16 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btnMenu"
+                    android:id="@+id/button_dropdown"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
                     android:contentDescription="Menu"
                     android:scaleType="center"
-                    android:src="@drawable/menu" />
+                    android:src="@drawable/menu"
+
+                    />
 
                 <SearchView
                     android:layout_width="160dp"

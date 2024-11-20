@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +22,7 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -29,7 +31,7 @@ import java.util.Locale;
 public class HomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
-
+    ImageButton dropdownButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         ImageButton btnMicrophone = findViewById(R.id.btnGiongnoi);
+        dropdownButton = findViewById(R.id.button_dropdown);
 
 
         btnMicrophone.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,50 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationHome);
         NavController navController = (NavController) Navigation.findNavController(this, R.id.fragmentContainerViewHome);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        dropdownButton.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(this, dropdownButton);
+
+            // Xác định chính xác tệp menu từ XML
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.popupmenu, popupMenu.getMenu());
+
+            // Xử lý sự kiện click vào item
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.option_1:
+                        Toast.makeText(this, "Option 1 selected", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.option_2:
+                        Toast.makeText(this, "Option 2 selected", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.option_3:
+                        Toast.makeText(this, "Option 3 selected", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.option_4:
+                        Toast.makeText(this, "Option 4 selected", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+
+            // Lắng nghe sự kiện hiển thị menu
+            popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+                @Override
+                public void onDismiss(PopupMenu menu) {
+                    // Khôi phục lại icon ban đầu khi menu bị ẩn
+                    dropdownButton.setImageResource(R.drawable.menu); // Icon gốc
+                }
+            });
+
+            // Đổi icon khi menu hiển thị
+            dropdownButton.setImageResource(R.drawable.baseline_cancel_24); // Icon khi menu mở
+            popupMenu.show(); // Hiển thị popup menu
+        });
+
+
+
+
     }
 
     private void startVoiceRecognition() {
