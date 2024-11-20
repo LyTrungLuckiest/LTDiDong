@@ -74,6 +74,10 @@ dependencies {
 
 
 
+        implementation ("com.facebook.android:facebook-login:15.0.0")  // Đảm bảo bạn thêm đúng phiên bản Facebook SDK
+
+
+
 
 }
 

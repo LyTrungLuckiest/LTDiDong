@@ -38,7 +38,7 @@
                 android:layout_height="50dp"
 
                 android:background="@drawable/user_tab_btshape"
-                android:drawableLeft="@drawable/user_icon"
+
                 android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
                 app:backgroundTint="@null"
