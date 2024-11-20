@@ -3,6 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_web_client_id">858096754823-dhjs159s6bdpedhe9ousg1es4lhmu1nv.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">444729861689716</string>
+    <string name="facebook_client_token">444729861689716|77ce4e6411ee848bcf2cd15808dc910f</string>
 
 
 </resources>
