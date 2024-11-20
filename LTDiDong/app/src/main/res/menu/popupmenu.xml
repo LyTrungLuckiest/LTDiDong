@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/option_1"
+        android:title="Trái cây tươi"
+        />
+    <item
+        android:id="@+id/option_2"
+        android:title="Trái cây nhiệt đới" />
+    <item
+        android:id="@+id/option_3"
+        android:title="Trái cây sấy khô" />
+    <item
+        android:id="@+id/option_4"
+        android:title="Giỏ trái cây" />
+</menu>

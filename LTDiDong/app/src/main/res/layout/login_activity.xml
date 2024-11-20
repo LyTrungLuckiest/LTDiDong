@@ -32,7 +32,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:layout_weight="0.15" />
+            android:layout_weight="0.15"
+            android:background="@drawable/tab_bkg"/>
 
         <!-- ViewPager2 cho các fragment -->
         <androidx.viewpager2.widget.ViewPager2
@@ -40,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/edittext_bkg" />
+            android:background="@drawable/viewpager_bkg" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
