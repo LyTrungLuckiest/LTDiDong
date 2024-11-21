@@ -60,6 +60,17 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+
+        ImageButton btnGiohang = findViewById(R.id.btnGiohang);
+        btnGiohang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chuyển đến tab CartFragment
+                BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
+                bottomNavigationView.setSelectedItemId(R.id.cartFragment);
+            }
+        });
+
         // Thiết lập NavController cho BottomNavigationView
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationHome);
         NavController navController = (NavController) Navigation.findNavController(this, R.id.fragmentContainerViewHome);

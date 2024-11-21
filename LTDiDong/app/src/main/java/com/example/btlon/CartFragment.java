@@ -4,38 +4,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CartFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CartFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // Parameters for fragment initialization
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Spinner spinnerPaymentMethod;
+    private String selectedPaymentMethod = "Tiền mặt"; // Default value
 
     public CartFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ThirdFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CartFragment newInstance(String param1, String param2) {
         CartFragment fragment = new CartFragment();
         Bundle args = new Bundle();
@@ -58,6 +49,75 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+
+
+        // Initialize Spinner and Button
+        spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
+        Button buttonCheckout = view.findViewById(R.id.buttonCheckout);
+
+        // Set up payment methods for Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                new String[]{"Tiền mặt", "MoMo", "ZaloPay", "Ngân hàng"}
+        );
+        spinnerPaymentMethod.setAdapter(adapter);
+
+        // Handle payment method selection
+        spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedPaymentMethod = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Keep the default payment method
+            }
+        });
+
+        // Handle checkout button click
+        buttonCheckout.setOnClickListener(v -> handleCheckout());
+
+        return view;
+    }
+
+    private void handleCheckout() {
+        switch (selectedPaymentMethod) {
+            case "Tiền mặt":
+                processCashPayment();
+                break;
+            case "MoMo":
+                processMoMoPayment();
+                break;
+            case "ZaloPay":
+                processZaloPayPayment();
+                break;
+            case "Ngân hàng":
+                processBankPayment();
+                break;
+            default:
+                Toast.makeText(requireContext(), "Vui lòng chọn phương thức thanh toán hợp lệ!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void processCashPayment() {
+        Toast.makeText(requireContext(), "Thanh toán bằng tiền mặt thành công!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void processMoMoPayment() {
+        Toast.makeText(requireContext(), "Đang chuyển đến MoMo...", Toast.LENGTH_SHORT).show();
+        // Add MoMo SDK intent here
+    }
+
+    private void processZaloPayPayment() {
+        Toast.makeText(requireContext(), "Đang chuyển đến ZaloPay...", Toast.LENGTH_SHORT).show();
+        // Add ZaloPay SDK intent here
+    }
+
+    private void processBankPayment() {
+        Toast.makeText(requireContext(), "Đang chuyển đến thanh toán ngân hàng...", Toast.LENGTH_SHORT).show();
+        // Add banking SDK or intent here
     }
 }

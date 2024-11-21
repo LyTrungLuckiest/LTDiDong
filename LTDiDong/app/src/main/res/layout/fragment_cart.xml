@@ -22,7 +22,7 @@
         <ImageButton
             android:id="@+id/btnExit"
             android:layout_width="48dp"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:layout_margin="0dp"
             android:background="@drawable/custom_button"
             android:contentDescription="Exit"
@@ -212,35 +212,43 @@
 
                     <TextView
                         android:id="@+id/textView15"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tiền mặt khi nhận hàng"
+                        android:text="Phương thức thanh toán"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <Button
-                        android:id="@+id/buttonPaymentMethod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+
+                    <Spinner
+                        android:id="@+id/spinnerPaymentMethod"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
                         android:text="Đổi phương thức"
-                        android:textColor="#FFFFFF"
-                        android:backgroundTint="@color/black" />
+                        android:textColor="#C7B3B3"
+                        android:backgroundTint="@color/black"/>
 
                 </LinearLayout>
 
                 <!-- Checkout Button -->
+
+
+
                 <Button
                     android:id="@+id/buttonCheckout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:text="Thanh Toán"
                     android:backgroundTint="#1DCC18"
-                    android:text="Thanh Toán 90.000đ"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
+
+
+
             </LinearLayout>
+
 
 
 
