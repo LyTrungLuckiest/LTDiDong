@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/productFragment"
-        android:name="com.example.btlon.ProductFragment"
+        android:name="com.example.btlon.Ui.Home.ProductFragment"
         android:label="fragment_product"
         tools:layout="@layout/fragment_product" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.example.btlon.CartFragment"
+        android:name="com.example.btlon.Ui.Home.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/saleFragment"
-        android:name="com.example.btlon.SaleFragment"
+        android:name="com.example.btlon.Ui.Home.SaleFragment"
         android:label="fragment_sale"
         tools:layout="@layout/fragment_sale" />
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.btlon.UserFragment"
+        android:name="com.example.btlon.Ui.Home.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
 </navigation>

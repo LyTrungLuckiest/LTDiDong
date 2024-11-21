@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminFragment.SettingsFragment">
+    tools:context=".Ui.Admin.SettingsFragment">
 
     <!-- res/layout/fragment_setting.xml -->
     <androidx.core.widget.NestedScrollView

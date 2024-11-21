@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:padding="8dp"
 
-    tools:context=".HomeActivity">
+    tools:context=".Ui.Home.HomeActivity">
 
     <!-- ImageView cho ảnh sản phẩm -->
     <ImageView
