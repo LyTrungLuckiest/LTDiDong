@@ -24,7 +24,6 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
-
                 android:contentDescription="Main Icon"
                 android:src="@drawable/logo_icon" />
 
@@ -39,52 +38,89 @@
                 android:drawablePadding="8dp"
                 android:hint="Tên đăng nhập"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:paddingStart="15dp" />
 
             <!-- EditText cho mật khẩu -->
-            <EditText
-                android:id="@+id/signup_password"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/edittext_bkg"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:hint="Mật khẩu"
-                android:inputType="textPassword"
-                android:maxLines="1" />
+                android:layout_marginBottom="16dp">
 
-            <EditText
-                android:id="@+id/signup_passwor_checkout"
+                <EditText
+                    android:id="@+id/signup_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/edittext_bkg"
+                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawablePadding="8dp"
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingStart="15dp" />
+
+                <!-- ToggleButton để hiển thị/ẩn mật khẩu -->
+                <ToggleButton
+                    android:id="@+id/togglePasswordVisibility1"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:drawableTop="@drawable/ic_eye_close"
+                    android:contentDescription="Toggle password visibility"
+                    app:tint="#AAAAAA" />
+            </RelativeLayout>
+
+            <!-- EditText cho mật khẩu nhập lại -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/edittext_bkg"
-                android:drawableLeft="@drawable/baseline_password_24"
-                android:drawablePadding="8dp"
-                android:hint="Nhập lại mật khẩu"
-                android:inputType="text"
-                android:maxLines="1" />
+                android:layout_marginBottom="16dp">
 
-            <!-- Button Login -->
+                <EditText
+                    android:id="@+id/signup_passwor_checkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/edittext_bkg"
+                    android:drawableLeft="@drawable/baseline_password_24"
+                    android:drawablePadding="8dp"
+                    android:hint="Nhập lại mật khẩu"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingStart="15dp" />
+
+                <!-- ToggleButton để hiển thị/ẩn mật khẩu nhập lại -->
+                <ToggleButton
+                    android:id="@+id/togglePasswordVisibilityCheckouty2"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:drawableTop="@drawable/ic_eye_close"
+                    android:contentDescription="Toggle password visibility"
+                    app:tint="#AAAAAA" />
+            </RelativeLayout>
+
+            <!-- Button Đăng ký -->
             <Button
-                android:id="@+id/btSignup"
+                android:id="@+id/btnSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_button"
                 android:backgroundTint="#7EF483"
                 android:paddingHorizontal="40dp"
-                android:text="Đăng kí"
+                android:text="Đăng ký"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:backgroundTint="@null" />
-
 
         </LinearLayout>
 
     </ScrollView>
 
 </LinearLayout>
-
-

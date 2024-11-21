@@ -29,8 +29,12 @@ public class SignupTabFragment extends Fragment {
         edtUsername = view.findViewById(R.id.signup_user);
         edtPassword = view.findViewById(R.id.signup_password);
         edtConfirmPassword = view.findViewById(R.id.signup_passwor_checkout);
-        btSignup = view.findViewById(R.id.btSignup);
+        btSignup = view.findViewById(R.id.btnSignup);
+        new PasswordToggleHelper(edtPassword,view.findViewById(R.id.togglePasswordVisibility1));
+        new PasswordToggleHelper(edtConfirmPassword,view.findViewById(R.id.togglePasswordVisibilityCheckouty2));
+// Lắng nghe sự kiện Enter và ẩn bàn phím
 
+        KeyboardHelper.hideKeyboardOnEnter(edtConfirmPassword, getContext());
         // Khởi tạo cơ sở dữ liệu
         sqliteHelper = new SqliteHelper(getContext());
 

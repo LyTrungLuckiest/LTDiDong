@@ -30,11 +30,11 @@
             <EditText
                 android:id="@+id/login_user"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/edittext_bkg"
                 android:drawableLeft="@drawable/user1"
-                android:drawablePadding="8dp"
+                android:drawablePadding="15dp"
                 android:hint="Tên đăng nhập"
                 android:inputType="text"
                 android:maxLines="1"
@@ -43,62 +43,78 @@
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
-            <!-- EditText cho mật khẩu -->
-            <EditText
-                android:id="@+id/login_password"
+            <!-- RelativeLayout để chứa EditText và ToggleButton -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/edittext_bkg"
-                android:drawableLeft="@drawable/baseline_lock_24"
-                android:drawablePadding="8dp"
-                android:hint="Mật khẩu"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                android:layout_height="60dp"
+                android:layout_marginBottom="16dp">
 
-            <!-- Button Login -->
+                <!-- EditText cho mật khẩu -->
+                <EditText
+                    android:id="@+id/login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/edittext_bkg"
+                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawablePadding="15dp"
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
-            <!-- Nút Đăng nhập bằng Google -->
+                <!-- ToggleButton để hiển thị/ẩn mật khẩu -->
+                <ToggleButton
+                    android:id="@+id/togglePasswordVisibility"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="Toggle password visibility"
+                    android:drawableTop="@drawable/ic_eye_close"
+                    app:tint="#AAAAAA" />
+            </RelativeLayout>
+
+            <!-- Nút Đăng nhập -->
             <Button
                 android:id="@+id/btLogin"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="#7EF483"
+                app:backgroundTint="@null"
                 android:paddingHorizontal="40dp"
+                android:backgroundTint="#7EF483"
                 android:text="Đăng nhập"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-
-                app:backgroundTint="@null" />
+                android:textSize="18sp" />
 
             <!-- Nút Đăng nhập bằng Google -->
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"
-                android:layout_gravity="center" />
+                android:text="Đăng nhập bằng Google" />
+
             <!-- Nút Đăng nhập bằng Facebook -->
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button_facebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:text="Đăng nhập bằng Facebook"
-                android:paddingHorizontal="20dp" />
-
+                android:layout_marginBottom="16dp"
+                android:paddingHorizontal="20dp"
+                android:text="Đăng nhập bằng Facebook" />
 
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

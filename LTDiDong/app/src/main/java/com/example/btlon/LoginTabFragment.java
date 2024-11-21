@@ -3,13 +3,13 @@ package com.example.btlon;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -29,6 +29,7 @@ public class LoginTabFragment extends Fragment {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private ToggleButton toggle;
     private SignInButton googleLoginButton;
     private LoginButton facebookLoginButton;
     private SqliteHelper sqliteHelper;
@@ -53,7 +54,7 @@ public class LoginTabFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login_tab_fagment, container, false);
+        View view = inflater.inflate(R.layout.fragment_login_tab, container, false);
 
         // Khởi tạo các view
         usernameEditText = view.findViewById(R.id.login_user);
@@ -61,6 +62,11 @@ public class LoginTabFragment extends Fragment {
         loginButton = view.findViewById(R.id.btLogin);
         googleLoginButton = view.findViewById(R.id.sign_in_button);
         facebookLoginButton = view.findViewById(R.id.login_button_facebook);
+        toggle=view.findViewById(R.id.togglePasswordVisibility);
+
+        new PasswordToggleHelper(passwordEditText,toggle);
+
+        KeyboardHelper.hideKeyboardOnEnter(passwordEditText, getContext());
 
         sqliteHelper = new SqliteHelper(getContext());
 

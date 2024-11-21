@@ -50,6 +50,7 @@ public class GoogleSignInHelper {
             googleSignInLauncher.launch(signInIntent);
         });
     }
+
     // Sign out from Google
     public void signOut(Activity activity, Runnable onSignOutComplete) {
         if (mGoogleSignInClient == null) {
@@ -66,13 +67,13 @@ public class GoogleSignInHelper {
             }
         });
     }
+
     public static GoogleSignInOptions getGoogleSignInOptions() {
         return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("R.string.default_web_client_id")
                 .requestEmail()
                 .build();
     }
-
 
 
     // Handle the sign-in result after user authentication
