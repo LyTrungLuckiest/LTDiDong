@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
 public class LoginActivity extends AppCompatActivity {
-    private Button backButton;
+
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private ViewPagerAdapter adapter;
@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         // Khởi tạo các thành phần
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager);
-        backButton = findViewById(R.id.back_button);
 
         sqliteHelper = new SqliteHelper(this);
 
@@ -42,15 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(fragmentManager, getLifecycle());
         viewPager2.setAdapter(adapter);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent); // Start the activity
-                finish();
-            }
-        });
+
 
         // Đồng bộ việc chọn tab và chuyển trang trong ViewPager2
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
