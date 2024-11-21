@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;  // Thêm import Glide
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 
 import java.util.ArrayList;

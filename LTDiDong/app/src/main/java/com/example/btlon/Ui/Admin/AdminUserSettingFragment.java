@@ -18,9 +18,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.btlon.R;
-import com.example.btlon.SqliteHelper;
-import com.example.btlon.User;
-import com.example.btlon.UserAdapter;
+import com.example.btlon.Data.SqliteHelper;
+import com.example.btlon.Data.User;
+import com.example.btlon.Adapter.UserAdapter;
 
 import java.util.ArrayList;
 

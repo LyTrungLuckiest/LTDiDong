@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.btlon.Data.User;
 import com.example.btlon.R;
 
 import java.util.ArrayList;

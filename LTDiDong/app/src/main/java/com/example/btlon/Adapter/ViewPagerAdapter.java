@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.btlon.Ui.Login.LoginTabFragment;
+import com.example.btlon.Ui.Login.SignupTabFragment;
+
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
     public ViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {

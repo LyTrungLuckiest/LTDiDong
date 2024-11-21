@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
+import com.example.btlon.Data.SanPhamMoi;
+
 import java.util.List;
 
 public class SanPhamMoiAdapter extends ArrayAdapter<SanPhamMoi> {

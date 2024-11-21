@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.example.btlon.Adapter.ViewPagerAdapter;
+import com.example.btlon.Data.SqliteHelper;
 import com.example.btlon.R;
 import com.google.android.material.tabs.TabLayout;
 
