@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btlon.Data.User;
+import com.example.btlon.Data.Users;
 import com.example.btlon.R;
 
 import java.util.ArrayList;
@@ -18,12 +18,12 @@ import java.util.ArrayList;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     private Context context;
-    private ArrayList<User> userList;
+    private ArrayList<Users> usersList;
     private OnUserActionListener onUserActionListener;
 
-    public UserAdapter(Context context, ArrayList<User> userList) {
+    public UserAdapter(Context context, ArrayList<Users> usersList) {
         this.context = context;
-        this.userList = userList;
+        this.usersList = usersList;
     }
 
     public void setOnUserActionListener(OnUserActionListener listener) {
@@ -39,22 +39,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user = userList.get(position);
-        holder.txtId.setText(String.valueOf(user.getUserId()));
-        holder.txtName.setText(user.getUsername());
-        holder.txtPassword.setText(user.getPassword());
+        Users users = usersList.get(position);
+        holder.txtId.setText(String.valueOf(users.getUserId()));
+        holder.txtName.setText(users.getUsername());
+        holder.txtPassword.setText(users.getPassword());
 
         // Gắn hành động cho nút btAction
         holder.btAction.setOnClickListener(v -> {
             if (onUserActionListener != null) {
-                onUserActionListener.onAction(user, position);
+                onUserActionListener.onAction(users, position);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return usersList.size();
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
@@ -72,6 +72,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     // Listener interface cho hành động trên user
     public interface OnUserActionListener {
-        void onAction(User user, int position);
+        void onAction(Users users, int position);
     }
 }

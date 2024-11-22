@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.btlon.Data.SqliteHelper;
+import com.example.btlon.Data.UserTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.KeyboardHelper;
 import com.example.btlon.Utils.PasswordToggleHelper;
@@ -22,7 +22,7 @@ public class SignupTabFragment extends Fragment {
 
     private EditText edtUsername, edtPassword, edtConfirmPassword;
     private Button btSignup;
-    private SqliteHelper sqliteHelper;
+    private UserTableHelper userTableHelper; // Khai báo đối tượng UserTableHelper
 
     @Nullable
     @Override
@@ -34,13 +34,16 @@ public class SignupTabFragment extends Fragment {
         edtPassword = view.findViewById(R.id.signup_password);
         edtConfirmPassword = view.findViewById(R.id.signup_passwor_checkout);
         btSignup = view.findViewById(R.id.btnSignup);
-        new PasswordToggleHelper(edtPassword,view.findViewById(R.id.togglePasswordVisibility1));
-        new PasswordToggleHelper(edtConfirmPassword,view.findViewById(R.id.togglePasswordVisibilityCheckouty2));
-// Lắng nghe sự kiện Enter và ẩn bàn phím
 
+        // Thiết lập PasswordToggleHelper
+        new PasswordToggleHelper(edtPassword, view.findViewById(R.id.togglePasswordVisibility1));
+        new PasswordToggleHelper(edtConfirmPassword, view.findViewById(R.id.togglePasswordVisibilityCheckouty2));
+
+        // Lắng nghe sự kiện Enter và ẩn bàn phím
         KeyboardHelper.hideKeyboardOnEnter(edtConfirmPassword, getContext());
-        // Khởi tạo cơ sở dữ liệu
-        sqliteHelper = new SqliteHelper(getContext());
+
+        // Khởi tạo đối tượng UserTableHelper
+        userTableHelper = new UserTableHelper(getContext());
 
         // Thiết lập sự kiện cho nút Đăng ký
         btSignup.setOnClickListener(v -> {
@@ -54,8 +57,8 @@ public class SignupTabFragment extends Fragment {
             } else if (!password.equals(confirmPassword)) {
                 Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             } else {
-                // Ghi dữ liệu vào cơ sở dữ liệu, kiểm tra trùng lặp tài khoản
-                boolean isInserted = sqliteHelper.insertData(username, password);
+                // Gọi phương thức addUser từ đối tượng userTableHelper
+                boolean isInserted = userTableHelper.addUser(username, password);
                 if (isInserted) {
                     Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
 

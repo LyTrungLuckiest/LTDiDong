@@ -1,5 +1,6 @@
 package com.example.btlon.Ui.Home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.btlon.Adapter.MyArrayAdapter;
-import com.example.btlon.Data.Product;
+import com.example.btlon.Data.Products;
+import com.example.btlon.Data.ProductTableHelper;
 import com.example.btlon.Data.SqliteHelper;
 import com.example.btlon.R;
 
@@ -105,8 +107,9 @@ public class ProductFragment extends Fragment {
 
     private void loadProductsToGridView() {
         // Lấy danh sách sản phẩm từ SQLite
-        ArrayList<Product> productList = sqliteHelper.getAllProducts();
-        MyArrayAdapter adapter = new MyArrayAdapter(getActivity(), R.layout.item_product, productList);
+        ProductTableHelper productTableHelper = new ProductTableHelper(getContext());
+        List<Products> productsList = productTableHelper.getAllProducts();
+        MyArrayAdapter adapter = new MyArrayAdapter((Activity) getActivity(), R.layout.item_product, (ArrayList<Products>) productsList);
         gridView.setAdapter(adapter);
     }
 }

@@ -1,24 +1,24 @@
 package com.example.btlon.Data;
 
-public class User {
-    private int userId;
+public class Users {
+    private int user_id;
     private String username;
     private String password;
     private String role;
 
-    public User(int userId, String username, String password, String role) {
-        this.userId = userId;
+    public Users(int userId, String username, String password, String role) {
+        this.user_id = userId;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = userId;
     }
 
     public String getUsername() {

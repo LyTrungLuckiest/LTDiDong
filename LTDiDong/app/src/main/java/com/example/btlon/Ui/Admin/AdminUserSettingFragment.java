@@ -2,13 +2,11 @@ package com.example.btlon.Ui.Admin;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +14,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.example.btlon.Data.UserTableHelper;
 import com.example.btlon.R;
-import com.example.btlon.Data.SqliteHelper;
-import com.example.btlon.Data.User;
+import com.example.btlon.Data.Users;
 import com.example.btlon.Adapter.UserAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminUserSettingFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private ArrayList<User> userList;
-    private SqliteHelper sqliteHelper;
+    private List<Users> usersList;
+    private UserTableHelper userTableHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,12 +37,12 @@ public class AdminUserSettingFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Initialize SQLiteHelper and get user data
-        sqliteHelper = new SqliteHelper(getContext());
-        userList = sqliteHelper.getAllUsers();
+        // Initialize UserTableHelper and fetch user data
+        userTableHelper = new UserTableHelper(getContext());
+        usersList = userTableHelper.getAllUsers();
 
         // Initialize Adapter
-        userAdapter = new UserAdapter(getContext(), userList);
+        userAdapter = new UserAdapter(getContext(), (ArrayList<Users>) usersList);
         recyclerView.setAdapter(userAdapter);
 
         // Set OnClickListener for the Back Button
@@ -55,12 +53,12 @@ public class AdminUserSettingFragment extends Fragment {
         });
 
         // Handle user action button click
-        userAdapter.setOnUserActionListener((user, position) -> showActionDialog(user, position));
+        userAdapter.setOnUserActionListener((users, position) -> showActionDialog(users, position));
 
         return view;
     }
 
-    private void showActionDialog(User user, int position) {
+    private void showActionDialog(Users users, int position) {
         // Create dialog with two options: Edit and Delete
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Choose Action");
@@ -69,10 +67,10 @@ public class AdminUserSettingFragment extends Fragment {
         builder.setItems(new CharSequence[]{"Edit", "Delete"}, (dialog, which) -> {
             if (which == 0) {
                 // Edit action
-                showEditDialog(user, position);
+                showEditDialog(users, position);
             } else if (which == 1) {
                 // Delete action
-                deleteUser(user, position);
+                deleteUser(users, position);
             }
         });
 
@@ -80,8 +78,8 @@ public class AdminUserSettingFragment extends Fragment {
         builder.create().show();
     }
 
-    private void showEditDialog(User user, int position) {
-        // Inflate the custom layout
+    private void showEditDialog(Users users, int position) {
+        // Inflate the custom layout for editing
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_user, null);
 
         // Initialize EditTexts
@@ -89,8 +87,8 @@ public class AdminUserSettingFragment extends Fragment {
         EditText edtPassword = dialogView.findViewById(R.id.edtPassword);
 
         // Pre-fill data
-        edtUsername.setText(user.getUsername());
-        edtPassword.setText(user.getPassword());
+        edtUsername.setText(users.getUsername());
+        edtPassword.setText(users.getPassword());
 
         // Create dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -104,15 +102,18 @@ public class AdminUserSettingFragment extends Fragment {
                         Toast.makeText(getContext(), "Fields cannot be empty!", Toast.LENGTH_SHORT).show();
                     } else {
                         // Update user in database
-                        user.setUsername(newUsername);
-                        user.setPassword(newPassword);
-                        sqliteHelper.updateUser(user);
+                        users.setUsername(newUsername);
+                        users.setPassword(newPassword);
+                        boolean isUpdated = userTableHelper.updateUser(users.getUserId(), newUsername, newPassword, users.getRole());
 
                         // Notify adapter and refresh RecyclerView
-                        userList.set(position, user);
-                        userAdapter.notifyItemChanged(position);
-
-                        Toast.makeText(getContext(), "User updated successfully!", Toast.LENGTH_SHORT).show();
+                        if (isUpdated) {
+                            usersList.set(position, users);
+                            userAdapter.notifyItemChanged(position);
+                            Toast.makeText(getContext(), "User updated successfully!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Failed to update user!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", null);
@@ -121,14 +122,17 @@ public class AdminUserSettingFragment extends Fragment {
         builder.create().show();
     }
 
-    private void deleteUser(User user, int position) {
+    private void deleteUser(Users users, int position) {
         // Delete user from database
-        sqliteHelper.deleteUser(user.getUserId());
+        boolean isDeleted = userTableHelper.deleteUser(users.getUserId());
 
-        // Remove from list and notify adapter
-        userList.remove(position);
-        userAdapter.notifyItemRemoved(position);
-
-        Toast.makeText(getContext(), "User deleted successfully!", Toast.LENGTH_SHORT).show();
+        if (isDeleted) {
+            // Remove from list and notify adapter
+            usersList.remove(position);
+            userAdapter.notifyItemRemoved(position);
+            Toast.makeText(getContext(), "User deleted successfully!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Failed to delete user!", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,10 +1,10 @@
 package com.example.btlon.Data;
 
-public class Product {
+public class Products {
     private String image;
     private String name;
     private String price;
-    public Product(String image, String name, String price) {
+    public Products(String name, String price, String image) {
         this.image = image;
         this.name = name;
         this.price = price;

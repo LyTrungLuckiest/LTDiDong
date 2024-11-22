@@ -5,18 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.example.btlon.Data.SqliteHelper;
+import com.example.btlon.Data.UserTableHelper;
 import com.example.btlon.Ui.Admin.AdminActivity;
 import com.example.btlon.Ui.Home.HomeActivity;
 
 public class NormalLoginHelper {
 
-    private SqliteHelper sqliteHelper;
     private Context context;
+    private UserTableHelper userTableHelper;
 
     public NormalLoginHelper(Context context) {
         this.context = context;
-        this.sqliteHelper = new SqliteHelper(context);
+        this.userTableHelper = new UserTableHelper(context);  // Khởi tạo đối tượng UserTableHelper
     }
 
     // Kiểm tra đăng nhập
@@ -24,18 +24,21 @@ public class NormalLoginHelper {
         if (user.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show();
         } else {
-            String loggedInUserName = sqliteHelper.checkLogin(user, password);
-            if (loggedInUserName != null) {
+            UserTableHelper userTableHelper = new UserTableHelper(context);
+            boolean isValidUser = userTableHelper.checkLogin(user, password);
+
+            if (isValidUser) {
                 Intent intent = user.equals("admin") ? new Intent(context, AdminActivity.class)
                         : new Intent(context, HomeActivity.class);
-                intent.putExtra("USERNAME", loggedInUserName);
+                intent.putExtra("USERNAME", user); // Send username to the next activity
                 context.startActivity(intent);
                 if (context instanceof Activity) {
-                    ((Activity) context).finish(); // Đóng màn hình đăng nhập
+                    ((Activity) context).finish(); // Close the login activity
                 }
             } else {
                 Toast.makeText(context, "Tài khoản không hợp lệ", Toast.LENGTH_LONG).show();
             }
         }
     }
+
 }

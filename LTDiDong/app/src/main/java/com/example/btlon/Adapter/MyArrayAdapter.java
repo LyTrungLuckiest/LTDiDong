@@ -12,18 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;  // Thêm import Glide
-import com.example.btlon.Data.Product;
+import com.example.btlon.Data.Products;
 import com.example.btlon.R;
 
 import java.util.ArrayList;
 
-public class MyArrayAdapter extends ArrayAdapter<Product> {
+public class MyArrayAdapter extends ArrayAdapter<Products> {
     Activity context;
     int IdLayout;
-    ArrayList<Product> mylist;
+    ArrayList<Products> mylist;
 
     // Constructor
-    public MyArrayAdapter(Activity context, int idLayout, ArrayList<Product> mylist) {
+    public MyArrayAdapter(Activity context, int idLayout, ArrayList<Products> mylist) {
         super(context, idLayout, mylist);
         this.context = context;
         IdLayout = idLayout;
@@ -42,7 +42,7 @@ public class MyArrayAdapter extends ArrayAdapter<Product> {
         }
 
         // Lấy 1 phần từ trong mảng ra
-        Product myProduct = mylist.get(position);
+        Products myProducts = mylist.get(position);
 
 
         // Khai báo và hiển thị hình ảnh
@@ -50,18 +50,18 @@ public class MyArrayAdapter extends ArrayAdapter<Product> {
 
         // Sử dụng Glide để tải hình ảnh từ URL
         Glide.with(context)
-                .load(myProduct.getImageUrl()) // URL của hình ảnh
+                .load(myProducts.getImageUrl()) // URL của hình ảnh
                 .placeholder(R.drawable.traicay) // Ảnh placeholder (hình ảnh mặc định khi tải)
                 .error(R.drawable.error_image) // Ảnh hiển thị khi lỗi tải
                 .into(img_product); // Đặt vào ImageView
 
         // Khai báo và hiển thị tên sản phẩm
         TextView txt_product = convertView.findViewById(R.id.txtTenSp);
-        txt_product.setText(myProduct.getName());
+        txt_product.setText(myProducts.getName());
 
         // Khai báo và hiển thị giá sản phẩm
         TextView txt_price = convertView.findViewById(R.id.txtGiaSp);
-        txt_price.setText(myProduct.getPrice() + " VNĐ/1kg");
+        txt_price.setText(myProducts.getPrice() + " VNĐ/1kg");
 
         return convertView;
     }
