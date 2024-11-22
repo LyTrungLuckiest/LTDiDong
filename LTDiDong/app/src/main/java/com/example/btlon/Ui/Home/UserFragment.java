@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.btlon.R;
 import com.example.btlon.Utils.AuthLogoutHelper;
@@ -40,5 +43,26 @@ public class UserFragment extends Fragment {
         btnLogout.setOnClickListener(v -> authLogoutHelper.logout(getActivity()));
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        NavController navController = Navigation.findNavController(view);
+        // Chuyển đến userInfoFragment
+        view.findViewById(R.id.btUserInfo).setOnClickListener(v -> {
+            navController.navigate(R.id.action_userFragment_to_userInfoFragment);
+        });
+        // Chuyển đến userAddressFragment
+        view.findViewById(R.id.btUserAddress).setOnClickListener(v -> {
+            navController.navigate(R.id.action_userFragment_to_userAddressFragment);
+        });
+        // Chuyển đến userOrder
+        view.findViewById(R.id.btUserOrder).setOnClickListener(v -> {
+            navController.navigate(R.id.action_userFragment_to_userOderFragment);
+        });
+
     }
 }

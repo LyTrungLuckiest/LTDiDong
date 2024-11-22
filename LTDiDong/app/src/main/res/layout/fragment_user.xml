@@ -34,11 +34,10 @@
                 />
 
             <Button
+                android:id="@+id/btUserInfo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-
                 android:background="@drawable/user_tab_btshape"
-
                 android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
                 app:backgroundTint="@null"
@@ -46,6 +45,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color" />
             <Button
+                android:id="@+id/btUserAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
@@ -56,10 +56,10 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color" />
             <Button
+                android:id="@+id/btUserOrder"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
-
                 android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
                 app:backgroundTint="@null"
