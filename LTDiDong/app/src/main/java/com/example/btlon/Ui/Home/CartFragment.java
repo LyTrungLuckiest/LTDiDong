@@ -16,49 +16,25 @@ import com.example.btlon.R;
 
 public class CartFragment extends Fragment {
 
-    // Parameters for fragment initialization
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
     private Spinner spinnerPaymentMethod;
-    private String selectedPaymentMethod = "Tiền mặt"; // Default value
+    private String selectedPaymentMethod = "Tiền mặt";
 
-    public CartFragment() {
-        // Required empty public constructor
-    }
-
-    public static CartFragment newInstance(String param1, String param2) {
-        CartFragment fragment = new CartFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
-
-        // Initialize Spinner and Button
         spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
         Button buttonCheckout = view.findViewById(R.id.buttonCheckout);
 
-        // Set up payment methods for Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -66,7 +42,6 @@ public class CartFragment extends Fragment {
         );
         spinnerPaymentMethod.setAdapter(adapter);
 
-        // Handle payment method selection
         spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -75,11 +50,9 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Keep the default payment method
             }
         });
 
-        // Handle checkout button click
         buttonCheckout.setOnClickListener(v -> handleCheckout());
 
         return view;
@@ -110,16 +83,13 @@ public class CartFragment extends Fragment {
 
     private void processMoMoPayment() {
         Toast.makeText(requireContext(), "Đang chuyển đến MoMo...", Toast.LENGTH_SHORT).show();
-        // Add MoMo SDK intent here
     }
 
     private void processZaloPayPayment() {
         Toast.makeText(requireContext(), "Đang chuyển đến ZaloPay...", Toast.LENGTH_SHORT).show();
-        // Add ZaloPay SDK intent here
     }
 
     private void processBankPayment() {
         Toast.makeText(requireContext(), "Đang chuyển đến thanh toán ngân hàng...", Toast.LENGTH_SHORT).show();
-        // Add banking SDK or intent here
     }
 }

@@ -22,50 +22,42 @@ public class SignupTabFragment extends Fragment {
 
     private EditText edtUsername, edtPassword, edtConfirmPassword;
     private Button btSignup;
-    private UserTableHelper userTableHelper; // Khai báo đối tượng UserTableHelper
+    private UserTableHelper userTableHelper;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup_tab, container, false);
 
-        // Khởi tạo các thành phần giao diện
         edtUsername = view.findViewById(R.id.signup_user);
         edtPassword = view.findViewById(R.id.signup_password);
         edtConfirmPassword = view.findViewById(R.id.signup_passwor_checkout);
         btSignup = view.findViewById(R.id.btnSignup);
 
-        // Thiết lập PasswordToggleHelper
         new PasswordToggleHelper(edtPassword, view.findViewById(R.id.togglePasswordVisibility1));
         new PasswordToggleHelper(edtConfirmPassword, view.findViewById(R.id.togglePasswordVisibilityCheckouty2));
 
-        // Lắng nghe sự kiện Enter và ẩn bàn phím
         KeyboardHelper.hideKeyboardOnEnter(edtConfirmPassword, getContext());
 
-        // Khởi tạo đối tượng UserTableHelper
         userTableHelper = new UserTableHelper(getContext());
 
-        // Thiết lập sự kiện cho nút Đăng ký
         btSignup.setOnClickListener(v -> {
             String username = edtUsername.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
             String confirmPassword = edtConfirmPassword.getText().toString().trim();
 
-            // Kiểm tra xem mật khẩu có khớp hay không
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             } else if (!password.equals(confirmPassword)) {
                 Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             } else {
-                // Gọi phương thức addUser từ đối tượng userTableHelper
                 boolean isInserted = userTableHelper.addUser(username, password);
                 if (isInserted) {
                     Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
 
-                    // Chuyển sang tab Đăng nhập
                     TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
                     if (tabLayout != null) {
-                        TabLayout.Tab tab = tabLayout.getTabAt(0); // Tab 0 là tab Đăng nhập
+                        TabLayout.Tab tab = tabLayout.getTabAt(0);
                         if (tab != null) tab.select();
                     }
                 } else {

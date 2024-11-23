@@ -27,10 +27,9 @@ public class GoogleSignInHelper {
     private FirebaseAuth mAuth;
 
     private GoogleSignInHelper() {
-        mAuth = FirebaseAuth.getInstance();  // Initialize FirebaseAuth instance
+        mAuth = FirebaseAuth.getInstance();
     }
 
-    // Singleton pattern to ensure a single instance
     public static GoogleSignInHelper getInstance() {
         if (instance == null) {
             instance = new GoogleSignInHelper();
@@ -38,10 +37,8 @@ public class GoogleSignInHelper {
         return instance;
     }
 
-    // Method to start Google Sign-In process
     public void signInWithGoogle(Activity activity, ActivityResultLauncher<Intent> googleSignInLauncher) {
         signOut(activity, () -> {
-            // After signing out, proceed to sign in
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(activity.getString(R.string.default_web_client_id))
                     .requestEmail()
@@ -53,7 +50,6 @@ public class GoogleSignInHelper {
         });
     }
 
-    // Sign out from Google
     public void signOut(Activity activity, Runnable onSignOutComplete) {
         if (mGoogleSignInClient == null) {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -65,7 +61,7 @@ public class GoogleSignInHelper {
 
         mGoogleSignInClient.signOut().addOnCompleteListener(task -> {
             if (onSignOutComplete != null) {
-                onSignOutComplete.run(); // Call the callback after sign-out
+                onSignOutComplete.run();
             }
         });
     }
@@ -77,18 +73,15 @@ public class GoogleSignInHelper {
                 .build();
     }
 
-
-    // Handle the sign-in result after user authentication
     public void handleSignInResult(Task<GoogleSignInAccount> task, Activity activity) {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
-            firebaseAuthWithGoogle(account, activity); // Authenticate with Firebase using Google credentials
+            firebaseAuthWithGoogle(account, activity);
         } catch (ApiException e) {
             Log.w("GoogleSignIn", "Google sign-in failed", e);
         }
     }
 
-    // Authenticate the user with Firebase using Google account
     public void firebaseAuthWithGoogle(GoogleSignInAccount acct, Activity activity) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
@@ -96,22 +89,19 @@ public class GoogleSignInHelper {
                 .addOnCompleteListener(activity, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user, activity);  // Update the UI with the user's information
+                        updateUI(user, activity);
                     } else {
-                        updateUI(null, activity);  // If authentication fails, show error
+                        updateUI(null, activity);
                     }
                 });
     }
 
-    // Update UI after successful or failed login
     private void updateUI(FirebaseUser user, Activity activity) {
         if (user != null) {
-            // If login is successful, navigate to the home screen
             Intent intent = new Intent(activity, HomeActivity.class);
             activity.startActivity(intent);
             activity.finish();
         } else {
-            // If login fails, log the error and show appropriate message
             Log.e("GoogleSignIn", "Authentication failed");
         }
     }

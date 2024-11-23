@@ -19,14 +19,14 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-            return new LoginTabFragment(); // For login
+            return new LoginTabFragment();
         } else {
-            return new SignupTabFragment(); // For registration
+            return new SignupTabFragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 2; // Two tabs: login and register
+        return 2;
     }
 }

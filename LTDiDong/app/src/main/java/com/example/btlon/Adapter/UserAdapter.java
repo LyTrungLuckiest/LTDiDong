@@ -44,7 +44,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.txtName.setText(users.getUsername());
         holder.txtPassword.setText(users.getPassword());
 
-        // Gắn hành động cho nút btAction
         holder.btAction.setOnClickListener(v -> {
             if (onUserActionListener != null) {
                 onUserActionListener.onAction(users, position);
@@ -70,7 +69,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
     }
 
-    // Listener interface cho hành động trên user
     public interface OnUserActionListener {
         void onAction(Users users, int position);
     }

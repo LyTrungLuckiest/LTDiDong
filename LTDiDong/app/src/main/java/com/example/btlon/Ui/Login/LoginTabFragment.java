@@ -47,7 +47,6 @@ public class LoginTabFragment extends Fragment {
     private ActivityResultCallback<ActivityResult> googleSignInResultCallback = result -> {
         if (result.getResultCode() == Activity.RESULT_OK) {
             GoogleSignInAccount account = GoogleSignIn.getSignedInAccountFromIntent(result.getData()).getResult();
-            // Xử lý đăng nhập Firebase ở đây
             GoogleSignInHelper.getInstance().firebaseAuthWithGoogle(account, getActivity());
         } else {
             Toast.makeText(getContext(), "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
@@ -58,30 +57,26 @@ public class LoginTabFragment extends Fragment {
             new ActivityResultContracts.StartActivityForResult(), googleSignInResultCallback
     );
 
-    private CallbackManager callbackManager; // Khởi tạo callback manager của Facebook
+    private CallbackManager callbackManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login_tab, container, false);
 
-        // Khởi tạo các view
         usernameEditText = view.findViewById(R.id.login_user);
         passwordEditText = view.findViewById(R.id.login_password);
         loginButton = view.findViewById(R.id.btLogin);
         googleLoginButton = view.findViewById(R.id.sign_in_button);
         facebookLoginButton = view.findViewById(R.id.login_button_facebook);
-        toggle=view.findViewById(R.id.togglePasswordVisibility);
+        toggle = view.findViewById(R.id.togglePasswordVisibility);
 
-        new PasswordToggleHelper(passwordEditText,toggle);
-
+        new PasswordToggleHelper(passwordEditText, toggle);
         KeyboardHelper.hideKeyboardOnEnter(passwordEditText, getContext());
 
         sqliteHelper = new SqliteHelper(getContext());
 
-        // Khởi tạo Facebook CallbackManager
         callbackManager = CallbackManager.Factory.create();
 
-        // Sự kiện cho đăng nhập thông thường
         loginButton.setOnClickListener(v -> {
             String user = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
@@ -89,18 +84,13 @@ public class LoginTabFragment extends Fragment {
             normalLoginHelper.normalLogin(user, password);
         });
 
-
-        // Sự kiện cho đăng nhập Google
         googleLoginButton.setOnClickListener(v -> signInWithGoogle());
 
-        // Sự kiện cho đăng nhập Facebook
         facebookLoginButton.setOnClickListener(v -> loginWithFacebook());
 
-        // Cài đặt đăng nhập Facebook
         FacebookLoginHelper.getInstance(getActivity()).setupFacebookLogin(facebookLoginButton, new FacebookLoginHelper.FacebookLoginListener() {
             @Override
             public void onLoginSuccess(FirebaseUser user) {
-                // Xử lý khi đăng nhập Facebook thành công
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
                 getActivity().finish();
@@ -108,13 +98,11 @@ public class LoginTabFragment extends Fragment {
 
             @Override
             public void onLoginCancel() {
-                // Xử lý khi người dùng hủy đăng nhập Facebook
                 Toast.makeText(getContext(), "Đăng nhập Facebook đã bị hủy", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLoginError(Exception e) {
-                // Xử lý khi đăng nhập Facebook thất bại
                 Toast.makeText(getContext(), "Đăng nhập Facebook thất bại: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -122,18 +110,14 @@ public class LoginTabFragment extends Fragment {
         return view;
     }
 
-    // Đăng nhập với Google
     private void signInWithGoogle() {
         GoogleSignInHelper.getInstance().signInWithGoogle(getActivity(), googleSignInLauncher);
     }
 
-    // Đăng nhập với Facebook
     private void loginWithFacebook() {
-        // Kích hoạt đăng nhập Facebook với trợ giúp từ FacebookLoginHelper
         FacebookLoginHelper.getInstance(getActivity()).setupFacebookLogin(facebookLoginButton, new FacebookLoginHelper.FacebookLoginListener() {
             @Override
             public void onLoginSuccess(FirebaseUser user) {
-                // Xử lý khi đăng nhập Facebook thành công
                 Toast.makeText(getContext(), "Đăng nhập Facebook thành công", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
@@ -142,13 +126,11 @@ public class LoginTabFragment extends Fragment {
 
             @Override
             public void onLoginCancel() {
-                // Xử lý khi người dùng hủy đăng nhập Facebook
                 Toast.makeText(getContext(), "Đăng nhập Facebook đã bị hủy", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLoginError(Exception e) {
-                // Xử lý khi đăng nhập Facebook thất bại
                 Toast.makeText(getContext(), "Đăng nhập Facebook thất bại: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -157,9 +139,7 @@ public class LoginTabFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Chuyển tiếp kết quả cho FacebookLoginHelper
         FacebookLoginHelper.getInstance(getActivity()).onActivityResult(requestCode, resultCode, data);
     }
 
 }
-

@@ -16,29 +16,26 @@ public class NormalLoginHelper {
 
     public NormalLoginHelper(Context context) {
         this.context = context;
-        this.userTableHelper = new UserTableHelper(context);  // Khởi tạo đối tượng UserTableHelper
+        this.userTableHelper = new UserTableHelper(context);
     }
 
-    // Kiểm tra đăng nhập
     public void normalLogin(String user, String password) {
         if (user.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show();
         } else {
-            UserTableHelper userTableHelper = new UserTableHelper(context);
             boolean isValidUser = userTableHelper.checkLogin(user, password);
 
             if (isValidUser) {
                 Intent intent = user.equals("admin") ? new Intent(context, AdminActivity.class)
                         : new Intent(context, HomeActivity.class);
-                intent.putExtra("USERNAME", user); // Send username to the next activity
+                intent.putExtra("USERNAME", user);
                 context.startActivity(intent);
                 if (context instanceof Activity) {
-                    ((Activity) context).finish(); // Close the login activity
+                    ((Activity) context).finish();
                 }
             } else {
                 Toast.makeText(context, "Tài khoản không hợp lệ", Toast.LENGTH_LONG).show();
             }
         }
     }
-
 }

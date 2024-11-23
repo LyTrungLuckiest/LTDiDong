@@ -22,22 +22,17 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate layout fragment_settings.xml
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        // Initialize RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
-        // Set the GridLayoutManager with 2 columns
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        // Create a list of items for the RecyclerView
         List<ItemManager> itemList = new ArrayList<>();
 
         AddItems(itemList);
 
-        // Set the adapter to RecyclerView
         ItemManagerAdapter adapter = new ItemManagerAdapter(itemList);
         recyclerView.setAdapter(adapter);
 
