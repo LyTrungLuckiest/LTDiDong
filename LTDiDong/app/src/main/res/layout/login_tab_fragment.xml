@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,8 +24,8 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
-                android:contentDescription="Main Icon"
-                android:src="@drawable/logo_icon" />
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo" />
 
 
             <EditText
@@ -32,10 +33,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginBottom="16dp"
+                android:autofillHints=""
                 android:background="@drawable/edittext_bkg"
-                android:drawableLeft="@drawable/user1"
+                android:drawableStart="@drawable/user1"
                 android:drawablePadding="15dp"
-                android:hint="Tên đăng nhập"
+                android:hint="@string/ten_dang_nhap"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="16dp"
@@ -55,10 +57,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_alignParentStart="true"
+                    android:autofillHints=""
                     android:background="@drawable/edittext_bkg"
-                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawableStart="@drawable/baseline_lock_24"
                     android:drawablePadding="15dp"
-                    android:hint="Mật khẩu"
+                    android:hint="@string/mat_khau"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:paddingStart="16dp"
@@ -74,7 +77,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="Toggle password visibility"
+                    android:contentDescription="@string/toggle_password_visibility"
                     android:drawableTop="@drawable/ic_eye_close"
                     app:tint="#AAAAAA" />
             </RelativeLayout>
@@ -89,7 +92,7 @@
                 android:background="@drawable/custom_button"
                 android:backgroundTint="#7EF483"
                 android:paddingHorizontal="40dp"
-                android:text="Đăng nhập"
+                android:text="@string/dang_nhap"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:backgroundTint="@null" />
@@ -102,7 +105,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"
-                android:text="Đăng nhập bằng Google" />
+                android:text="@string/dang_nhap_bang_google" />
 
 
             <com.facebook.login.widget.LoginButton
@@ -112,7 +115,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:paddingHorizontal="20dp"
-                android:text="Đăng nhập bằng Facebook" />
+                android:text="@string/dang_nhap_bang_facebook" />
 
         </LinearLayout>
     </ScrollView>

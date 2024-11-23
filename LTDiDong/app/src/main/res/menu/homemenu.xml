@@ -5,25 +5,25 @@
         android:id="@+id/productFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Sản phẩm"
+        android:title="@string/san_pham"
         android:icon="@drawable/food_add_icon"
         />
     <item
         android:id="@+id/saleFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Khuến mãi"
+        android:title="@string/khuyen_mai"
         android:icon="@drawable/percent_icon"/>
     <item
         android:id="@+id/cartFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Giỏ hàng"
-        android:icon="@drawable/shopping_cart_icon"/>
+        android:title="@string/gio_hang"
+        android:icon="@drawable/shoppingcart"/>
     <item
         android:id="@+id/userFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Người dùng"
+        android:title="@string/nguoi_dung"
         android:icon="@drawable/user_icon"/>
 </menu>

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:gravity="center"
-        android:text="ID"
+        android:text="@string/id"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="center"
-        android:text="Username"
+        android:text="@string/username"
         android:textSize="16sp" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="center"
-        android:text="Password"
+        android:text="@string/password"
         android:textSize="16sp" />
 
     <LinearLayout

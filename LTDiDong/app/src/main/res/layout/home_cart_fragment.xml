@@ -23,7 +23,7 @@
             android:layout_height="50dp"
             android:layout_margin="0dp"
             android:background="@drawable/custom_button"
-            android:contentDescription="Exit"
+            android:contentDescription="@string/exit"
             android:scaleType="center"
             android:src="@drawable/arrow_left_icon" />
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Giỏ Hàng"
+            android:text="@string/gio_hang"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -65,7 +65,7 @@
                     android:id="@+id/textView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Giao Đến"
+                    android:text="@string/giao_den"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Nhập thông tin nhận hàng"
+                    android:text="@string/nhap_thong_tin_khach_hang"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Siêu thị BXH 99"
+                    android:text="@string/sieu_thi_BXH"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:text="Giỏ Hàng Trống"
+                android:text="@string/gio_hang_trong"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -131,7 +131,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tiền Hàng"
+                        android:text="@string/tien_hang"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="75.000đ"
+                        android:text="@string/_75_000"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -157,7 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tổng Đơn Hàng"
+                        android:text="@string/tong_don_hang"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="end"
-                        android:text="90.000đ"
+                        android:text="@string/_75_000"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -192,10 +192,10 @@
 
                     <TextView
                         android:id="@+id/textView15"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Phương thức thanh toán"
+                        android:text="@string/phuong_thuc_thanh_toan"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -206,7 +206,7 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:backgroundTint="@color/black"
-                        android:text="Đổi phương thức"
+                        android:text="@string/doi_phuong_thuc"
                         android:textColor="#C7B3B3" />
 
                 </LinearLayout>
@@ -217,7 +217,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#1DCC18"
-                    android:text="Thanh Toán"
+                    android:text="@string/thanh_toan"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 

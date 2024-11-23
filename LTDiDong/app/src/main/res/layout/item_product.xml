@@ -16,6 +16,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
+        android:contentDescription="@string/todo"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/traicay" />
 
@@ -25,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Trai cay"
+        android:text="@string/trai_cay"
         android:textAlignment="center"
         android:textSize="16sp" />
 
@@ -35,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Gia: 100,000 VND"
+        android:text="@string/_75_000"
         android:textAlignment="center"
         android:textSize="14sp" />
 

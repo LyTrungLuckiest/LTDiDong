@@ -1,5 +1,4 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,79 +19,87 @@
             android:padding="5dp">
 
             <LinearLayout
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Cam"
+                    android:text="@string/cam"
                     android:textColor="#3F4349" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Ổi"
+                    android:text="@string/oi"
                     android:textColor="#3F4349" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Mận"
+                    android:text="@string/man"
                     android:textColor="#3F4349" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Xoài"
+                    android:text="@string/xoai"
                     android:textColor="#3F4349" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Nho"
+                    android:text="@string/nho"
                     android:textColor="#3F4349" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Lê"
+                    android:text="@string/le"
                     android:textColor="#3F4349" />
 
                 <Button
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:backgroundTint="#D9E7D9"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Táo"
+                    android:text="@string/tao"
                     android:textColor="#3F4349" />
 
             </LinearLayout>
@@ -113,6 +120,7 @@
             android:layout_height="5dp"
             android:layout_below="@id/viewFlipper"
             android:layout_marginTop="9dp"
+            android:contentDescription="@string/bannerimage"
             android:scaleType="centerCrop" />
 
 
@@ -124,13 +132,14 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Bảng sản phẩm"
+            android:text="@string/bang_san_pham"
             android:textColor="@color/red"
             android:textSize="25sp" />
 
 
         <LinearLayout
             android:id="@+id/categoryTabs"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/productBoardText"
@@ -141,6 +150,7 @@
 
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -148,10 +158,11 @@
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Cam"
+                android:text="@string/cam"
                 android:textColor="#3F4349" />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -159,10 +170,11 @@
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Nho"
+                android:text="@string/nho"
                 android:textColor="#3F4349" />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -170,10 +182,11 @@
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Ổi"
+                android:text="@string/oi"
                 android:textColor="#3F4349" />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -181,10 +194,11 @@
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Táo"
+                android:text="@string/tao"
                 android:textColor="#3F4349" />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -192,7 +206,7 @@
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Xoài"
+                android:text="@string/xoai"
                 android:textColor="#3F4349" />
 
         </LinearLayout>

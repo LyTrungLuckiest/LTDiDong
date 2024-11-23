@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/option_1"
-        android:title="Trái cây tươi"
+        android:title="@string/trai_cay_tuoi"
         />
     <item
         android:id="@+id/option_2"
-        android:title="Trái cây nhiệt đới" />
+        android:title="@string/trai_cay_nhiet_doi" />
     <item
         android:id="@+id/option_3"
-        android:title="Trái cây sấy khô" />
+        android:title="@string/trai_cay_say_kho" />
     <item
         android:id="@+id/option_4"
-        android:title="Giỏ trái cây" />
+        android:title="@string/gio_trai_cay" />
 </menu>

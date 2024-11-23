@@ -8,10 +8,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#E4E4E4"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         android:paddingEnd="20dp">
 
         <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                android:text="Thông tin cá nhân"
+                android:text="@string/thong_tin_ca_nhan"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -38,8 +38,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Sửa thông tin cá nhân"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/sua_thong_tin_ca_nhan"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -50,8 +50,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Địa chỉ nhận hàng"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/dia_chi_nhan_hang"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -62,8 +62,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Đơn hàng từng mua"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/don_hang_tung_mua"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -85,7 +85,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                android:text="Hỗ trợ khách hàng"
+                android:text="@string/ho_tro_khach_hang"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -94,8 +94,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Tổng đài tư vấn"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/tong_dai_tu_van"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -105,8 +105,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Góp ý / Liên hệ"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/gop_y"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -116,8 +116,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Tìm kiếm siêu thị"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/tim_kiem_sieu_thi"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -138,7 +138,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                android:text="Ưu đãi"
+                android:text="@string/uu_dai"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -148,8 +148,8 @@
                 android:background="@drawable/user_tab_btshape"
 
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Quà của tôi"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/qua_cua_tui"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -159,8 +159,8 @@
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
                 android:backgroundTint="@null"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Tích điểm đổi quà"
+                android:drawableEnd="@drawable/arrow_right_icon"
+                android:text="@string/tich_diem_doi_qua"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
@@ -175,10 +175,10 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/squre_shape"
             android:backgroundTint="@null"
-            android:text="Đăng xuất"
+            android:text="@string/dang_xuat"
             android:textAlignment="center"
             android:textColor="@color/text_color"
-            android:textSize="17dp"
+            android:textSize="17sp"
             app:backgroundTint="@null" />
 
 

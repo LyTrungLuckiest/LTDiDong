@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_admin_manager"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,13 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/card_admin_manager_image"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:src="@drawable/user_icon" />
+            android:contentDescription="@string/todo" android:src="@drawable/user_icon" />
 
         <TextView
             android:id="@+id/item_title"
