@@ -75,7 +75,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="@string/toggle_password_visibility"
                     android:drawableTop="@drawable/ic_eye_close"
-                    app:tint="#AAAAAA" />
+                    app:tint="@color/color_signup" />
             </RelativeLayout>
 
 
@@ -109,7 +109,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="@string/toggle_password_visibility"
                     android:drawableTop="@drawable/ic_eye_close"
-                    app:tint="#AAAAAA" />
+                    app:tint="@color/color_signup" />
             </RelativeLayout>
 
 
@@ -119,7 +119,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="#7EF483"
+                android:backgroundTint="@color/background"
                 android:paddingHorizontal="40dp"
                 android:text="@string/dang_ky"
                 android:textColor="@color/white"

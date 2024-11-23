@@ -10,7 +10,7 @@
         android:id="@+id/topSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#05F40F"
+        android:background="@color/background"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/midSection"
         app:layout_constraintEnd_toEndOf="parent"

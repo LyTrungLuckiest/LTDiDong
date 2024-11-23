@@ -11,7 +11,7 @@
         android:id="@+id/topSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#7EF483"
+        android:background="@color/background"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/midSection"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,9 +41,9 @@
                 android:layout_weight="6"
                 android:background="@drawable/rounded_background"
                 android:text="@string/chon_vi_tri_muon_giao"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 app:backgroundTint="@null"
-                app:icon="@android:drawable/ic_dialog_map"
+                app:icon="@drawable/location"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
         </LinearLayout>
@@ -123,7 +123,6 @@
         android:id="@+id/midSection"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#E4E4E4"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/bottomSection"
         app:layout_constraintEnd_toEndOf="parent"

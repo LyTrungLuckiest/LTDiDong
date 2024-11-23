@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DCEBFB"
+    android:background="@color/color_bak"
     android:orientation="vertical">
 
 
@@ -207,7 +207,7 @@
                         android:layout_marginTop="8dp"
                         android:backgroundTint="@color/black"
                         android:text="@string/doi_phuong_thuc"
-                        android:textColor="#C7B3B3" />
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
 
@@ -216,7 +216,7 @@
                     android:id="@+id/buttonCheckout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#1DCC18"
+                    android:backgroundTint="@color/background"
                     android:text="@string/thanh_toan"
                     android:textColor="@color/white"
                     android:textSize="20sp" />

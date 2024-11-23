@@ -9,4 +9,7 @@
     <color name="text_color">#505050</color>
     <color name="green">#00D809</color>
     <color name="icon_color">#3C3C3C</color>
+    <color name="background">#7EF483</color>
+    <color name="color_bak">#DCEBFB</color>
+    <color name="color_signup">#AAAAAA</color>
 </resources>

@@ -79,7 +79,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="@string/toggle_password_visibility"
                     android:drawableTop="@drawable/ic_eye_close"
-                    app:tint="#AAAAAA" />
+                    app:tint="@color/color_signup" />
             </RelativeLayout>
 
 
@@ -90,7 +90,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="#7EF483"
+                android:backgroundTint="@color/background"
                 android:paddingHorizontal="40dp"
                 android:text="@string/dang_nhap"
                 android:textColor="@color/white"
