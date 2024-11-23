@@ -11,7 +11,6 @@
 
     tools:context=".Ui.Home.HomeActivity">
 
-    <!-- ImageView cho ảnh sản phẩm -->
     <ImageView
         android:id="@+id/img_product"
         android:layout_width="200dp"
@@ -20,7 +19,7 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/traicay" />
 
-    <!-- Tên sản phẩm -->
+
     <TextView
         android:id="@+id/txtTenSp"
         android:layout_width="wrap_content"
@@ -30,7 +29,7 @@
         android:textAlignment="center"
         android:textSize="16sp" />
 
-    <!-- Giá sản phẩm -->
+
     <TextView
         android:id="@+id/txtGiaSp"
         android:layout_width="wrap_content"

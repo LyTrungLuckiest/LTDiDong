@@ -9,29 +9,28 @@
         android:id="@+id/productFragment"
         android:name="com.example.btlon.Ui.Home.ProductFragment"
         android:label="fragment_product"
-        tools:layout="@layout/fragment_product" />
+        tools:layout="@layout/home_product_fragment" />
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.btlon.Ui.Home.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/home_cart_fragment" />
     <fragment
         android:id="@+id/saleFragment"
         android:name="com.example.btlon.Ui.Home.SaleFragment"
         android:label="fragment_sale"
-        tools:layout="@layout/fragment_sale" />
+        tools:layout="@layout/home_sale_fragment" />
     <fragment
         android:id="@+id/userFragment"
         android:name="com.example.btlon.Ui.Home.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" >
+        tools:layout="@layout/home_user_fragment">
         <action
             android:id="@+id/action_userFragment_to_userAddressFragment"
             app:destination="@id/userAddressFragment" />
         <action
             android:id="@+id/action_userFragment_to_userInfoFragment"
-            app:destination="@id/userInfoFragment"
-            />
+            app:destination="@id/userInfoFragment" />
         <action
             android:id="@+id/action_userFragment_to_userOderFragment"
             app:destination="@id/userOderFragment" />

@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".Ui.Admin.SettingsFragment">
 
-    <!-- res/layout/fragment_setting.xml -->
-    <androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -17,9 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Các thành phần khác của SettingFragment (nếu có) -->
 
-            <!-- RecyclerView cho danh sách của bạn -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"

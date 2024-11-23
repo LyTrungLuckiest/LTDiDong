@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#DCEBFB">
+    android:background="#DCEBFB"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="1dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/custom_button"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
 
-        android:gravity="center_vertical">
+        android:padding="1dp">
 
-        <!-- Button for navigation or icon -->
         <ImageButton
             android:id="@+id/btnExit"
             android:layout_width="48dp"
@@ -30,21 +28,19 @@
             android:src="@drawable/arrow_left_icon" />
 
 
-        <!-- TextView for the title -->
         <TextView
             android:id="@+id/textView22"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Giỏ Hàng"
             android:textAlignment="center"
-            android:gravity="center"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,17 +52,14 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <!-- Search Bar -->
 
-
-            <!-- Title and Information Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/toolbar_background"
-                android:layout_marginBottom="16dp">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/textView17"
@@ -81,24 +74,21 @@
                     android:id="@+id/textView18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Nhập thông tin nhận hàng"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="Siêu thị BXH 99"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
-            <!-- RecyclerView for Cart Items -->
-
-            <!-- Empty Cart Message -->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewgiohang"
@@ -111,30 +101,30 @@
                 android:id="@+id/txtgiohangtrong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="Giỏ Hàng Trống"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:visibility="gone"
-                android:layout_marginBottom="16dp" />
+                android:visibility="gone" />
 
-            <!-- Total and Payment Section -->
+
             <LinearLayout
                 android:id="@+id/totalContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/item_border"
                 android:orientation="vertical"
-                android:padding="10dp"
-                android:background="@drawable/item_border">
+                android:padding="10dp">
 
-                <!-- Order Summary -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:padding="4dp">
+                    android:padding="4dp"
+                    android:weightSum="2">
 
                     <TextView
                         android:id="@+id/textView11"
@@ -182,11 +172,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Payment Method -->
-
-
-                <!-- Checkout Button -->
-
 
             </LinearLayout>
 
@@ -194,16 +179,11 @@
                 android:id="@+id/totalContainer1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/user_tab_bot"
                 android:orientation="vertical"
-                android:padding="10dp"
-                android:background="@drawable/user_tab_bot">
-
-                <!-- Order Summary -->
+                android:padding="10dp">
 
 
-
-
-                <!-- Payment Method -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -225,32 +205,24 @@
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/black"
                         android:text="Đổi phương thức"
-                        android:textColor="#C7B3B3"
-                        android:backgroundTint="@color/black"/>
+                        android:textColor="#C7B3B3" />
 
                 </LinearLayout>
-
-                <!-- Checkout Button -->
-
 
 
                 <Button
                     android:id="@+id/buttonCheckout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Thanh Toán"
                     android:backgroundTint="#1DCC18"
+                    android:text="Thanh Toán"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
 
-
-
             </LinearLayout>
-
-
-
 
 
         </LinearLayout>

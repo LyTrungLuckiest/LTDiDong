@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="#F5F5F5">
 
-        <!-- HorizontalScrollView for navigation -->
+
         <HorizontalScrollView
             android:id="@+id/topNavigation"
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Navigation buttons -->
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -34,6 +34,7 @@
                     android:padding="5dp"
                     android:text="Cam"
                     android:textColor="#3F4349" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
                     android:padding="5dp"
                     android:text="Ổi"
                     android:textColor="#3F4349" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
                     android:padding="5dp"
                     android:text="Mận"
                     android:textColor="#3F4349" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -61,6 +64,7 @@
                     android:padding="5dp"
                     android:text="Xoài"
                     android:textColor="#3F4349" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,6 +74,7 @@
                     android:padding="5dp"
                     android:text="Nho"
                     android:textColor="#3F4349" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -79,6 +84,7 @@
                     android:padding="5dp"
                     android:text="Lê"
                     android:textColor="#3F4349" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,13 +94,11 @@
                     android:padding="5dp"
                     android:text="Táo"
                     android:textColor="#3F4349" />
-                <!-- Repeat as necessary for additional buttons -->
+
             </LinearLayout>
         </HorizontalScrollView>
 
 
-
-        <!-- ViewFlipper -->
         <ViewFlipper
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
@@ -102,7 +106,7 @@
             android:layout_below="@id/topNavigation"
             android:layout_marginTop="4dp" />
 
-        <!-- Banner Image -->
+
         <ImageView
             android:id="@+id/bannerImage"
             android:layout_width="match_parent"
@@ -111,7 +115,7 @@
             android:layout_marginTop="9dp"
             android:scaleType="centerCrop" />
 
-        <!-- Product Board Text -->
+
         <TextView
             android:id="@+id/productBoardText"
             android:layout_width="wrap_content"
@@ -125,7 +129,6 @@
             android:textSize="25sp" />
 
 
-        <!-- Category Tabs -->
         <LinearLayout
             android:id="@+id/categoryTabs"
             android:layout_width="match_parent"
@@ -136,52 +139,56 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
-            <!-- Example buttons for categories -->
+
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Cam"
                 android:textColor="#3F4349" />
+
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Nho"
                 android:textColor="#3F4349" />
+
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Ổi"
                 android:textColor="#3F4349" />
+
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Táo"
                 android:textColor="#3F4349" />
+
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:backgroundTint="#D9E7D9"
                 android:gravity="center"
                 android:padding="5dp"
@@ -190,9 +197,7 @@
 
         </LinearLayout>
 
-        <!-- GridView for products -->
 
-        <!-- Bottom Navigation -->
         <GridView
             android:id="@+id/gridView"
             android:layout_width="match_parent"

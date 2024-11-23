@@ -30,7 +30,7 @@ public class AdminUserSettingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_admin_user_setting, container, false);
+        View view = inflater.inflate(R.layout.admin_user_setting_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -68,7 +68,7 @@ public class AdminUserSettingFragment extends Fragment {
     }
 
     private void showEditDialog(Users users, int position) {
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_user, null);
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.user_edit_dialog, null);
 
         EditText edtUsername = dialogView.findViewById(R.id.edtUsername);
         EditText edtPassword = dialogView.findViewById(R.id.edtPassword);

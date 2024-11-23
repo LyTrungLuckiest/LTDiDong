@@ -30,7 +30,7 @@ public class CartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cart, container, false);
+        View view = inflater.inflate(R.layout.home_cart_fragment, container, false);
 
         spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
         Button buttonCheckout = view.findViewById(R.id.buttonCheckout);

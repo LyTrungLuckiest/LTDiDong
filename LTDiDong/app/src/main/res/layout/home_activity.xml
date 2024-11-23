@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <!-- Phần Top (sẽ tự điều chỉnh theo nội dung bên trong) -->
     <LinearLayout
         android:id="@+id/topSection"
         android:layout_width="0dp"
@@ -81,8 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@drawable/edittext_bkg"
-                    android:paddingTop="4dp"
-                    />
+                    android:paddingTop="4dp" />
 
                 <ImageButton
                     android:id="@+id/btnGiongnoi"
@@ -118,21 +116,18 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Phần Mid  -->
-
-    <!-- Phần Bottom (sẽ tự điều chỉnh theo nội dung bên trong) -->
 
     <LinearLayout
         android:id="@+id/midSection"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#E4E4E4"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/bottomSection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topSection"
-        android:background="#E4E4E4"> <!-- Mid chiếm 65% chiều cao màn hình -->
+        app:layout_constraintTop_toBottomOf="@id/topSection">
 
 
         <fragment

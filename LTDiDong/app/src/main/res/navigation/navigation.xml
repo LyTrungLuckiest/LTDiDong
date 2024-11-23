@@ -9,7 +9,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.btlon.Ui.Admin.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/admin_settings_fragment">
 
         <action
             android:id="@+id/action_settingsFragment_to_adminUserSettingFragment"
@@ -20,10 +20,10 @@
         android:id="@+id/adminInfoFragment"
         android:name="com.example.btlon.Ui.Admin.AdminInfoFragment"
         android:label="fragment_exit"
-        tools:layout="@layout/fragment_admininfo" />
+        tools:layout="@layout/admin_info_fragment" />
     <fragment
         android:id="@+id/adminUserSettingFragment"
         android:name="com.example.btlon.Ui.Admin.AdminUserSettingFragment"
         android:label="fragment_admin_user_setting"
-        tools:layout="@layout/fragment_admin_user_setting" />
+        tools:layout="@layout/admin_user_setting_fragment" />
 </navigation>

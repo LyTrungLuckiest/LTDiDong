@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Ui.Home.UserFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="#E4E4E4"
-        android:paddingEnd="20dp"
+        android:orientation="vertical"
         android:paddingLeft="20dp"
-        >
+        android:paddingEnd="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:orientation="vertical"
-            android:background="@drawable/toolbar_background"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            >
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/toolbar_background"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Thông tin cá nhân"
-                android:textSize="17sp"
-                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                />
+                android:text="Thông tin cá nhân"
+                android:textAlignment="center"
+                android:textSize="17sp" />
 
             <Button
                 android:id="@+id/btUserInfo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Sửa thông tin cá nhân"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
+
             <Button
                 android:id="@+id/btUserAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Địa chỉ nhận hàng"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
+
             <Button
                 android:id="@+id/btUserOrder"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Đơn hàng từng mua"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
-
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
 
 
         </LinearLayout>
@@ -75,94 +75,95 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:orientation="vertical"
-            android:background="@drawable/toolbar_background"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            >
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/toolbar_background"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Hỗ trợ khách hàng"
-                android:textSize="17sp"
-                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                />
+                android:text="Hỗ trợ khách hàng"
+                android:textAlignment="center"
+                android:textSize="17sp" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Tổng đài tư vấn"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Góp ý / Liên hệ"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Tìm kiếm siêu thị"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:orientation="vertical"
-            android:background="@drawable/toolbar_background"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            >
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/toolbar_background"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Ưu đãi"
-                android:textSize="17sp"
-                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                />
+                android:text="Ưu đãi"
+                android:textAlignment="center"
+                android:textSize="17sp" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
 
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Quà của tôi"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
-                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                app:backgroundTint="@null"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:text="Tích điểm đổi quà"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
@@ -171,18 +172,17 @@
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/squre_shape"
             android:backgroundTint="@null"
-            app:backgroundTint="@null"
             android:text="Đăng xuất"
-            android:textSize="17dp"
             android:textAlignment="center"
             android:textColor="@color/text_color"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="17dp"
+            app:backgroundTint="@null" />
 
 
     </LinearLayout>
-
 
 
 </ScrollView>

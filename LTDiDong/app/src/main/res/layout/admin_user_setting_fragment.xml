@@ -4,17 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Ui.Admin.AdminUserSettingFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
             android:orientation="horizontal"
-            android:weightSum="4"
             android:padding="8dp"
-            android:background="@android:color/darker_gray">
+            android:weightSum="4">
 
             <TextView
                 android:layout_width="0dp"
@@ -42,6 +44,7 @@
                 android:text="Password"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,22 +57,22 @@
 
         </LinearLayout>
 
-        <!-- Table Content -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white" />
+
         <Button
             android:id="@+id/btBackToSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back to Settings"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:text="Back to Settings" />
 
 
     </LinearLayout>
-
 
 
 </ScrollView>

@@ -27,7 +27,7 @@ public class SignupTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_signup_tab, container, false);
+        View view = inflater.inflate(R.layout.login_signup_tab_fragment, container, false);
 
         edtUsername = view.findViewById(R.id.signup_user);
         edtPassword = view.findViewById(R.id.signup_password);

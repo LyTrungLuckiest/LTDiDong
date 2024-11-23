@@ -15,7 +15,7 @@
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:hint="Enter Password"
-        android:inputType="textPassword"
-        android:layout_marginTop="10dp" />
+        android:inputType="textPassword" />
 </LinearLayout>
