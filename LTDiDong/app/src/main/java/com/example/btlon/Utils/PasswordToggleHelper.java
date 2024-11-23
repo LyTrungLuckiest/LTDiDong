@@ -11,27 +11,20 @@ public class PasswordToggleHelper {
     private final EditText editText;
     private final ToggleButton toggleButton;
 
-
     public PasswordToggleHelper(EditText editText, ToggleButton toggleButton) {
         this.editText = editText;
         this.toggleButton = toggleButton;
-
-
         setupToggleFunctionality();
     }
 
     private void setupToggleFunctionality() {
         toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                // Hiển thị mật khẩu
                 editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-
             } else {
-                // Ẩn mật khẩu
                 editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
             }
-            editText.setSelection(editText.getText().length());  // Giữ con trỏ ở cuối
+            editText.setSelection(editText.getText().length());
         });
     }
 }

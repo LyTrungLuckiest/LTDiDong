@@ -30,109 +30,89 @@ public class AdminUserSettingFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_user_setting, container, false);
 
-        // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Initialize UserTableHelper and fetch user data
         userTableHelper = new UserTableHelper(getContext());
         usersList = userTableHelper.getAllUsers();
 
-        // Initialize Adapter
         userAdapter = new UserAdapter(getContext(), (ArrayList<Users>) usersList);
         recyclerView.setAdapter(userAdapter);
 
-        // Set OnClickListener for the Back Button
         Button btBackToSettings = view.findViewById(R.id.btBackToSettings);
         btBackToSettings.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(v);
-            navController.popBackStack(); // Navigate back
+            navController.popBackStack();
         });
 
-        // Handle user action button click
         userAdapter.setOnUserActionListener((users, position) -> showActionDialog(users, position));
 
         return view;
     }
 
     private void showActionDialog(Users users, int position) {
-        // Create dialog with two options: Edit and Delete
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Choose Action");
+        builder.setTitle("Chọn hành động");
 
-        // Set options
-        builder.setItems(new CharSequence[]{"Edit", "Delete"}, (dialog, which) -> {
+        builder.setItems(new CharSequence[]{"Chỉnh sửa", "Xóa"}, (dialog, which) -> {
             if (which == 0) {
-                // Edit action
                 showEditDialog(users, position);
             } else if (which == 1) {
-                // Delete action
                 deleteUser(users, position);
             }
         });
 
-        // Show dialog
         builder.create().show();
     }
 
     private void showEditDialog(Users users, int position) {
-        // Inflate the custom layout for editing
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_user, null);
 
-        // Initialize EditTexts
         EditText edtUsername = dialogView.findViewById(R.id.edtUsername);
         EditText edtPassword = dialogView.findViewById(R.id.edtPassword);
 
-        // Pre-fill data
         edtUsername.setText(users.getUsername());
         edtPassword.setText(users.getPassword());
 
-        // Create dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Edit User")
+        builder.setTitle("Chỉnh sửa người dùng")
                 .setView(dialogView)
-                .setPositiveButton("Update", (dialog, which) -> {
+                .setPositiveButton("Cập nhật", (dialog, which) -> {
                     String newUsername = edtUsername.getText().toString().trim();
                     String newPassword = edtPassword.getText().toString().trim();
 
                     if (TextUtils.isEmpty(newUsername) || TextUtils.isEmpty(newPassword)) {
-                        Toast.makeText(getContext(), "Fields cannot be empty!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Các trường không thể để trống!", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Update user in database
                         users.setUsername(newUsername);
                         users.setPassword(newPassword);
                         boolean isUpdated = userTableHelper.updateUser(users.getUserId(), newUsername, newPassword, users.getRole());
 
-                        // Notify adapter and refresh RecyclerView
                         if (isUpdated) {
                             usersList.set(position, users);
                             userAdapter.notifyItemChanged(position);
-                            Toast.makeText(getContext(), "User updated successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Cập nhật người dùng thành công!", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getContext(), "Failed to update user!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Cập nhật người dùng thất bại!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
-                .setNegativeButton("Cancel", null);
+                .setNegativeButton("Hủy", null);
 
-        // Show dialog
         builder.create().show();
     }
 
     private void deleteUser(Users users, int position) {
-        // Delete user from database
         boolean isDeleted = userTableHelper.deleteUser(users.getUserId());
 
         if (isDeleted) {
-            // Remove from list and notify adapter
             usersList.remove(position);
             userAdapter.notifyItemRemoved(position);
-            Toast.makeText(getContext(), "User deleted successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Xóa người dùng thành công!", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getContext(), "Failed to delete user!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Xóa người dùng thất bại!", Toast.LENGTH_SHORT).show();
         }
     }
 }

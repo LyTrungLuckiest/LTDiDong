@@ -17,7 +17,6 @@ public abstract class BaseTableHelper<T> {
         db = sqliteHelper.getWritableDatabase();
     }
 
-    // Phương thức kiểm tra sự tồn tại của bảng
     private boolean isTableExists() {
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name=?",
                 new String[]{getTableName()});
@@ -80,9 +79,7 @@ public abstract class BaseTableHelper<T> {
         return entity;
     }
 
-    // Các lớp con sẽ ghi đè phương thức này để trả về tên bảng
     protected abstract String getTableName();
 
-    // Các lớp con sẽ phải cung cấp cách chuyển đổi cursor thành đối tượng T
     protected abstract T mapCursorToEntity(Cursor cursor);
 }

@@ -20,7 +20,6 @@ public class SqliteHelper extends SQLiteOpenHelper {
     public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-//        deleteDatabase();
         copyDatabaseFromAssets();
     }
 
@@ -46,37 +45,34 @@ public class SqliteHelper extends SQLiteOpenHelper {
                 outputStream.flush();
                 outputStream.close();
                 inputStream.close();
-                Log.d("Database", "Database copied successfully");
+                Log.d("Cơ sở dữ liệu", "Sao chép cơ sở dữ liệu thành công");
             }
         } catch (IOException e) {
-            Log.e("Database", "Error copying database: " + e.getMessage());
+            Log.e("Cơ sở dữ liệu", "Lỗi sao chép cơ sở dữ liệu: " + e.getMessage());
         }
     }
 
-    // Method to delete the entire database
     public boolean deleteDatabase() {
         File dbFile = new File(getDatabasePath());
         if (dbFile.exists()) {
             boolean isDeleted = dbFile.delete();
             if (isDeleted) {
-                Log.d("Database", "Database deleted successfully");
+                Log.d("Cơ sở dữ liệu", "Xóa cơ sở dữ liệu thành công");
             } else {
-                Log.e("Database", "Failed to delete the database");
+                Log.e("Cơ sở dữ liệu", "Xóa cơ sở dữ liệu thất bại");
             }
             return isDeleted;
         } else {
-            Log.e("Database", "Database file does not exist");
+            Log.e("Cơ sở dữ liệu", "Tệp cơ sở dữ liệu không tồn tại");
             return false;
         }
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // Optional: Implement onCreate if needed for your database schema
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        // Optional: Implement onUpgrade for database version changes
     }
 }

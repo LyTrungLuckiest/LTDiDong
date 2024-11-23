@@ -2,22 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Các quyền cần thiết -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Scoped Storage Permission cho Android 11 trở lên -->
+
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         android:maxSdkVersion="33" />
 
-    <!-- Đưa phần tử <queries> ra ngoài thẻ <application> -->
+
     <queries>
-        <!-- Đảm bảo ứng dụng Facebook được truy vấn -->
+
         <package android:name="com.facebook.katana" />
-        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
-        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
+
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" />
     </queries>
 
     <application
@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTLon">
 
-        <!-- Facebook SDK -->
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -38,7 +38,7 @@
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
 
-        <!-- Facebook Activity cho đăng nhập -->
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Các activity khác -->
+
         <activity
             android:name=".Ui.Home.HomeActivity"
             android:exported="false" />
@@ -74,10 +74,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
-
 
 
     </application>
