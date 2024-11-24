@@ -20,6 +20,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
     public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+//        deleteDatabase();
         copyDatabaseFromAssets();
     }
 

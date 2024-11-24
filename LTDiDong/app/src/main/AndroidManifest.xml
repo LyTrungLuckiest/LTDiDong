@@ -60,14 +60,14 @@
 
 
         <activity
-            android:name=".Ui.Home.HomeActivity"
+            android:name=".Ui.Login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
             android:exported="false" />
 
         <activity
-            android:name=".Ui.Login.LoginActivity"
+            android:name=".Ui.Home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

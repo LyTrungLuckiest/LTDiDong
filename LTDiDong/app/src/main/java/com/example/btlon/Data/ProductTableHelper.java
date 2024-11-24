@@ -12,6 +12,8 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
     private static final String COL_NAME = "name";
     private static final String COL_PRICE = "price";
     private static final String COL_IMAGE = "image_url";
+    private static final String COL_CREATED_AT = "created_at";
+    private static final String COL_CATEGORY_ID = "category_id";
 
     public ProductTableHelper(Context context) {
         super(context);
@@ -54,5 +56,36 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
     public boolean deleteProduct(int productId) {
         return delete(COL_ID + "=?", new String[]{String.valueOf(productId)});
     }
+
+
+    public List<Products> getNewProducts() {
+
+        String orderBy = COL_CREATED_AT + " DESC";
+        String limit = "10";
+
+
+        return getAll(new String[]{COL_ID, COL_NAME, COL_PRICE, COL_IMAGE, COL_CREATED_AT},
+                null, null, orderBy + " LIMIT " + limit);
+    }
+
+    public List<Products> getBestSellingProducts() {
+
+        String orderBy = "sold_quantity DESC";
+        String limit = "10";
+
+
+        return getAll(new String[]{COL_ID, COL_NAME, COL_PRICE, COL_IMAGE, COL_CREATED_AT, "sold_quantity"},
+                null, null, orderBy + " LIMIT " + limit);
+    }
+    public List<Products> getProductsByCategory(int categoryId) {
+        String selection = COL_CATEGORY_ID + " = ?";
+        String[] selectionArgs = new String[]{String.valueOf(categoryId)};
+
+        return getAll(new String[]{COL_ID, COL_NAME, COL_PRICE, COL_IMAGE, COL_CATEGORY_ID},
+                selection, selectionArgs, null);
+    }
+
+
+
 }
 
