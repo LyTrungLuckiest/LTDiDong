@@ -8,14 +8,16 @@
         android:id="@+id/edtUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Username"
+        android:autofillHints=""
+        android:hint="@string/enter_username"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Password"
-        android:inputType="textPassword"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:hint="@string/enter_password"
+        android:inputType="textPassword" />
 </LinearLayout>

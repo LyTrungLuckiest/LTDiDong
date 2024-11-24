@@ -7,10 +7,11 @@
     android:orientation="vertical"
     tools:context=".Ui.Login.LoginTabFragment">
 
-    <!-- Phần ScrollView bao quanh tất cả nội dung cần cuộn -->
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,30 +19,32 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- ImageView chứa icon trái cây -->
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
-                android:contentDescription="Main Icon"
-                android:src="@drawable/logo_icon" />
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo" />
 
-            <!-- EditText cho tên đăng nhập -->
+
             <EditText
                 android:id="@+id/signup_user"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginBottom="16dp"
+                android:autofillHints=""
                 android:background="@drawable/edittext_bkg"
-                android:drawableLeft="@drawable/user1"
+                android:drawableStart="@drawable/user1"
                 android:drawablePadding="8dp"
-                android:hint="Tên đăng nhập"
+                android:hint="@string/ten_dang_nhap"
                 android:inputType="text"
                 android:maxLines="1"
-                android:paddingStart="15dp" />
+                android:paddingStart="15dp"
+                tools:ignore="RtlSymmetry" />
 
-            <!-- EditText cho mật khẩu -->
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -52,15 +55,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_alignParentStart="true"
+                    android:autofillHints=""
                     android:background="@drawable/edittext_bkg"
-                    android:drawableLeft="@drawable/baseline_lock_24"
+                    android:drawableStart="@drawable/baseline_lock_24"
                     android:drawablePadding="8dp"
-                    android:hint="Mật khẩu"
+                    android:hint="@string/mat_khau"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:paddingStart="15dp" />
+                    android:paddingStart="15dp"
+                    tools:ignore="RtlSymmetry" />
 
-                <!-- ToggleButton để hiển thị/ẩn mật khẩu -->
+
                 <ToggleButton
                     android:id="@+id/togglePasswordVisibility1"
                     android:layout_width="48dp"
@@ -68,12 +73,12 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/toggle_password_visibility"
                     android:drawableTop="@drawable/ic_eye_close"
-                    android:contentDescription="Toggle password visibility"
-                    app:tint="#AAAAAA" />
+                    app:tint="@color/color_signup" />
             </RelativeLayout>
 
-            <!-- EditText cho mật khẩu nhập lại -->
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -84,15 +89,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_alignParentStart="true"
+                    android:autofillHints=""
                     android:background="@drawable/edittext_bkg"
-                    android:drawableLeft="@drawable/baseline_password_24"
+                    android:drawableStart="@drawable/baseline_password_24"
                     android:drawablePadding="8dp"
-                    android:hint="Nhập lại mật khẩu"
+                    android:hint="@string/nhap_lai_mat_khau"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:paddingStart="15dp" />
+                    android:paddingStart="15dp"
+                    tools:ignore="RtlSymmetry" />
 
-                <!-- ToggleButton để hiển thị/ẩn mật khẩu nhập lại -->
+
                 <ToggleButton
                     android:id="@+id/togglePasswordVisibilityCheckouty2"
                     android:layout_width="48dp"
@@ -100,21 +107,21 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/toggle_password_visibility"
                     android:drawableTop="@drawable/ic_eye_close"
-                    android:contentDescription="Toggle password visibility"
-                    app:tint="#AAAAAA" />
+                    app:tint="@color/color_signup" />
             </RelativeLayout>
 
-            <!-- Button Đăng ký -->
+
             <Button
                 android:id="@+id/btnSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="#7EF483"
+                android:backgroundTint="@color/background"
                 android:paddingHorizontal="40dp"
-                android:text="Đăng ký"
+                android:text="@string/dang_ky"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:backgroundTint="@null" />

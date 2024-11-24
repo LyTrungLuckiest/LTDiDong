@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <!-- Phần Top (sẽ tự điều chỉnh theo nội dung bên trong) -->
     <LinearLayout
         android:id="@+id/topSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#7EF483"
+        android:background="@color/background"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/midSection"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,8 +29,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:contentDescription="@string/logo"
                 android:paddingTop="5dp"
-                app:srcCompat="@drawable/logo_icon" />
+                app:srcCompat="@drawable/logo" />
 
             <Button
                 android:id="@+id/btnGps"
@@ -39,17 +40,17 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="6"
                 android:background="@drawable/rounded_background"
-                android:text="Chọn vị trí bạn muốn giao"
-                android:textColor="#FFFFFF"
+                android:text="@string/chon_vi_tri_muon_giao"
+                android:textColor="@color/white"
                 app:backgroundTint="@null"
-                app:icon="@android:drawable/ic_dialog_map"
+                app:icon="@drawable/location"
                 app:iconGravity="textEnd"
                 app:iconSize="30dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
@@ -57,12 +58,14 @@
             android:layout_weight="1"
             android:background="@drawable/toolbar_background"
             android:orientation="horizontal"
-            android:paddingEnd="5dp">
+            android:paddingEnd="5dp"
+            tools:ignore="RtlSymmetry">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
                 <ImageButton
                     android:id="@+id/button_dropdown"
@@ -70,19 +73,16 @@
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
-                    android:contentDescription="Menu"
+                    android:contentDescription="@string/menu"
                     android:scaleType="center"
-                    android:src="@drawable/menu"
-
-                    />
+                    android:src="@drawable/menu" />
 
                 <SearchView
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@drawable/edittext_bkg"
-                    android:paddingTop="4dp"
-                    />
+                    android:paddingTop="4dp" />
 
                 <ImageButton
                     android:id="@+id/btnGiongnoi"
@@ -90,7 +90,7 @@
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
-                    android:contentDescription="Giọng nói"
+                    android:contentDescription="@string/giong_noi"
                     android:scaleType="center"
                     android:src="@android:drawable/ic_btn_speak_now" />
 
@@ -100,9 +100,9 @@
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
-                    android:contentDescription="Giỏ hàng"
+                    android:contentDescription="@string/gio_hang"
                     android:scaleType="center"
-                    android:src="@drawable/shoppingcart2" />
+                    android:src="@drawable/shoppingcart" />
 
                 <ImageButton
                     android:id="@+id/btnThongbao"
@@ -110,7 +110,7 @@
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
-                    android:contentDescription="Thông báo"
+                    android:contentDescription="@string/thong_bao"
                     android:scaleType="center"
                     android:src="@drawable/notification" />
             </LinearLayout>
@@ -118,9 +118,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Phần Mid  -->
-
-    <!-- Phần Bottom (sẽ tự điều chỉnh theo nội dung bên trong) -->
 
     <LinearLayout
         android:id="@+id/midSection"
@@ -131,8 +128,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topSection"
-        android:background="#E4E4E4"> <!-- Mid chiếm 65% chiều cao màn hình -->
+        app:layout_constraintTop_toBottomOf="@id/topSection">
 
 
         <fragment

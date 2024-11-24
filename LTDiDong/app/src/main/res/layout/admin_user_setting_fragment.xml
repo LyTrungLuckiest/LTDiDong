@@ -4,24 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Ui.Admin.AdminUserSettingFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
             android:orientation="horizontal"
-            android:weightSum="4"
             android:padding="8dp"
-            android:background="@android:color/darker_gray">
+            android:weightSum="4">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="center"
-                android:text="ID"
+                android:text="@string/id"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -30,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:gravity="center"
-                android:text="Username"
+                android:text="@string/username"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -39,37 +41,38 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:gravity="center"
-                android:text="Password"
+                android:text="@string/password"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="center"
-                android:text="Chức năng"
+                android:text="@string/chuc_nang"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
 
         </LinearLayout>
 
-        <!-- Table Content -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white" />
+
         <Button
             android:id="@+id/btBackToSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back to Settings"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:text="@string/back_to_settings" />
 
 
     </LinearLayout>
-
 
 
 </ScrollView>

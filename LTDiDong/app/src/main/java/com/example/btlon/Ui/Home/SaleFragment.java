@@ -45,7 +45,7 @@ public class SaleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sale, container, false);
+        View view = inflater.inflate(R.layout.home_sale_fragment, container, false);
 
         viewFlipper = view.findViewById(R.id.viewFlipper);
         gridView = view.findViewById(R.id.gridView);
@@ -74,10 +74,10 @@ public class SaleFragment extends Fragment {
         viewFlipper.setFlipInterval(3000);
         viewFlipper.setAutoStart(true);
 
-        Animation slide_in_right_sale = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right_sale);
-        Animation slide_out_right_sale = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_right_sale);
-        viewFlipper.setInAnimation(slide_in_right_sale);
-        viewFlipper.setOutAnimation(slide_out_right_sale);
+        Animation slide_in_right = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right);
+        Animation slide_out_right = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_right);
+        viewFlipper.setInAnimation(slide_in_right);
+        viewFlipper.setOutAnimation(slide_out_right);
     }
 
     private void loadProductsToGridView() {
