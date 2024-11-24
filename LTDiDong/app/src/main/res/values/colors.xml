@@ -9,4 +9,6 @@
     <color name="text_color">#505050</color>
     <color name="green">#00D809</color>
     <color name="icon_color">#3C3C3C</color>
+    <color name="bkg_color">#E4E4E4</color>
+    <color name="spiner_color">#858585</color>
 </resources>

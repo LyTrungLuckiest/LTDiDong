@@ -35,6 +35,15 @@
         <action
             android:id="@+id/action_userFragment_to_userOderFragment"
             app:destination="@id/userOderFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_userPointFragment"
+            app:destination="@id/userPointFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_userGiftFragment"
+            app:destination="@id/userGiftFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_userFeedBackFragment"
+            app:destination="@id/userFeedBackFragment" />
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
@@ -51,4 +60,19 @@
         android:name="com.example.btlon.UserLayoutAction.UserOderFragment"
         android:label="fragment_user_oder"
         tools:layout="@layout/fragment_user_oder" />
+    <fragment
+        android:id="@+id/userFeedBackFragment"
+        android:name="com.example.btlon.UserLayoutAction.UserFeedBackFragment"
+        android:label="fragment_user_feed_back"
+        tools:layout="@layout/fragment_user_feed_back" />
+    <fragment
+        android:id="@+id/userGiftFragment"
+        android:name="com.example.btlon.UserLayoutAction.UserGiftFragment"
+        android:label="fragment_user_gift"
+        tools:layout="@layout/fragment_user_gift" />
+    <fragment
+        android:id="@+id/userPointFragment"
+        android:name="com.example.btlon.UserLayoutAction.UserPointFragment"
+        android:label="fragment_user_point"
+        tools:layout="@layout/fragment_user_point" />
 </navigation>

@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -51,10 +52,42 @@ public class HomeActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.cartFragment);
         });
 
+        //Trung lam
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        HideBottomNavigation(bottomNavigationView, navController);
+
+        DropDownbuttonClick();
+    }
+
+    private static void HideBottomNavigation(BottomNavigationView bottomNavigationView, NavController navController) {
+        // Lắng nghe thay đổi destination để ẩn/hiện BottomNavigationView
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            // Danh sách các Fragment cần ẩn BottomNavigationView
+            int[] fragmentsToHideBottomNav = {
+                    R.id.userInfoFragment,
+                    R.id.userAddressFragment,
+                    R.id.userOderFragment,
+                    R.id.userGiftFragment,
+                    R.id.userFeedBackFragment,
+                    R.id.userPointFragment
+            };
+
+            // Ẩn BottomNavigationView nếu destination nằm trong danh sách
+            boolean shouldHide = false;
+            for (int id : fragmentsToHideBottomNav) {
+                if (destination.getId() == id) {
+                    shouldHide = true;
+                    break;
+                }
+            }
+            bottomNavigationView.setVisibility(shouldHide ? View.GONE : View.VISIBLE);
+        });
+    }
+
+    private void DropDownbuttonClick() {
         dropdownButton.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(this, dropdownButton);
             MenuInflater inflater = popupMenu.getMenuInflater();

@@ -1,7 +1,9 @@
 package com.example.btlon.Ui.Login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +84,7 @@ public class LoginTabFragment extends Fragment {
             String password = passwordEditText.getText().toString();
             NormalLoginHelper normalLoginHelper = new NormalLoginHelper(getContext());
             normalLoginHelper.normalLogin(user, password);
+
         });
 
         googleLoginButton.setOnClickListener(v -> signInWithGoogle());
@@ -91,6 +94,14 @@ public class LoginTabFragment extends Fragment {
         FacebookLoginHelper.getInstance(getActivity()).setupFacebookLogin(facebookLoginButton, new FacebookLoginHelper.FacebookLoginListener() {
             @Override
             public void onLoginSuccess(FirebaseUser user) {
+                // Lấy userId từ FirebaseUser
+                String userId = user.getUid(); // Đây là UID của người dùng trong Firebase Authentication
+
+                // Lưu userId vào SharedPreferences
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("userId", userId); // Lưu userId dưới dạng String
+                editor.apply();
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
                 getActivity().finish();

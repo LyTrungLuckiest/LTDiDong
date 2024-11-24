@@ -1,5 +1,6 @@
 package com.example.btlon.Data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -66,6 +67,15 @@ public class SqliteHelper extends SQLiteOpenHelper {
             Log.e("Cơ sở dữ liệu", "Tệp cơ sở dữ liệu không tồn tại");
             return false;
         }
+    }
+    public void updateUserAddress(int userId, String address) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("address", address); // Cập nhật địa chỉ
+
+        // Cập nhật địa chỉ cho người dùng có user_id = userId
+        db.update("Users", contentValues, "user_id = ?", new String[]{String.valueOf(userId)});
+        db.close();
     }
 
     @Override

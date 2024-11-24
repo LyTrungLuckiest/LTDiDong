@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="5"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/item_bkg">
+
+
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/addressTextView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:drawableLeft="@drawable/position"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="1651,Le Van Luong, Nhon Duc, Nha Be"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <Button
+            android:id="@+id/btEditAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sửa"
+            android:textSize="20sp"
+            android:background="@drawable/bt_square_shape"
+            app:backgroundTint="@null"
+            android:layout_marginEnd="10dp"/>
+
+        <Button
+            android:id="@+id/btDeleteAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Xóa"
+            android:textSize="20sp"
+            android:background="@drawable/bt_square_shape"
+            app:backgroundTint="@null"
+            android:layout_marginStart="10dp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

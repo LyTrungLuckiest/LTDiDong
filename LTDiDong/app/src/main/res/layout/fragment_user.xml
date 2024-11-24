@@ -43,7 +43,8 @@
                 app:backgroundTint="@null"
                 android:text="Sửa thông tin cá nhân"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/user_icon"/>
             <Button
                 android:id="@+id/btUserAddress"
                 android:layout_width="match_parent"
@@ -54,7 +55,8 @@
                 app:backgroundTint="@null"
                 android:text="Địa chỉ nhận hàng"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/position"/>
             <Button
                 android:id="@+id/btUserOrder"
                 android:layout_width="match_parent"
@@ -65,7 +67,8 @@
                 app:backgroundTint="@null"
                 android:text="Đơn hàng từng mua"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/oder_icon"/>
 
 
 
@@ -74,11 +77,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical"
             android:background="@drawable/toolbar_background"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
+
             >
             <TextView
                 android:layout_width="match_parent"
@@ -99,27 +102,21 @@
                 app:backgroundTint="@null"
                 android:text="Tổng đài tư vấn"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/phone"/>
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/user_tab_btshape"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:backgroundTint="@null"
-                app:backgroundTint="@null"
-                android:text="Góp ý / Liên hệ"
-                android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
-            <Button
+                android:id="@+id/btUserFeedBack"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
                 android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
                 app:backgroundTint="@null"
-                android:text="Tìm kiếm siêu thị"
+                android:text="Góp ý / Liên hệ"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/message"/>
+
 
         </LinearLayout>
         <LinearLayout
@@ -142,18 +139,20 @@
                 />
 
             <Button
+                android:id="@+id/btUserGift"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
-
                 android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
                 app:backgroundTint="@null"
                 android:text="Quà của tôi"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/gift"/>
 
             <Button
+                android:id="@+id/btUserPoint"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
@@ -162,7 +161,8 @@
                 app:backgroundTint="@null"
                 android:text="Tích điểm đổi quà"
                 android:textAlignment="textStart"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/text_color"
+                android:drawableLeft="@drawable/baseline_diamond_24"/>
 
         </LinearLayout>
 
