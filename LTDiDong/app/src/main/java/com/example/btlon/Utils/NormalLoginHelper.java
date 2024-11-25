@@ -3,6 +3,8 @@ package com.example.btlon.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.btlon.Data.UserTableHelper;
@@ -23,18 +25,41 @@ public class NormalLoginHelper {
         if (user.isEmpty() || password.isEmpty()) {
             Toast.makeText(context, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show();
         } else {
-            boolean isValidUser = userTableHelper.checkLogin(user, password);
+            try {
+                boolean isValidUser = userTableHelper.checkLogin(user, password);
 
-            if (isValidUser) {
-                Intent intent = user.equals("admin") ? new Intent(context, AdminActivity.class)
-                        : new Intent(context, HomeActivity.class);
-                intent.putExtra("USERNAME", user);
-                context.startActivity(intent);
-                if (context instanceof Activity) {
-                    ((Activity) context).finish();
+                if (isValidUser) {
+                    // Lấy userId từ cơ sở dữ liệu
+                    int userId = userTableHelper.getUserIdByUsername(user);
+
+                    if (userId == -1) {
+                        Toast.makeText(context, "Không thể tìm thấy thông tin tài khoản", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    // Lưu userId vào SharedPreferences
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("userId", userId); // Lưu userId dưới dạng Integer
+                    editor.apply();
+
+                    Log.d("NormalLoginHelper", "userId đã được lưu: " + userId);
+
+                    // Điều hướng tới Activity phù hợp
+                    Intent intent = user.equals("admin") ? new Intent(context, AdminActivity.class)
+                            : new Intent(context, HomeActivity.class);
+                    intent.putExtra("USERNAME", user);
+                    context.startActivity(intent);
+
+                    if (context instanceof Activity) {
+                        ((Activity) context).finish();
+                    }
+                } else {
+                    Toast.makeText(context, "Tài khoản không hợp lệ", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(context, "Tài khoản không hợp lệ", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(context, "Đã xảy ra lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("NormalLoginHelper", "Error during login: " + e.getMessage());
             }
         }
     }

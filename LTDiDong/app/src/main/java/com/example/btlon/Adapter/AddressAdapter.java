@@ -1,6 +1,7 @@
 package com.example.btlon.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         Address address = addressList.get(position);
-        holder.addressTextView.setText(address.getAddress());
+        // Add a null check for the address object
+        if (address != null) {
+            holder.addressTextView.setText(address.getAddress());
+        } else {
+            Log.e("AddressAdapter", "Address at position " + position + " is null.");
+            // You can display a placeholder or handle the error
+            holder.addressTextView.setText("Address not available");
+        }
 
         // Handle Edit button click
         holder.btEditAddress.setOnClickListener(v -> {

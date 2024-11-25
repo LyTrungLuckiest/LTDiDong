@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bak"
+    android:background="@color/bkg_color"
     android:orientation="vertical">
 
 
@@ -216,7 +216,7 @@
                     android:id="@+id/buttonCheckout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/background"
+                    android:backgroundTint="@color/blue"
                     android:text="@string/thanh_toan"
                     android:textColor="@color/white"
                     android:textSize="20sp" />

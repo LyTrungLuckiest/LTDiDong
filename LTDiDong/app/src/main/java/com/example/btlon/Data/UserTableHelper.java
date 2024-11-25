@@ -3,6 +3,7 @@ package com.example.btlon.Data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -51,6 +52,33 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         }
     }
 
+    // Phương thức mới: Lấy userId dựa trên username
+    public int getUserIdByUsername(String username) {
+        int userId = -1; // Giá trị mặc định nếu không tìm thấy
+
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Truy vấn để lấy user_id
+            String query = "SELECT " + COL_ID + " FROM " + TABLE_NAME + " WHERE " + COL_USERNAME + " = ?";
+            cursor = db.rawQuery(query, new String[]{username});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                userId = cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID));
+            }
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi lấy userId từ username: " + username, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return userId;
+    }
+
     public boolean addUser(String username, String password) {
         if (isUsernameExists(username)) {
             return false;
@@ -82,30 +110,8 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         return update(values, COL_ID + "=?", new String[]{String.valueOf(userId)});
     }
 
-
-    // Cập nhật địa chỉ người dùng
-    public void updateUserAddress(int userId, String address) {
-        sqliteHelper.getWritableDatabase(); // Khai báo db
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("address", address); // Cập nhật địa chỉ
-
-        // Cập nhật địa chỉ cho người dùng có user_id = userId
-        int rowsAffected = db.update("Users", contentValues, "user_id = ?", new String[]{String.valueOf(userId)});
-
-        if (rowsAffected > 0) {
-            Log.d("UserTableHelper", "Cập nhật địa chỉ thành công cho user_id: " + userId);
-        } else {
-            Log.d("UserTableHelper", "Không tìm thấy user_id: " + userId + " để cập nhật địa chỉ");
-        }
-        db.close(); // Đóng kết nối db sau khi thực hiện xong
-    }
-
     public boolean deleteUser(int userId) {
         return delete(COL_ID + "=?", new String[]{String.valueOf(userId)});
-    }
-
-    public List<Users> getUserByCriteria(String criteria, String[] args) {
-        return getAll(new String[]{COL_ID, COL_USERNAME, COL_PASSWORD, COL_ROLE}, criteria, args, null);
     }
 
     public Users getOne(String[] columns, String selection, String[] selectionArgs) {
@@ -134,28 +140,5 @@ public class UserTableHelper extends BaseTableHelper<Users> {
 
     public boolean delete(String whereClause, String[] whereArgs) {
         return sqliteHelper.getWritableDatabase().delete(getTableName(), whereClause, whereArgs) > 0;
-    }
-
-    public List<Users> getAll(String[] columns, String selection, String[] selectionArgs, String limit) {
-        Cursor cursor = sqliteHelper.getReadableDatabase().query(
-                getTableName(),
-                columns,
-                selection,
-                selectionArgs,
-                null, null, limit
-        );
-
-        return mapCursorToList(cursor);
-    }
-
-    private List<Users> mapCursorToList(Cursor cursor) {
-        List<Users> users = new ArrayList<>();
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                users.add(mapCursorToEntity(cursor));
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        return users;
     }
 }
