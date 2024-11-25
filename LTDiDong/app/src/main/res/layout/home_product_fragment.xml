@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
@@ -12,36 +13,23 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
-        <ViewFlipper
-            android:id="@+id/viewFlipper"
+        <!-- Thanh TabLayout để phân loại sản phẩm -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@color/white">
-
-
-        </ViewFlipper>
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/san_pham_moi_nhat"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@color/white"
+            android:elevation="4dp"
+            app:tabGravity="fill"
+            app:tabMode="scrollable" />  <!-- Change this to 'scrollable' -->
 
-        <GridView
-            android:id="@+id/gridView"
+        <!-- ViewPager2 để hiển thị các danh mục sản phẩm -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bkg_color"
-            android:horizontalSpacing="5dp"
-            android:numColumns="2"
-            android:padding="5dp"
-            android:verticalSpacing="5dp" />
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>
-
 
 </FrameLayout>

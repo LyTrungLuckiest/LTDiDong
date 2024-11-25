@@ -1,80 +1,75 @@
 package com.example.btlon.Ui.Home;
 
-import android.app.Activity;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ViewFlipper;
+import androidx.viewpager2.widget.ViewPager2;
 
-import androidx.fragment.app.Fragment;
-
-import com.bumptech.glide.Glide;
-import com.example.btlon.Adapter.MyArrayAdapter;
-import com.example.btlon.Data.Products;
-import com.example.btlon.Data.ProductTableHelper;
-
+import com.example.btlon.Adapter.CategoryPagerAdapter;
+import com.example.btlon.Data.Category;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.example.btlon.Data.CategoryTableHelper;
 import com.example.btlon.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductFragment extends Fragment {
-    private ViewFlipper viewFlipper;
-    private GridView gridView;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public ProductFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_product_fragment, container, false);
 
-        viewFlipper = view.findViewById(R.id.viewFlipper);
-        gridView = view.findViewById(R.id.gridView);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        ViewPager2 viewPager = view.findViewById(R.id.viewPager);
 
 
-        ActionViewFlipper();
-        loadProductsToGridView();
+        CategoryTableHelper categoryTableHelper = new CategoryTableHelper(getContext());
+        List<Category> categoryList = categoryTableHelper.getAllCategories();
+
+
+        CategoryPagerAdapter adapter = new CategoryPagerAdapter(this, categoryList);
+
+        viewPager.setAdapter(adapter);
+
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(categoryList.get(position).getName());
+        }).attach();
+
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                Category category = categoryList.get(position);
+                tab.setText(category.getName());
+
+
+                switch (category.getName()) {
+                    case "Sản phẩm mới":
+                        tab.setIcon(R.drawable.star);
+                        break;
+                    case "sản phẩm bán chạy":
+                        tab.setIcon(R.drawable.fire);
+                        break;
+                    default:
+                        tab.setIcon(R.drawable.fruit);
+                        break;
+                }
+            }
+        }).attach();
+
 
         return view;
-    }
-
-    private void ActionViewFlipper() {
-        List<String> mangquangcao = new ArrayList<>();
-        mangquangcao.add("https://www.bigc.vn/files/a-31-08-2023-11-41-07/21-31-01-si-u-h-i-tr-i-c-y-1080go.jpg");
-        mangquangcao.add("https://www.bigc.vn/files/banners/2022/feb/tra-i-ca-y-giao-mu-a-1080x540-bigc.jpg");
-        mangquangcao.add("https://www.bigc.vn/files/banners/new-node-31-05-2023-11-41-17/mega-mid-june-15-06-2023-16-56-56/1080-g-15-28-06-fruit-festival.jpg");
-
-        for (String url : mangquangcao) {
-            ImageView imageView = new ImageView(getContext());
-            Glide.with(getContext()).load(url).into(imageView);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            viewFlipper.addView(imageView);
-        }
-
-        viewFlipper.setFlipInterval(3000);
-        viewFlipper.setAutoStart(true);
-
-        Animation slide_in = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
-        Animation slide_out = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_right);
-        viewFlipper.setInAnimation(slide_in);
-        viewFlipper.setOutAnimation(slide_out);
-    }
-
-    private void loadProductsToGridView() {
-        ProductTableHelper productTableHelper = new ProductTableHelper(getContext());
-        List<Products> productsList = productTableHelper.getAllProducts();
-        MyArrayAdapter adapter = new MyArrayAdapter((Activity) getActivity(), R.layout.item_product, (ArrayList<Products>) productsList);
-        gridView.setAdapter(adapter);
     }
 }
