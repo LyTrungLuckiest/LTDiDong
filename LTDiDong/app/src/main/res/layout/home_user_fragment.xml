@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Ui.Home.UserFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_bak"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+        android:background="#E4E4E4"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
             android:background="@drawable/toolbar_background"
-            android:orientation="vertical">
-
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:text="Thông tin cá nhân"
+                android:textSize="17sp"
+                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                android:text="@string/thong_tin_ca_nhan"
-                android:textAlignment="center"
-                android:textSize="17sp" />
+                />
 
             <Button
                 android:id="@+id/btUserInfo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/sua_thong_tin_ca_nhan"
+                app:backgroundTint="@null"
+                android:text="Sửa thông tin cá nhân"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
-
+                android:drawableLeft="@drawable/user_icon"/>
             <Button
                 android:id="@+id/btUserAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/dia_chi_nhan_hang"
+                app:backgroundTint="@null"
+                android:text="Địa chỉ nhận hàng"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
-
+                android:drawableLeft="@drawable/position"/>
             <Button
                 android:id="@+id/btUserOrder"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/don_hang_tung_mua"
+                app:backgroundTint="@null"
+                android:text="Đơn hàng từng mua"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
+                android:drawableLeft="@drawable/oder_icon"/>
+
 
 
         </LinearLayout>
@@ -74,96 +77,92 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
             android:background="@drawable/toolbar_background"
-            android:orientation="vertical">
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
 
+            >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:text="Hỗ trợ khách hàng"
+                android:textSize="17sp"
+                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                android:text="@string/ho_tro_khach_hang"
-                android:textAlignment="center"
-                android:textSize="17sp" />
+                />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/tong_dai_tu_van"
+                app:backgroundTint="@null"
+                android:text="Tổng đài tư vấn"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
-
+                android:drawableLeft="@drawable/phone"/>
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/user_tab_btshape"
-                android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/gop_y"
-                android:textAlignment="textStart"
-                android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
-
-            <Button
+                android:id="@+id/btUserFeedBack"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/tim_kiem_sieu_thi"
+                app:backgroundTint="@null"
+                android:text="Góp ý / Liên hệ"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
+                android:drawableLeft="@drawable/message"/>
+
 
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
             android:background="@drawable/toolbar_background"
-            android:orientation="vertical">
-
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:text="Ưu đãi"
+                android:textSize="17sp"
+                android:textAlignment="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/user_tab_btshape"
-                android:text="@string/uu_dai"
-                android:textAlignment="center"
-                android:textSize="17sp" />
+                />
 
             <Button
+                android:id="@+id/btUserGift"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"
-
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/qua_cua_tui"
+                app:backgroundTint="@null"
+                android:text="Quà của tôi"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
+                android:drawableLeft="@drawable/gift"/>
 
             <Button
+                android:id="@+id/btUserPoint"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_bot"
+                android:drawableRight="@drawable/arrow_right_icon"
                 android:backgroundTint="@null"
-                android:drawableEnd="@drawable/arrow_right_icon"
-                android:text="@string/tich_diem_doi_qua"
+                app:backgroundTint="@null"
+                android:text="Tích điểm đổi quà"
                 android:textAlignment="textStart"
                 android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
+                android:drawableLeft="@drawable/baseline_diamond_24"/>
 
         </LinearLayout>
 
@@ -172,17 +171,18 @@
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
             android:background="@drawable/squre_shape"
             android:backgroundTint="@null"
-            android:text="@string/dang_xuat"
+            app:backgroundTint="@null"
+            android:text="Đăng xuất"
+            android:textSize="17dp"
             android:textAlignment="center"
             android:textColor="@color/text_color"
-            android:textSize="17sp"
-            app:backgroundTint="@null" />
+            android:layout_marginBottom="20dp"/>
 
 
     </LinearLayout>
+
 
 
 </ScrollView>

@@ -43,6 +43,10 @@ public class UserFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        FragmentTransition(view);
+    }
+
+    private static void FragmentTransition(@NonNull View view) {
         NavController navController = Navigation.findNavController(view);
         view.findViewById(R.id.btUserInfo).setOnClickListener(v -> {
             navController.navigate(R.id.action_userFragment_to_userInfoFragment);
@@ -52,6 +56,15 @@ public class UserFragment extends Fragment {
         });
         view.findViewById(R.id.btUserOrder).setOnClickListener(v -> {
             navController.navigate(R.id.action_userFragment_to_userOderFragment);
+        });
+        view.findViewById(R.id.btUserGift).setOnClickListener(v -> {
+            navController.navigate(R.id.action_userFragment_to_userGiftFragment);
+        });
+        view.findViewById(R.id.btUserFeedBack).setOnClickListener(v -> {
+            navController.navigate(R.id.action_userFragment_to_userFeedBackFragment);
+        });
+        view.findViewById(R.id.btUserPoint).setOnClickListener(v -> {
+            navController.navigate(R.id.action_userFragment_to_userPointFragment);
         });
     }
 }

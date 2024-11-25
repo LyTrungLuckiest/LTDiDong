@@ -82,6 +82,24 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         return update(values, COL_ID + "=?", new String[]{String.valueOf(userId)});
     }
 
+
+    // Cập nhật địa chỉ người dùng
+    public void updateUserAddress(int userId, String address) {
+        sqliteHelper.getWritableDatabase(); // Khai báo db
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("address", address); // Cập nhật địa chỉ
+
+        // Cập nhật địa chỉ cho người dùng có user_id = userId
+        int rowsAffected = db.update("Users", contentValues, "user_id = ?", new String[]{String.valueOf(userId)});
+
+        if (rowsAffected > 0) {
+            Log.d("UserTableHelper", "Cập nhật địa chỉ thành công cho user_id: " + userId);
+        } else {
+            Log.d("UserTableHelper", "Không tìm thấy user_id: " + userId + " để cập nhật địa chỉ");
+        }
+        db.close(); // Đóng kết nối db sau khi thực hiện xong
+    }
+
     public boolean deleteUser(int userId) {
         return delete(COL_ID + "=?", new String[]{String.valueOf(userId)});
     }
