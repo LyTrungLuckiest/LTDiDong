@@ -3,7 +3,9 @@ package com.example.btlon.Data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductTableHelper extends BaseTableHelper<Products> {
@@ -83,6 +85,25 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
 
         return getAll(new String[]{COL_ID, COL_NAME, COL_PRICE, COL_IMAGE, COL_CATEGORY_ID},
                 selection, selectionArgs, null);
+    }
+    // Tìm kiếm sản phẩm theo từ khóa
+    public List<Products> searchProducts(String query) {
+        List<Products> productList = new ArrayList<>();
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE "
+                + COL_NAME + " LIKE ?", new String[]{"%" + query + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                Products product = mapCursorToEntity(cursor);
+                productList.add(product);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return productList;
     }
 
 

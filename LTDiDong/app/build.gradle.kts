@@ -40,6 +40,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.8.4")
     implementation("androidx.navigation:navigation-ui:2.8.4")
     implementation("com.android.volley:volley:1.2.1")
+    implementation("androidx.room:room-common:2.6.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
 
