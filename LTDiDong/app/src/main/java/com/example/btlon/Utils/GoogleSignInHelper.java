@@ -3,6 +3,7 @@ package com.example.btlon.Utils;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 
@@ -98,11 +99,17 @@ public class GoogleSignInHelper {
 
     private void updateUI(FirebaseUser user, Activity activity) {
         if (user != null) {
+
+            PreferenceManager preferenceManager = new PreferenceManager(activity);
+            preferenceManager.saveLoginState(true, "google", user.getUid(), null);
+
+
             Intent intent = new Intent(activity, HomeActivity.class);
             activity.startActivity(intent);
             activity.finish();
         } else {
             Log.e("GoogleSignIn", "Authentication failed");
+            Toast.makeText(activity, "Lỗi xác thực người dùng.", Toast.LENGTH_SHORT).show();
         }
     }
 }

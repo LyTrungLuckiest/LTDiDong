@@ -5,12 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.btlon.Data.Products;
 import com.example.btlon.R;
+import com.example.btlon.Utils.PreferenceManager;
+
 import java.util.List;
 public class ProductsAdapter extends BaseAdapter {
     private Activity context;
@@ -46,6 +51,16 @@ public class ProductsAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutId, null);
         }
 
+        Button btnMuaHang = convertView.findViewById(R.id.btnMuaHang);
+
+
+        btnMuaHang.setOnClickListener(v -> {
+
+            PreferenceManager preferenceManager = new PreferenceManager(context);
+            preferenceManager.checkLoginStatus(context);
+
+        });
+
 
         Products product = productsList.get(position);
 
@@ -72,8 +87,8 @@ public class ProductsAdapter extends BaseAdapter {
         gridView.setAdapter(adapter);
     }
     public void updateData(List<Products> newProducts) {
-        productsList.clear(); // Xóa dữ liệu cũ
-        productsList.addAll(newProducts); // Thêm dữ liệu mới
-        notifyDataSetChanged(); // Thông báo Adapter cập nhật
+        productsList.clear();
+        productsList.addAll(newProducts);
+        notifyDataSetChanged();
     }
 }

@@ -60,6 +60,10 @@ public class FacebookLoginHelper {
                 .addOnCompleteListener(activity, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        PreferenceManager preferenceManager = new PreferenceManager(activity);
+                        preferenceManager.saveLoginState(true, "facebook", user.getUid(), null);
+
                         listener.onLoginSuccess(user);
                     } else {
                         listener.onLoginError(task.getException());

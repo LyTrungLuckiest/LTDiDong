@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.btlon.Ui.Home.HomeActivity;
 import com.example.btlon.Ui.Login.LoginActivity;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,6 +22,7 @@ public class AuthLogoutHelper {
 
     public void logout(Activity activity) {
         if (googleSignInClient != null) {
+
             googleSignInClient.signOut().addOnCompleteListener(activity, task -> {
                 Toast.makeText(activity, "Đã đăng xuất khỏi Google!", Toast.LENGTH_SHORT).show();
             });
@@ -32,7 +34,9 @@ public class AuthLogoutHelper {
 
         Toast.makeText(activity, "Đã đăng xuất thành công!", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(activity, LoginActivity.class);
+        PreferenceManager preferenceManager = new PreferenceManager(activity);
+        preferenceManager.clearLoginState();
+        Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }

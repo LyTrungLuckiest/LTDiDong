@@ -1,6 +1,7 @@
 package com.example.btlon.Ui.Login;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private ViewPagerAdapter adapter;
+    private Button btnQuaylai;
 
 
     @Override
@@ -27,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager);
+        btnQuaylai = findViewById(R.id.btnQuaylai);
+        btnQuaylai.setOnClickListener(v -> finish());
 
 
         tabLayout.addTab(tabLayout.newTab().setText("Đăng nhập"));

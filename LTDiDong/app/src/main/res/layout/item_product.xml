@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_bkg"
+    android:backgroundTint="@color/color_bak"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="8dp"
 
+    android:padding="8dp"
     tools:context=".Ui.Home.HomeActivity">
 
     <ImageView
@@ -28,7 +29,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/trai_cay"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textStyle="bold"
+        android:textSize="20sp" />
 
 
     <TextView
@@ -38,6 +40,16 @@
         android:layout_marginTop="4dp"
         android:text="@string/_75_000"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnMuaHang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button"
+        android:text="@string/mua"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/background" />
 
 </LinearLayout>

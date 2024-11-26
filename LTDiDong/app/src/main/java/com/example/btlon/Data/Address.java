@@ -1,12 +1,12 @@
 package com.example.btlon.Data;
 
 public class Address {
-    private int id;           // ID địa chỉ (Primary Key)
-    private int userId;       // ID người dùng liên kết (Foreign Key)
-    private String address;   // Địa chỉ cụ thể
-    private boolean isDefault; // Đánh dấu địa chỉ mặc định
+    private int id;
+    private int userId;
+    private String address;
+    private boolean isDefault;
 
-    // Constructor đầy đủ 4 tham số
+
     public Address(int id, int userId, String address, boolean isDefault) {
         this.id = id;
         this.userId = userId;
@@ -14,13 +14,13 @@ public class Address {
         this.isDefault = isDefault;
     }
 
-    // Constructor đơn giản với 2 tham số (nếu cần)
+
     public Address(String address, boolean isDefault) {
         this.address = address;
         this.isDefault = isDefault;
     }
 
-    // Getter và Setter
+
     public int getId() {
         return id;
     }

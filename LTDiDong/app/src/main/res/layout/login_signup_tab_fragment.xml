@@ -119,7 +119,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/background"
                 android:paddingHorizontal="40dp"
                 android:text="@string/dang_ky"
                 android:textColor="@color/white"

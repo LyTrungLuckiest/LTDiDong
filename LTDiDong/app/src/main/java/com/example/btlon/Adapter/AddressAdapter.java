@@ -22,7 +22,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     private Context context;
 
     private OnEditAddressCallback editAddressCallback;
-    private OnDeleteAddressCallback deleteAddressCallback;  // Add delete callback
+    private OnDeleteAddressCallback deleteAddressCallback;
 
     public AddressAdapter(ArrayList<Address> addressList, Context context) {
         this.addressList = addressList;
@@ -39,12 +39,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         Address address = addressList.get(position);
-        // Add a null check for the address object
+
         if (address != null) {
             holder.addressTextView.setText(address.getAddress());
         } else {
             Log.e("AddressAdapter", "Address at position " + position + " is null.");
-            // You can display a placeholder or handle the error
+
             holder.addressTextView.setText("Address not available");
         }
 
@@ -58,7 +58,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
         // Handle Delete button click
         holder.btDeleteAddress.setOnClickListener(v -> {
             if (deleteAddressCallback != null) {
-                deleteAddressCallback.onDeleteAddress(address, position);  // Pass position to delete
+                deleteAddressCallback.onDeleteAddress(address, position);
             }
         });
     }
@@ -81,7 +81,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     }
 
     public interface OnDeleteAddressCallback {
-        void onDeleteAddress(Address address, int position);  // Pass position to delete specific address
+        void onDeleteAddress(Address address, int position);
     }
 
     public static class AddressViewHolder extends RecyclerView.ViewHolder {

@@ -29,7 +29,7 @@ public class NormalLoginHelper {
                 boolean isValidUser = userTableHelper.checkLogin(user, password);
 
                 if (isValidUser) {
-                    // Lấy userId từ cơ sở dữ liệu
+
                     int userId = userTableHelper.getUserIdByUsername(user);
 
                     if (userId == -1) {
@@ -37,15 +37,13 @@ public class NormalLoginHelper {
                         return;
                     }
 
-                    // Lưu userId vào SharedPreferences
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("userId", userId); // Lưu userId dưới dạng Integer
-                    editor.apply();
 
-                    Log.d("NormalLoginHelper", "userId đã được lưu: " + userId);
+                    PreferenceManager preferenceManager = new PreferenceManager(context);
+                    preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null
+                    );
+                    Log.d("Login", "User login state saved: " + preferenceManager.isLoggedIn());
 
-                    // Điều hướng tới Activity phù hợp
+
                     Intent intent = user.equals("admin") ? new Intent(context, AdminActivity.class)
                             : new Intent(context, HomeActivity.class);
                     intent.putExtra("USERNAME", user);
