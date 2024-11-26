@@ -94,6 +94,7 @@
                 />
 
             <Button
+                android:id="@+id/btnCall"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/user_tab_btshape"

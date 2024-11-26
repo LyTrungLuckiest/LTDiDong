@@ -1,5 +1,7 @@
 package com.example.btlon.Ui.Home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +30,31 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_user_fragment, container, false);
+        //id
+        Button btnLogout = rootView.findViewById(R.id.btnLogout);
+        Button btnCall = rootView.findViewById(R.id.btnCall);
 
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity(), GoogleSignInHelper.getGoogleSignInOptions());
-
         authLogoutHelper = new AuthLogoutHelper(FirebaseAuth.getInstance(), googleSignInClient);
 
-        Button btnLogout = rootView.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> authLogoutHelper.logout(getActivity()));
 
+        // Call
+        Call(btnCall);
+
         return rootView;
+    }
+
+    private void Call(Button btnCall) {
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phoneNumber = "0363546978"; // Số điện thoại
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
