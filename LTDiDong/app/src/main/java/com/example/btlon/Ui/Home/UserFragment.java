@@ -1,10 +1,13 @@
 package com.example.btlon.Ui.Home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,8 +16,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.btlon.R;
+import com.example.btlon.Ui.Login.LoginActivity;
 import com.example.btlon.Utils.AuthLogoutHelper;
 import com.example.btlon.Utils.GoogleSignInHelper;
+import com.example.btlon.Utils.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -30,11 +35,38 @@ public class UserFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.home_user_fragment, container, false);
 
         GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity(), GoogleSignInHelper.getGoogleSignInOptions());
-
         authLogoutHelper = new AuthLogoutHelper(FirebaseAuth.getInstance(), googleSignInClient);
+        PreferenceManager preferenceManager = new PreferenceManager(getActivity());
 
+        // Lấy các thành phần trong giao diện
         Button btnLogout = rootView.findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(v -> authLogoutHelper.logout(getActivity()));
+        Button btnDangnhap = rootView.findViewById(R.id.btnDangnhap);
+        LinearLayout userInfoLayout = rootView.findViewById(R.id.infouser); // Lấy LinearLayout chứa thông tin người dùng
+
+        // Kiểm tra trạng thái đăng nhập và ẩn/hiện các phần tử
+        if (preferenceManager.isLoggedIn()) {
+            btnDangnhap.setVisibility(View.GONE);  // Ẩn nút Đăng nhập nếu đã đăng nhập
+            userInfoLayout.setVisibility(View.VISIBLE);  // Hiển thị thông tin người dùng nếu đã đăng nhập
+            btnLogout.setVisibility(View.VISIBLE);  // Hiển thị nút Đăng xuất nếu đã đăng nhập
+        } else {
+            btnDangnhap.setVisibility(View.VISIBLE);    // Hiển thị nút Đăng nhập nếu chưa đăng nhập
+            userInfoLayout.setVisibility(View.GONE);    // Ẩn thông tin người dùng nếu chưa đăng nhập
+            btnLogout.setVisibility(View.GONE);    // Ẩn nút Đăng xuất nếu chưa đăng nhập
+        }
+        btnDangnhap.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        });
+
+        // Xử lý sự kiện đăng xuất
+        btnLogout.setOnClickListener(v -> {
+            if (preferenceManager.isLoggedIn()) {
+                authLogoutHelper.logout(getActivity()); // Thực hiện đăng xuất
+            } else {
+                Toast.makeText(getActivity(), "Bạn chưa đăng nhập!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return rootView;
     }
