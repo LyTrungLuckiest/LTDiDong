@@ -1,6 +1,8 @@
 package com.example.btlon.Adapter;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.example.btlon.ChiTietSanPhamActivity;
 import com.example.btlon.Data.Products;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
@@ -28,6 +34,8 @@ public class ProductsAdapter extends BaseAdapter {
         this.layoutId = layoutId;
         this.productsList = productsList;
     }
+
+
 
     @Override
     public int getCount() {
@@ -51,6 +59,13 @@ public class ProductsAdapter extends BaseAdapter {
             convertView = inflater.inflate(layoutId, null);
         }
 
+
+
+
+
+
+
+
         Button btnMuaHang = convertView.findViewById(R.id.btnMuaHang);
 
 
@@ -63,6 +78,21 @@ public class ProductsAdapter extends BaseAdapter {
 
 
         Products product = productsList.get(position);
+
+        // Bắt sự kiện nhấn vào toàn bộ item
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
+            intent.putExtra("chi tiết", product);
+            context.startActivity(intent);
+        });
+
+        convertView.setOnClickListener(v -> {
+            Log.d("ProductsAdapter", "Clicked product: " + product.getName());
+            Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
+            intent.putExtra("chi tiết", product);
+            context.startActivity(intent);
+        });
+
 
 
         ImageView imgProduct = convertView.findViewById(R.id.img_product);
@@ -91,4 +121,43 @@ public class ProductsAdapter extends BaseAdapter {
         productsList.addAll(newProducts);
         notifyDataSetChanged();
     }
+
+
+
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Products sanpham = productsList.get(position);
+
+        holder.txtTenSanPham.setText(sanpham.getName());
+        holder.txtGiaSanPham.setText(sanpham.getPrice());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
+                intent.putExtra("chi tiết", sanpham);
+                context.startActivity(intent);
+            }
+        });
+    }
+
+
+
+    public int getItemCount() {
+        return productsList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView txtTenSanPham, txtGiaSanPham;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            txtTenSanPham = itemView.findViewById(R.id.txttensp);
+            txtGiaSanPham = itemView.findViewById(R.id.txtGiaSp);
+        }
+    }
+
+
+
 }
+
+

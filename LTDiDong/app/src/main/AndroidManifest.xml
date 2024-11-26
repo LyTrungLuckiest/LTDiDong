@@ -2,18 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         android:maxSdkVersion="33" />
 
     <queries>
-
         <package android:name="com.facebook.katana" />
 
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
@@ -29,7 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BTLon">
-
+        <activity
+            android:name=".ChiTietSanPhamActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -37,7 +35,6 @@
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
-
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -57,31 +54,25 @@
                     android:scheme="fb444729861689716" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".Ui.Login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
-            android:exported="true" >
-
-        </activity>
-        <activity android:name=".Utils.SearchResultsActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".Utils.SearchResultsActivity"
             android:exported="false" />
-
         <activity
             android:name=".Ui.Home.HomeActivity"
-            android:windowSoftInputMode="adjustNothing"
-
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
     </application>
+
 </manifest>

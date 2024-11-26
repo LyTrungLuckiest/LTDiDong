@@ -1,6 +1,8 @@
 package com.example.btlon.Data;
 
-public class Products {
+import java.io.Serializable;
+
+public class Products implements Serializable {
     private int id;
     private String image;
     private String name;
