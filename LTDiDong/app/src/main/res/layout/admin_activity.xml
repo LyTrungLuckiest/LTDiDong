@@ -20,9 +20,9 @@
         <ImageView
             android:id="@+id/logo"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/logo"
+            android:layout_height="150dp"
+           android:background="@color/background"
+            android:contentDescription="@drawable/logo"
             android:paddingTop="5dp"
             app:srcCompat="@drawable/logo" />
 
@@ -40,7 +40,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topSection">
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/fragmentContainerView"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

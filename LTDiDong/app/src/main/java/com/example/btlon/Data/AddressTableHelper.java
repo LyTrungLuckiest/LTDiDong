@@ -78,8 +78,14 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
         ArrayList<Address> addresses = new ArrayList<>();
         Cursor cursor = null;
 
-        try {
+        if (sqliteHelper == null) {
+            Log.e("AddressTableHelper", "sqliteHelper is null");
+        }
+        if (db == null) {
+            Log.e("AddressTableHelper", "Database (db) is null");
+        }
 
+        try {
             String selection = COL_USER_ID + "=?";
             String[] selectionArgs = {String.valueOf(userId)};
             cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
@@ -103,5 +109,4 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
         Log.d("AddressTableHelper", "Loaded " + addresses.size() + " addresses for userId " + userId);
         return addresses;
     }
-
 }

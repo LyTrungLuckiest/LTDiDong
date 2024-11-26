@@ -64,7 +64,9 @@
             android:exported="false" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
-            android:exported="false" />
+            android:exported="true" >
+
+        </activity>
         <activity android:name=".Utils.SearchResultsActivity"
             android:exported="false" />
 
