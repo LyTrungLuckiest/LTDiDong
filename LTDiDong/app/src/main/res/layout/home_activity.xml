@@ -11,6 +11,7 @@
         android:id="@+id/topSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/background"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/midSection"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +68,7 @@
                 tools:ignore="UselessParent">
 
                 <ImageButton
-                    android:id="@+id/button_dropdown"
+                    android:id="@+id/menu"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_margin="4dp"
@@ -77,6 +78,8 @@
                     android:src="@drawable/menu" />
 
                 <SearchView
+                    android:id="@+id/searchview"
+                    android:queryHint="Tìm kiếm sản phẩm ...."
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"

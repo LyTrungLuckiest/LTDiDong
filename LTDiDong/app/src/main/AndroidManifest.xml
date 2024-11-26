@@ -60,7 +60,18 @@
 
 
         <activity
+            android:name=".Ui.Login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Ui.Admin.AdminActivity"
+            android:exported="false" />
+        <activity android:name=".Utils.SearchResultsActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".Ui.Home.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,17 +79,6 @@
             </intent-filter>
         </activity>
 
-
-
-        <activity
-            android:name=".Ui.Admin.AdminActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".Ui.Login.LoginActivity"
-            android:exported="false">
-
-        </activity>
 
 
     </application>

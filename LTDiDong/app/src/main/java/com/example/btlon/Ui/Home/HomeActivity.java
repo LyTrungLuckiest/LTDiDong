@@ -8,20 +8,22 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuInflater;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 
-
-import com.example.btlon.R;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.PopupMenu;
-import android.widget.Toast;
+
+import com.example.btlon.R;
+import com.example.btlon.Utils.SearchResultsActivity;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -36,14 +38,37 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        // Khởi tạo SearchView
+        SearchView searchView = findViewById(R.id.searchview);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Chuyển sang SearchResultsActivity với từ khóa tìm kiếm
+                Intent intent = new Intent(HomeActivity.this, SearchResultsActivity.class);
+                intent.putExtra("search_query", query);
+                startActivity(intent);
+                searchView.setQuery("", false);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Không cần xử lý tại đây vì hiển thị trên trang mới
+                return false;
+            }
+        });
+
+        // Facebook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this.getApplication());
 
         Log.d("HomeActivity", "Hoạt động Home đã được bắt đầu!");
 
         ImageButton btnMicrophone = findViewById(R.id.btnGiongnoi);
-        dropdownButton = findViewById(R.id.button_dropdown);
+        dropdownButton = findViewById(R.id.menu);
 
+        // Nhận diện giọng nói
         btnMicrophone.setOnClickListener(v -> startVoiceRecognition());
 
         ImageButton btnGiohang = findViewById(R.id.btnGiohang);
@@ -52,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.cartFragment);
         });
 
-        //Trung lam
+        // Điều hướng BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
@@ -63,9 +88,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private static void HideBottomNavigation(BottomNavigationView bottomNavigationView, NavController navController) {
-        // Lắng nghe thay đổi destination để ẩn/hiện BottomNavigationView
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            // Danh sách các Fragment cần ẩn BottomNavigationView
             int[] fragmentsToHideBottomNav = {
                     R.id.userInfoFragment,
                     R.id.userAddressFragment,
@@ -75,7 +98,6 @@ public class HomeActivity extends AppCompatActivity {
                     R.id.userPointFragment
             };
 
-            // Ẩn BottomNavigationView nếu destination nằm trong danh sách
             boolean shouldHide = false;
             for (int id : fragmentsToHideBottomNav) {
                 if (destination.getId() == id) {
@@ -113,7 +135,6 @@ public class HomeActivity extends AppCompatActivity {
             });
 
             popupMenu.setOnDismissListener(menu -> dropdownButton.setImageResource(R.drawable.menu));
-
             dropdownButton.setImageResource(R.drawable.baseline_cancel_24);
             popupMenu.show();
         });

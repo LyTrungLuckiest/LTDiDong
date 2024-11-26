@@ -1,14 +1,27 @@
 package com.example.btlon.Data;
 
 public class Products {
+    private int id;
     private String image;
     private String name;
     private String price;
-    public Products(String name, String price, String image) {
+    private String description;
+    public Products( int id, String name, String description, String price, String image) {
         this.image = image;
         this.name = name;
         this.price = price;
+        this.description=description;
+        this.id=id;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getImageUrl() {
         return image;
     }
@@ -26,5 +39,17 @@ public class Products {
     }
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
