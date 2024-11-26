@@ -142,7 +142,7 @@ public class UserAddressFragment extends Fragment {
         } else {
             Address newAddress = new Address(addressList.size() + 1, userId, address, isDefault);
             addressList.add(newAddress);
-            addressTableHelper.addAddressForUser(userId,address);
+            addressTableHelper.addNewAddressForUser(userId,address);
 
             if (isDefault) {
                 clearDefaultForOthers(newAddress);
@@ -205,4 +205,5 @@ public class UserAddressFragment extends Fragment {
             Log.e("UserAddressFragment", "Lỗi khi thiết lập nút quay lại: " + e.getMessage());
         }
     }
+
 }

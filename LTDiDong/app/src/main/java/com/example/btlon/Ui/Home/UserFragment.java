@@ -1,6 +1,7 @@
 package com.example.btlon.Ui.Home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,15 +43,18 @@ public class UserFragment extends Fragment {
         Button btnLogout = rootView.findViewById(R.id.btnLogout);
         Button btnDangnhap = rootView.findViewById(R.id.btnDangnhap);
         LinearLayout userInfoLayout = rootView.findViewById(R.id.infouser); // Lấy LinearLayout chứa thông tin người dùng
+        LinearLayout userPointLayout = rootView.findViewById(R.id.userPointLayout);
 
         // Kiểm tra trạng thái đăng nhập và ẩn/hiện các phần tử
         if (preferenceManager.isLoggedIn()) {
             btnDangnhap.setVisibility(View.GONE);  // Ẩn nút Đăng nhập nếu đã đăng nhập
-            userInfoLayout.setVisibility(View.VISIBLE);  // Hiển thị thông tin người dùng nếu đã đăng nhập
+            userInfoLayout.setVisibility(View.VISIBLE);
+            userPointLayout.setVisibility(View.VISIBLE);// Hiển thị thông tin người dùng nếu đã đăng nhập
             btnLogout.setVisibility(View.VISIBLE);  // Hiển thị nút Đăng xuất nếu đã đăng nhập
         } else {
             btnDangnhap.setVisibility(View.VISIBLE);    // Hiển thị nút Đăng nhập nếu chưa đăng nhập
-            userInfoLayout.setVisibility(View.GONE);    // Ẩn thông tin người dùng nếu chưa đăng nhập
+            userInfoLayout.setVisibility(View.GONE);
+            userPointLayout.setVisibility(View.GONE);
             btnLogout.setVisibility(View.GONE);    // Ẩn nút Đăng xuất nếu chưa đăng nhập
         }
         btnDangnhap.setOnClickListener(v -> {
@@ -68,6 +72,21 @@ public class UserFragment extends Fragment {
             }
         });
 
+        // Tìm Button trong giao diện Fragment
+        Button btnCall = rootView.findViewById(R.id.btnCall);
+
+        // Gắn sự kiện bấm cho Button
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phoneNumber = "0363546978"; // Số điện thoại
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                startActivity(intent);
+            }
+        });
+
+
         return rootView;
     }
 
@@ -77,6 +96,8 @@ public class UserFragment extends Fragment {
 
         FragmentTransition(view);
     }
+
+
 
     private static void FragmentTransition(@NonNull View view) {
         NavController navController = Navigation.findNavController(view);

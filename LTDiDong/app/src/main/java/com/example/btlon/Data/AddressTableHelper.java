@@ -48,13 +48,14 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
     }
 
 
-    public boolean addAddressForUser(int userId, String newAddress) {
+    // Thêm địa chỉ cho người dùng cụ thể
+    public boolean addNewAddressForUser(int userId, String newAddress) {
         ContentValues values = new ContentValues();
-        values.put(COL_USER_ID, userId);
+        values.put(COL_USER_ID, userId);  // Gắn user_id đúng
         values.put(COL_ADDRESS, newAddress);
-        values.put(COL_IS_DEFAULT, 0);
+        values.put(COL_IS_DEFAULT, 0);  // Chưa đặt mặc định, hoặc tùy vào yêu cầu
 
-
+        // Thêm địa chỉ vào cơ sở dữ liệu
         Log.d("AddressTableHelper", "Thêm địa chỉ mới cho userId " + userId + ": " + newAddress);
 
         return insert(values);
@@ -74,18 +75,13 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
     }
 
 
+    // Lấy tất cả địa chỉ của người dùng hiện tại
     public ArrayList<Address> getAllAddressesForUser(int userId) {
         ArrayList<Address> addresses = new ArrayList<>();
         Cursor cursor = null;
 
-        if (sqliteHelper == null) {
-            Log.e("AddressTableHelper", "sqliteHelper is null");
-        }
-        if (db == null) {
-            Log.e("AddressTableHelper", "Database (db) is null");
-        }
-
         try {
+            // Truy vấn chỉ lấy địa chỉ của người dùng hiện tại (dựa trên user_id)
             String selection = COL_USER_ID + "=?";
             String[] selectionArgs = {String.valueOf(userId)};
             cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
@@ -109,4 +105,5 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
         Log.d("AddressTableHelper", "Loaded " + addresses.size() + " addresses for userId " + userId);
         return addresses;
     }
+
 }

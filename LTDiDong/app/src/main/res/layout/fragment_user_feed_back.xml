@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/square_shape_stroke_black"
             android:padding="10dp"
-            android:text="Thông tin tài khoản"
+            android:text="Thông tin góp ý"
             android:textAlignment="center"
             android:textSize="25dp"
             />
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Góp  / Liên hệ"
+                android:text="Góp ý / Liên hệ"
                 android:background="@color/white"/>
             <EditText
                 android:layout_width="match_parent"
