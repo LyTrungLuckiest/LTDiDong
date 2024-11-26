@@ -24,6 +24,17 @@
             android:text="@string/dang_nhap"
             android:textColor="@color/black"
             app:backgroundTint="@color/design_default_color_background" />
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/dang_xuat"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/design_default_color_background" />
+
 
         <LinearLayout
             android:id="@+id/infouser"
@@ -178,20 +189,6 @@
                 app:backgroundTint="@null" />
 
         </LinearLayout>
-
-
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/custom_button"
-            android:backgroundTint="@null"
-            android:text="Đăng xuất"
-            android:textAlignment="center"
-            android:textColor="@color/text_color"
-            android:textSize="17dp"
-            app:backgroundTint="@color/design_default_color_background" />
 
 
     </LinearLayout>
