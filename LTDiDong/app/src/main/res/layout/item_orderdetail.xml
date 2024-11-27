@@ -1,71 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:layout_marginTop="15dp"
-    android:background="@drawable/item_bkg"
-  >
-    <TextView
-        android:id="@+id/tvOrderId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mã hóa đơn: "
-        android:textSize="15dp"/>
-    <TextView
-        android:id="@+id/tvOrderDate"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ngày nhận hóa đơn: "
-        android:textSize="15dp"/>
+    >
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        >
 
         <TextView
+            android:id="@+id/tvProductName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Tên sản phẩm"
+            android:scrollHorizontally="true"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:scrollbars="horizontal"
+            android:text="Sản phẩm A"
             android:textSize="18sp"
             android:textAlignment="center"
             android:padding="5dp"
             android:background="@drawable/grid_black"/>
         <TextView
+            android:id="@+id/tvQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Số lượng"
+            android:text="1"
             android:textSize="18sp"
             android:textAlignment="center"
             android:padding="5dp"
             android:background="@drawable/grid_black"/>
         <TextView
+            android:id="@+id/tvPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Đơn giá"
+            android:text="20000"
             android:textSize="18sp"
             android:textAlignment="center"
+            android:scrollHorizontally="true"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:scrollbars="horizontal"
             android:padding="5dp"
             android:background="@drawable/grid_black"/>
 
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewOrderDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_gravity="center"
-        android:id="@+id/tvTotalAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Tổng tiền: "
-        android:paddingBottom="15dp"/>
+
+
+</LinearLayout>
 
 </LinearLayout>
