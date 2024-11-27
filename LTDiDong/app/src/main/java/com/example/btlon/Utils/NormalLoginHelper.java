@@ -36,10 +36,6 @@ public class NormalLoginHelper {
                         Toast.makeText(context, "Không thể tìm thấy thông tin tài khoản", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("userId", userId);  // Lưu userId của tài khoản đang đăng nhập
-                    editor.apply();
 
 
 
