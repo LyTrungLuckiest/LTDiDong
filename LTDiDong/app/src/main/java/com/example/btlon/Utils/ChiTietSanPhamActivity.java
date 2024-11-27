@@ -1,7 +1,6 @@
-package com.example.btlon;
+package com.example.btlon.Utils;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.btlon.Data.Products;
-
-import org.checkerframework.common.value.qual.DoubleVal;
+import com.example.btlon.R;
 
 import java.text.DecimalFormat;
 

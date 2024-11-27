@@ -11,13 +11,12 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.ChiTietSanPhamActivity;
+import com.example.btlon.Utils.ChiTietSanPhamActivity;
 import com.example.btlon.Data.Products;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;

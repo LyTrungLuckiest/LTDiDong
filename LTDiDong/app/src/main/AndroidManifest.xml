@@ -61,6 +61,9 @@
                     android:scheme="fb444729861689716" />
             </intent-filter>
         </activity>
+        <activity android:name=".Utils.ChiTietSanPhamActivity"
+            android:exported="false"
+            />
 
 
         <activity
