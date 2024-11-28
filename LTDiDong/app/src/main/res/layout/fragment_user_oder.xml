@@ -27,8 +27,7 @@
         android:padding="10dp"
         android:text="Thông tin hóa đơn"
         android:textAlignment="center"
-        android:textSize="25dp"
-        />
+        android:textSize="25dp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrder"
         android:layout_width="match_parent"

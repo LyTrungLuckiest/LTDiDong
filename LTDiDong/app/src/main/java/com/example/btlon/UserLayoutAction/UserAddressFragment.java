@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -189,7 +190,19 @@ public class UserAddressFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // Đảm bảo chỉ thay đổi khi Fragment Địa Chỉ hiển thị
+        if (getActivity() != null) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        }
         loadAllAddresses();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Khôi phục trạng thái ban đầu khi rời khỏi Fragment Địa Chỉ
+        if (getActivity() != null) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        }
     }
 
     @Override

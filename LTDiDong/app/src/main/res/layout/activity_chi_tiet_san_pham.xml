@@ -47,8 +47,7 @@
                 android:text="Tên Sản Phẩm "
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:gravity="center"
-                />
+                android:gravity="center" />
 
             <!-- TextView 2 -->
             <TextView
@@ -126,8 +125,8 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    />
+                    android:textSize="18sp" />
+
             </ScrollView>
 
 

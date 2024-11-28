@@ -37,7 +37,11 @@ public class NormalLoginHelper {
                         return;
                     }
 
-
+                    // Lưu userId vào SharedPreferences
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("userId", userId);  // Lưu userId của tài khoản đang đăng nhập
+                    editor.apply();
 
                     PreferenceManager preferenceManager = new PreferenceManager(context);
                     preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null
