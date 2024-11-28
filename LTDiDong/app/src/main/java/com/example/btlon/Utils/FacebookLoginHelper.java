@@ -62,7 +62,8 @@ public class FacebookLoginHelper {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
                         PreferenceManager preferenceManager = new PreferenceManager(activity);
-                        preferenceManager.saveLoginState(true, "facebook", user.getUid(), null);
+                        String role = preferenceManager.getUserRole();
+                        preferenceManager.saveLoginState(true, "facebook", user.getUid(), null, role);
 
                         listener.onLoginSuccess(user);
                     } else {

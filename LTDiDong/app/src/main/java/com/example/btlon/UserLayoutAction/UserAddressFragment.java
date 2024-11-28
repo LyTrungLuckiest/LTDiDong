@@ -57,13 +57,21 @@ public class UserAddressFragment extends Fragment {
         }
 
         // Khởi tạo các view
+        LinearLayout linearLayout = view.findViewById(R.id.form);
         recyclerView = view.findViewById(R.id.recycleviewAddress);
         addAddressButton = view.findViewById(R.id.btUserAddAddress);
-        addressInputLayout = view.findViewById(R.id.addressInputLayout);
         addressEditText = view.findViewById(R.id.edtAddressInfo);
         saveButton = view.findViewById(R.id.btSaveAddress);
         checkboxDefault = view.findViewById(R.id.checkboxDefaultAddress);
         btCancelAdd = view.findViewById(R.id.btCancelAddAddress);
+
+        linearLayout.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        addAddressButton.setOnClickListener(v -> {
+            resetForm();
+            recyclerView.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
+        });
 
         // Khởi tạo AddressTableHelper
         addressTableHelper = new AddressTableHelper(getContext());
@@ -73,17 +81,12 @@ public class UserAddressFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        // Ẩn layout nhập địa chỉ ban đầu
-        addressInputLayout.setVisibility(View.GONE);
-
-        // Xử lý nút "Thêm địa chỉ mới"
-        addAddressButton.setOnClickListener(v -> {
-            resetForm();
-            addressInputLayout.setVisibility(View.VISIBLE);
-        });
-
         // Xử lý nút "Lưu"
-        saveButton.setOnClickListener(v -> handleSave());
+        saveButton.setOnClickListener(v -> {
+            handleSave();
+            recyclerView.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.GONE);
+        });
 
         // Set Delete Address Callback
         adapter.setOnDeleteAddressCallback((address, position) -> {
@@ -97,7 +100,8 @@ public class UserAddressFragment extends Fragment {
         adapter.setOnEditAddressCallback(address -> {
             isEditMode = true;
             editingAddress = address;
-            addressInputLayout.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
 
             // Đổ dữ liệu địa chỉ vào form
             addressEditText.setText(address.getAddress());
@@ -106,7 +110,8 @@ public class UserAddressFragment extends Fragment {
 
         btCancelAdd.setOnClickListener(v -> {
             resetForm();
-            addressInputLayout.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         });
 
         return view;
@@ -143,7 +148,7 @@ public class UserAddressFragment extends Fragment {
         } else {
             Address newAddress = new Address(addressList.size() + 1, userId, address, isDefault);
             addressList.add(newAddress);
-            addressTableHelper.addNewAddressForUser(userId,address);
+            addressTableHelper.addNewAddressForUser(userId, address);
 
             if (isDefault) {
                 clearDefaultForOthers(newAddress);
@@ -154,11 +159,9 @@ public class UserAddressFragment extends Fragment {
         resetForm();
     }
 
-
     private void resetForm() {
         addressEditText.setText("");
         checkboxDefault.setChecked(false);
-        addressInputLayout.setVisibility(View.GONE);
         isEditMode = false;
         editingAddress = null;
     }
@@ -218,5 +221,4 @@ public class UserAddressFragment extends Fragment {
             Log.e("UserAddressFragment", "Lỗi khi thiết lập nút quay lại: " + e.getMessage());
         }
     }
-
 }

@@ -13,11 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import com.example.btlon.Data.UserTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Data.Users;
 import com.example.btlon.Adapter.UserAdapter;
+import com.example.btlon.Utils.PasswordToggleHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,9 @@ public class AdminUserSettingFragment extends Fragment {
     private UserAdapter userAdapter;
     private List<Users> usersList;
     private UserTableHelper userTableHelper;
+    private Button btnThem;
+    private EditText edtPassword;
+    private ToggleButton toggle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,18 +41,25 @@ public class AdminUserSettingFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerViewUsers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        btnThem = view.findViewById(R.id.btnThem);
+
+
 
         userTableHelper = new UserTableHelper(getContext());
         usersList = userTableHelper.getAllUsers();
 
         userAdapter = new UserAdapter(getContext(), (ArrayList<Users>) usersList);
         recyclerView.setAdapter(userAdapter);
+        btnThem.setOnClickListener(v -> {
+
+        });
 
         Button btBackToSettings = view.findViewById(R.id.btBackToSettings);
         btBackToSettings.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(v);
             navController.popBackStack();
         });
+        btnThem.setOnClickListener(v -> showAddUserDialog());
 
         userAdapter.setOnUserActionListener((users, position) -> showActionDialog(users, position));
 
@@ -66,15 +80,79 @@ public class AdminUserSettingFragment extends Fragment {
 
         builder.create().show();
     }
+    private void showAddUserDialog() {
+        // Tạo View cho dialog từ layout
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.user_edit_dialog, null);
+
+        EditText edtUsername = dialogView.findViewById(R.id.edtUsername);
+        EditText edtPassword = dialogView.findViewById(R.id.edtPassword);
+        RadioButton rdAdmin = dialogView.findViewById(R.id.rdAdmin);
+        RadioButton rdUser = dialogView.findViewById(R.id.rdUser);
+        rdUser.setChecked(true);
+        toggle = dialogView.findViewById(R.id.btnXem);
+        new PasswordToggleHelper(edtPassword, toggle);
+
+
+        // Xây dựng dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Thêm người dùng mới")
+                .setView(dialogView)
+                .setPositiveButton("Thêm", (dialog, which) -> {
+                    // Lấy thông tin từ các trường nhập liệu
+                    String newUsername = edtUsername.getText().toString().trim();
+                    String newPassword = edtPassword.getText().toString().trim();
+                    String newRole = rdAdmin.isChecked() ? "Admin" : "User";
+
+                    // Kiểm tra hợp lệ dữ liệu
+                    if (TextUtils.isEmpty(newUsername) || TextUtils.isEmpty(newPassword)) {
+                        Toast.makeText(getContext(), "Các trường không thể để trống!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (userTableHelper.checkUsernameExists(newUsername)) {
+                            Toast.makeText(getContext(), "Tên người dùng đã tồn tại!", Toast.LENGTH_SHORT).show();
+                            return;
+
+                        } else {
+                            // Tạo đối tượng Users mới
+                            Users newUser = new Users(newUsername, newPassword, newRole);
+
+                            // Thêm vào cơ sở dữ liệu
+                            boolean isAdded = userTableHelper.addUser(newUsername, newPassword);
+
+
+                            if (isAdded) {
+                                // Cập nhật danh sách và thông báo adapter
+                                usersList.add(newUser);
+                                userAdapter.notifyItemInserted(usersList.size() - 1);
+                                Toast.makeText(getContext(), "Thêm người dùng thành công!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Thêm người dùng thất bại! Tên người dùng đã tồn tại.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                })
+                .setNegativeButton("Hủy", null);
+
+        builder.create().show();
+    }
+
 
     private void showEditDialog(Users users, int position) {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.user_edit_dialog, null);
 
         EditText edtUsername = dialogView.findViewById(R.id.edtUsername);
         EditText edtPassword = dialogView.findViewById(R.id.edtPassword);
+        RadioButton rdAdmin = dialogView.findViewById(R.id.rdAdmin);
+        RadioButton rdUser = dialogView.findViewById(R.id.rdUser);
+        toggle = dialogView.findViewById(R.id.btnXem);
+        new PasswordToggleHelper(edtPassword, toggle);
+
+
 
         edtUsername.setText(users.getUsername());
         edtPassword.setText(users.getPassword());
+        rdAdmin.setChecked(users.getRole().equals("Admin"));
+        rdUser.setChecked(users.getRole().equals("User"));
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Chỉnh sửa người dùng")
@@ -82,12 +160,18 @@ public class AdminUserSettingFragment extends Fragment {
                 .setPositiveButton("Cập nhật", (dialog, which) -> {
                     String newUsername = edtUsername.getText().toString().trim();
                     String newPassword = edtPassword.getText().toString().trim();
+                    String newRole = rdAdmin.isChecked() ? "Admin" : "User";
+
+
 
                     if (TextUtils.isEmpty(newUsername) || TextUtils.isEmpty(newPassword)) {
                         Toast.makeText(getContext(), "Các trường không thể để trống!", Toast.LENGTH_SHORT).show();
                     } else {
                         users.setUsername(newUsername);
                         users.setPassword(newPassword);
+                        users.setRole(newRole);
+
+
                         boolean isUpdated = userTableHelper.updateUser(users.getUserId(), newUsername, newPassword, users.getRole());
 
                         if (isUpdated) {

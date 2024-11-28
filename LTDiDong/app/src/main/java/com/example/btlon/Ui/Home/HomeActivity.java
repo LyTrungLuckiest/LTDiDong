@@ -19,7 +19,11 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 
+import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Data.Users;
 import com.example.btlon.R;
+import com.example.btlon.Ui.Admin.AdminActivity;
+import com.example.btlon.Utils.PreferenceManager;
 import com.example.btlon.Utils.SearchResultsActivity;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -27,6 +31,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -37,6 +42,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        UserTableHelper userTableHelper = new UserTableHelper(this);
+        PreferenceManager preferenceManager = new PreferenceManager(this);
+
+        if (preferenceManager.isLoggedIn() && Objects.equals(userTableHelper.checkRole(Integer.parseInt(preferenceManager.getUserId())), "Admin")) {
+            // Chuyển hướng đến AdminActivity nếu người dùng đã đăng nhập và là admin
+            Intent intent = new Intent(HomeActivity.this, AdminActivity.class);
+            startActivity(intent);
+        }
+
 
         // Khởi tạo SearchView
         SearchView searchView = findViewById(R.id.searchview);

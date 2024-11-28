@@ -43,6 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.txtId.setText(String.valueOf(users.getUserId()));
         holder.txtName.setText(users.getUsername());
         holder.txtPassword.setText(users.getPassword());
+        holder.txtRole.setText(users.getRole());
 
         holder.btAction.setOnClickListener(v -> {
             if (onUserActionListener != null) {
@@ -57,7 +58,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView txtId, txtName, txtPassword;
+        TextView txtId, txtName, txtPassword, txtRole;
         Button btAction;
 
         public UserViewHolder(@NonNull View itemView) {
@@ -65,6 +66,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             txtId = itemView.findViewById(R.id.txtId);
             txtName = itemView.findViewById(R.id.txtName);
             txtPassword = itemView.findViewById(R.id.txtPassword);
+            txtRole = itemView.findViewById(R.id.txtRole);
             btAction = itemView.findViewById(R.id.btAction);
         }
     }

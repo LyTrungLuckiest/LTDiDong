@@ -1,28 +1,37 @@
 package com.example.btlon.Data;
 
 public class Users {
-    private int user_id;
+
     private String username;
     private String password;
     private String role;
     private String email;
     private String phone;
+    private int UserId;
 
 
 
-    public Users(int userId, String username, String password, String role) {
-        this.user_id = userId;
+    public Users( String username, String password, String role) {
+
         this.username = username;
         this.password = password;
         this.role = role;
     }
+    public Users(int Userid, String username, String password, String role) {
+
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.UserId = Userid;
+    }
+
 
     public int getUserId() {
-        return user_id;
+        return UserId;
     }
 
     public void setUserId(int userId) {
-        this.user_id = userId;
+        UserId = userId;
     }
 
     public String getUsername() {
@@ -41,20 +50,14 @@ public class Users {
         this.password = password;
     }
 
-    public String getRole() {
+    public  String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
     }
-    public int getUser_id() {
-        return user_id;
-    }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
 
     public String getEmail() {
         return email;

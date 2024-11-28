@@ -17,6 +17,7 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
     private static final String COL_DESCRIPTION = "description";
     private static final String COL_PRICE = "price";
     private static final String COL_IMAGE = "image_url";
+    private static final String COL_QUANTITY = "quantity";
 
     private SQLiteDatabase database;
     private final Context context;
@@ -134,5 +135,37 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
         if (database != null && database.isOpen()) {
             database.close();
         }
+    }
+
+    public boolean addProduct(String productName, double price, int quantity) {
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME, productName);
+        values.put(COL_PRICE, price);
+        values.put(COL_QUANTITY, quantity);
+        return insert(values);
+    }
+
+    public boolean updateProduct(int id, String productName, double price, int quantity) {
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME, productName);
+        values.put(COL_PRICE, price);
+        values.put(COL_QUANTITY, quantity);
+        return update(values, COL_ID + "=?", new String[]{String.valueOf(id)});
+    }
+
+    public boolean addProduct(Products newProduct) {
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME, newProduct.getName());
+        values.put(COL_PRICE, newProduct.getPrice());
+        values.put(COL_QUANTITY, newProduct.getQuality());
+        return insert(values);
+    }
+
+    public boolean updateProduct(Products product) {
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME, product.getName());
+        values.put(COL_PRICE, product.getPrice());
+        values.put(COL_QUANTITY, product.getQuality());
+        return update(values, COL_ID + "=?", new String[]{String.valueOf(product.getId())});
     }
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Data.Users;
 import com.example.btlon.Ui.Admin.AdminActivity;
 import com.example.btlon.Ui.Home.HomeActivity;
 
@@ -20,6 +21,7 @@ public class NormalLoginHelper {
         this.context = context;
         this.userTableHelper = new UserTableHelper(context);
     }
+
 
     public void normalLogin(String user, String password) {
         if (user.isEmpty() || password.isEmpty()) {
@@ -44,7 +46,8 @@ public class NormalLoginHelper {
                     editor.apply();
 
                     PreferenceManager preferenceManager = new PreferenceManager(context);
-                    preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null
+                    String role = preferenceManager.getUserRole();
+                    preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, role
                     );
                     Log.d("Login", "User login state saved: " + preferenceManager.isLoggedIn());
 
@@ -66,4 +69,5 @@ public class NormalLoginHelper {
             }
         }
     }
+
 }

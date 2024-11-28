@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Ui.Admin.AdminUserSettingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
+            android:background="@color/bkg_color"
             android:orientation="horizontal"
             android:padding="8dp"
             android:weightSum="4">
@@ -24,34 +26,44 @@
                 android:layout_weight="0.5"
                 android:gravity="center"
                 android:text="@string/id"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/username"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/password"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/role"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:gravity="center"
                 android:text="@string/chuc_nang"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
 
@@ -61,15 +73,38 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewUsers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@android:color/white" />
 
-        <Button
-            android:id="@+id/btBackToSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/back_to_settings" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btBackToSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/custom_button"
+                android:text="Thoát"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/bkg_color" />
+
+            <Button
+                android:id="@+id/btnThem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/custom_button"
+                android:text="Thêm"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/bkg_color" />
+
+        </LinearLayout>
 
 
     </LinearLayout>

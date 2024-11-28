@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.navigation.NavController;
@@ -48,6 +49,16 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
                 case "Người dùng":
                     navController.navigate(R.id.action_settingsFragment_to_adminUserSettingFragment, bundle);
                     break;
+                case "Sản phẩm":
+                    navController.navigate(R.id.action_settingsFragment_to_adminProductSettingFragment, bundle);
+                    break;
+//                case "Hóa đơn":
+//                    navController.navigate(R.id.action_settingsFragment_to_adminOrderSettingFragment, bundle);
+//                    break;
+//                case "Danh mục sản phẩm":
+//                    navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
+//                    break;
+//
             }
         });
     }

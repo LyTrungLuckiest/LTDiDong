@@ -50,12 +50,12 @@
 
                     <SearchView
                         android:id="@+id/searchview1"
-                        android:queryHint="Tìm kiếm sản phẩm ...."
-                        android:layout_width="160dp"
+                        android:layout_width="304dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         android:background="@drawable/edittext_bkg"
-                        android:paddingTop="4dp" />
+                        android:paddingTop="4dp"
+                        android:queryHint="Tìm kiếm sản phẩm ...." />
 
 
                 </LinearLayout>

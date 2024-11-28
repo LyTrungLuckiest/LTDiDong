@@ -23,9 +23,7 @@ public class AuthLogoutHelper {
     public void logout(Activity activity) {
         if (googleSignInClient != null) {
 
-            googleSignInClient.signOut().addOnCompleteListener(activity, task -> {
-                Toast.makeText(activity, "Đã đăng xuất khỏi Google!", Toast.LENGTH_SHORT).show();
-            });
+            googleSignInClient.signOut();
         }
 
         LoginManager.getInstance().logOut();

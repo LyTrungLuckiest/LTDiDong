@@ -62,19 +62,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".Utils.ChiTietSanPhamActivity"
-            android:exported="false"
-            />
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
 
 
         <activity
             android:name=".Ui.Login.LoginActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="true" >
 
         </activity>
         <activity android:name=".Utils.SearchResultsActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
 
         <activity
