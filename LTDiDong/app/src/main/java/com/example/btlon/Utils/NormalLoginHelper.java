@@ -47,7 +47,7 @@ public class NormalLoginHelper {
                     UserTableHelper UsersTableHelper = new UserTableHelper(context);
 
                     PreferenceManager preferenceManager = new PreferenceManager(context);
-                   if(UsersTableHelper.checkRole(Integer.parseInt(PreferenceManager.getUserId())).equals("Admin")){
+                   if(UsersTableHelper.checkRole(PreferenceManager.getUserId()).equals("Admin")){
                        preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, "Admin"
                        );
                    }else{

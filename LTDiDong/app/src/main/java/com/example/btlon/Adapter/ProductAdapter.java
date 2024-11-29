@@ -83,11 +83,6 @@ public class ProductAdapter extends BaseAdapter {
         String role = preferenceManager.getUserRole();
         Log.d("ProductAdapter", "User role: " + role); // Kiểm tra giá trị quyền
 
-        if ("User".equals(preferenceManager.getUserRole())) {
-            btnMuaHang.setVisibility(View.VISIBLE);
-        } else {
-            btnMuaHang.setVisibility(View.GONE);
-        }
 
         // Xử lý sự kiện nhấn nút Mua hàng
         btnMuaHang.setOnClickListener(v -> {

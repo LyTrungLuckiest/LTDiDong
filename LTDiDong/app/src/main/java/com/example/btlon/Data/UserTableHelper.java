@@ -156,7 +156,7 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         return sqliteHelper.getWritableDatabase().delete(getTableName(), whereClause, whereArgs) > 0;
     }
     // Thêm phương thức lấy role của người dùng từ userId
-    public String checkRole(int userId) {
+    public String checkRole(String userId) {
         String role = null;
         SQLiteDatabase db = sqliteHelper.getReadableDatabase();
         Cursor cursor = null;
@@ -164,7 +164,7 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         try {
             // Truy vấn lấy role từ bảng Users theo userId
             String query = "SELECT " + COL_ROLE + " FROM " + TABLE_NAME + " WHERE " + COL_ID + " = ?";
-            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+            cursor = db.rawQuery(query, new String[]{userId});
 
             if (cursor != null && cursor.moveToFirst()) {
                 role = cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE));

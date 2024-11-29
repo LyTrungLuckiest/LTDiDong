@@ -45,11 +45,12 @@ public class HomeActivity extends AppCompatActivity {
         UserTableHelper userTableHelper = new UserTableHelper(this);
         PreferenceManager preferenceManager = new PreferenceManager(this);
 
-        if (preferenceManager.isLoggedIn() && Objects.equals(userTableHelper.checkRole(Integer.parseInt(preferenceManager.getUserId())), "Admin")) {
+        if (preferenceManager.isLoggedIn() && Objects.equals(userTableHelper.checkRole(preferenceManager.getUserId()), "Admin")) {
             // Chuyển hướng đến AdminActivity nếu người dùng đã đăng nhập và là admin
             Intent intent = new Intent(HomeActivity.this, AdminActivity.class);
             startActivity(intent);
         }
+
 
 
         // Khởi tạo SearchView
