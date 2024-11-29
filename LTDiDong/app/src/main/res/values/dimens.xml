@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_medium_size">10sp</dimen>
+
+    <dimen name="item_spacing">8dp</dimen>
 </resources>

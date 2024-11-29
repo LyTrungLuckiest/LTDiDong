@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/item_bkg"
@@ -9,21 +10,31 @@
         android:id="@+id/recyclerViewProducts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-         />
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/btnAddProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:text="Thêm sản phẩm mới" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_button"
+        android:text="Thêm sản phẩm mới"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/bkg_color" />
 
     <Button
         android:id="@+id/btBackToSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text="Quay lại" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_button"
+        android:text="Thoát"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/bkg_color" />
 </LinearLayout>

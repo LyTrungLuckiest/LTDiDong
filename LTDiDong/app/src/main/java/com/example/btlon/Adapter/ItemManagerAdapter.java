@@ -55,9 +55,9 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
 //                case "Hóa đơn":
 //                    navController.navigate(R.id.action_settingsFragment_to_adminOrderSettingFragment, bundle);
 //                    break;
-//                case "Danh mục sản phẩm":
-//                    navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
-//                    break;
+                case "Danh mục sản phẩm":
+                    navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
+                    break;
 //
             }
         });

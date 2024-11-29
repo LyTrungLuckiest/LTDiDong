@@ -67,7 +67,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             txtName = itemView.findViewById(R.id.txtName);
             txtPassword = itemView.findViewById(R.id.txtPassword);
             txtRole = itemView.findViewById(R.id.txtRole);
-            btAction = itemView.findViewById(R.id.btAction);
+            btAction = itemView.findViewById(R.id.btn);
         }
     }
 

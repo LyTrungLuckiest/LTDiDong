@@ -8,13 +8,14 @@ public class Product implements Serializable {
     private String name;
     private String price;
     private String description;
-    private String quality;
-    public Product(String name, String description, String price, String image, String quality) {
+    private int quantity;
+
+    public Product(String name, String description, String price, String image, int quantity) {
         this.image = image;
         this.name = name;
         this.price = price;
         this.description=description;
-        this.quality=quality;
+        this.quantity = quantity;
     }
 
     public Product(int id, String name, String description, String price, String image) {
@@ -35,14 +36,14 @@ public class Product implements Serializable {
     public Product(String productName, double price, int quantity) {
         this.name = productName;
         this.price = String.valueOf(price);
-        this.quality = String.valueOf(quantity);
+        this.quantity = quantity;
 
     }
 
     public Product(String productName, double price, int quantity, String imageUrl) {
         this.name = productName;
         this.price = String.valueOf(price);
-        this.quality = String.valueOf(quantity);
+        this.quantity =quantity;
         this.image = imageUrl;
     }
     public Product( String name, String price, String description) {
@@ -51,19 +52,29 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public Product(String name, String priceStr, String description, String stockStr) {
+    public Product(String name, String priceStr, String description, int quantity) {
         this.name = name;
         this.price = priceStr;
         this.description = description;
-        this.quality = stockStr;
+        this.quantity = quantity;
     }
 
-    public String getQuality() {
-        return quality;
+    public Product(int id, String name, String description, String price, String image, int stock) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.quantity = stock;
     }
 
-    public void setQuality(String quality) {
-        this.quality = quality;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getId() {

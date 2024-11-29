@@ -19,6 +19,7 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
     private static final String COL_IMAGE = "image_url";
     private static final String COL_QUANTITY = "stock_quantity";
 
+
     private SQLiteDatabase database;
     private final Context context;
 
@@ -48,30 +49,16 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         String price = cursor.getString(cursor.getColumnIndexOrThrow(COL_PRICE));
         String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
         String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
-        return new Product(id, name,description, price, image);
+        int stock = cursor.getInt(cursor.getColumnIndexOrThrow(COL_QUANTITY));
+        return new Product(id, name, description, price, image, stock);
     }
 
-    public boolean addProduct(String name,String description, String price, String image) {
-        ContentValues values = new ContentValues();
-        values.put(COL_NAME, name);
-        values.put(COL_DESCRIPTION, description);
-        values.put(COL_PRICE, price);
-        values.put(COL_IMAGE, image);
-        return insert(values);
-    }
+
 
     public List<Product> getAllProducts() {
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE}, null, null, null);
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY}, null, null, null);
     }
 
-    public boolean updateProduct(int productId, String name,String description, String price, String image) {
-        ContentValues values = new ContentValues();
-        values.put(COL_NAME, name);
-        values.put(COL_DESCRIPTION,description);
-        values.put(COL_PRICE, price);
-        values.put(COL_IMAGE, image);
-        return update(values, COL_ID + "=?", new String[]{String.valueOf(productId)});
-    }
 
     public boolean deleteProduct(int productId) {
         return delete(COL_ID + "=?", new String[]{String.valueOf(productId)});
@@ -80,21 +67,30 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
     public List<Product> getNewProducts() {
         String orderBy = "created_at DESC";
         String limit = "10";
-        return getAll(new String[]{COL_ID, COL_NAME,COL_DESCRIPTION, COL_PRICE, COL_IMAGE, "created_at"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "created_at"},
                 null, null, orderBy + " LIMIT " + limit);
     }
+
+    public List<Product> getTopRatedProducts() {
+        String orderBy = "rating DESC";
+        String limit = "10";
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "rating"},
+                null, null, orderBy + " LIMIT " + limit);
+
+    }
+
 
     public List<Product> getBestSellingProducts() {
         String orderBy = "sold_quantity DESC";
         String limit = "10";
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, "sold_quantity"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "sold_quantity"},
                 null, null, orderBy + " LIMIT " + limit);
     }
 
     public List<Product> getProductsByCategory(int categoryId) {
         String selection = "category_id = ?";
         String[] selectionArgs = new String[]{String.valueOf(categoryId)};
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, "category_id"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "category_id"},
                 selection, selectionArgs, null);
     }
 
@@ -115,8 +111,9 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
                     String price = cursor.getString(cursor.getColumnIndexOrThrow(COL_PRICE));
                     String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
                     String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
+                    int stock = cursor.getInt(cursor.getColumnIndexOrThrow(COL_QUANTITY));
 
-                    products.add(new Product(id, name,description, price, image));
+                    products.add(new Product(id, name, description, price, image, stock));
                 } while (cursor.moveToNext());
             }
         } catch (SQLException e) {
@@ -137,35 +134,26 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         }
     }
 
-    public boolean addProduct(String productName, double price, int quantity) {
-        ContentValues values = new ContentValues();
-        values.put(COL_NAME, productName);
-        values.put(COL_PRICE, price);
-        values.put(COL_QUANTITY, quantity);
-        return insert(values);
-    }
-
-    public boolean updateProduct(int id, String productName, double price, int quantity) {
-        ContentValues values = new ContentValues();
-        values.put(COL_NAME, productName);
-        values.put(COL_PRICE, price);
-        values.put(COL_QUANTITY, quantity);
-        return update(values, COL_ID + "=?", new String[]{String.valueOf(id)});
-    }
 
     public boolean addProduct(Product newProduct) {
         ContentValues values = new ContentValues();
         values.put(COL_NAME, newProduct.getName());
+        values.put(COL_DESCRIPTION, newProduct.getDescription()); // Thêm mô tả
         values.put(COL_PRICE, newProduct.getPrice());
-        values.put(COL_QUANTITY, newProduct.getQuality());
+        values.put(COL_IMAGE, newProduct.getImage()); // Thêm đường dẫn ảnh
+        values.put(COL_QUANTITY, newProduct.getQuantity()); // Số lượng trong kho
         return insert(values);
     }
+
 
     public boolean updateProduct(Product product) {
         ContentValues values = new ContentValues();
         values.put(COL_NAME, product.getName());
+        values.put(COL_DESCRIPTION, product.getDescription()); // Thêm mô tả
         values.put(COL_PRICE, product.getPrice());
-        values.put(COL_QUANTITY, product.getQuality());
+        values.put(COL_IMAGE, product.getImage()); // Thêm đường dẫn ảnh
+        values.put(COL_QUANTITY, product.getQuantity()); // Số lượng trong kho
         return update(values, COL_ID + "=?", new String[]{String.valueOf(product.getId())});
     }
+
 }

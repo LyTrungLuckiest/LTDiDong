@@ -1,8 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/color_bak"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên tài khoản: " />
 
     <EditText
         android:id="@+id/edtUsername"
@@ -11,6 +18,12 @@
         android:autofillHints=""
         android:hint="@string/enter_username"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mật khẩu: " />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -55,9 +68,9 @@
 
         <RadioButton
             android:id="@+id/rdUser"
-            android:checked="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="User" />
     </RadioGroup>
 </LinearLayout>

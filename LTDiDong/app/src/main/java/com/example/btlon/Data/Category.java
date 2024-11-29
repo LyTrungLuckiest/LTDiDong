@@ -11,6 +11,9 @@ public class Category {
         this.category_id = category_id;
 
     }
+    public Category(String name) {
+        this.name = name;
+    }
 
     public int getCategory_id() {
         return category_id;

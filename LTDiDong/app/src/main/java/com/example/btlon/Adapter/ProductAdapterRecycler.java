@@ -20,7 +20,6 @@ import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.prefs.Preferences;
 
 public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterRecycler.ViewHolder> {
     private final Context context;
@@ -47,11 +46,13 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
         // Thiết lập dữ liệu cho item
         holder.txtProductName.setText(product.getName());
         holder.txtPrice.setText(product.getPrice() + " VNĐ/1kg");
+        holder.txtSoluong.setText(product.getQuantity() + " trái");
         Glide.with(context)
                 .load(product.getImageUrl())
                 .placeholder(R.drawable.traicay)
                 .error(R.drawable.error_image)
                 .into(holder.imgProduct);
+
 
         // Xử lý sự kiện nhấn vào sản phẩm
         holder.itemView.setOnClickListener(v -> {
@@ -97,7 +98,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtProductName, txtPrice;
+        TextView txtProductName, txtPrice, txtSoluong;
         ImageView imgProduct;
 
         public ViewHolder(@NonNull View itemView) {
@@ -105,6 +106,8 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
             txtProductName = itemView.findViewById(R.id.txtTenSp);
             txtPrice = itemView.findViewById(R.id.txtGiaSp);
             imgProduct = itemView.findViewById(R.id.img_product);
+
+            txtSoluong = itemView.findViewById(R.id.txtSoluong);
         }
     }
 }
