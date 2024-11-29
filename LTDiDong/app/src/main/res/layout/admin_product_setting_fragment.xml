@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/item_bkg"
+    android:backgroundTint="@color/background"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProducts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+         />
+
+    <Button
+        android:id="@+id/btnAddProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Thêm sản phẩm mới" />
+
+    <Button
+        android:id="@+id/btBackToSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Quay lại" />
+</LinearLayout>

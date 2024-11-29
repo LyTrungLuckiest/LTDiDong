@@ -14,7 +14,15 @@
         <action
             android:id="@+id/action_settingsFragment_to_adminUserSettingFragment"
             app:destination="@id/adminUserSettingFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_adminProductSettingFragment"
+            app:destination="@id/adminProductSettingFragment" />
+
     </fragment>
+    <fragment android:id="@+id/adminProductSettingFragment"
+        android:name="com.example.btlon.Ui.Admin.AdminProductSettingFragment"
+        android:label="fragment_admin_product_setting"
+        tools:layout="@layout/admin_product_setting_fragment" />
 
     <fragment
         android:id="@+id/adminInfoFragment"

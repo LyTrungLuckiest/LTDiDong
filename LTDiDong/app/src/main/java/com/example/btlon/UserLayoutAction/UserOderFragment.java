@@ -19,7 +19,7 @@ import android.widget.Button;
 import com.example.btlon.Adapter.OrderAdapter;
 import com.example.btlon.Data.Order;
 import com.example.btlon.Data.OrderDetail;
-import com.example.btlon.Data.Products;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 
 import java.util.ArrayList;
@@ -71,14 +71,14 @@ public class UserOderFragment extends Fragment {
 
         // Chi tiết cho Order 1
         List<OrderDetail> order1Details = new ArrayList<>();
-        order1Details.add(new OrderDetail(1,new Products(100,"San Pham A","10000"), 1));
-        order1Details.add(new OrderDetail(2,new Products(101,"San Pham B","20000"),2));
+        order1Details.add(new OrderDetail(1,new Product(100,"San Pham A","10000"), 1));
+        order1Details.add(new OrderDetail(2,new Product(101,"San Pham B","20000"),2));
         map.put(1, order1Details);
 
         // Chi tiết cho Order 2
         List<OrderDetail> order2Details = new ArrayList<>();
-        order2Details.add(new OrderDetail(1,new Products(102,"San Pham C","30000"), 3));
-        order2Details.add(new OrderDetail(2,new Products(103,"San Pham D","40000"),4));
+        order2Details.add(new OrderDetail(1,new Product(102,"San Pham C","30000"), 3));
+        order2Details.add(new OrderDetail(2,new Product(103,"San Pham D","40000"),4));
         map.put(2, order2Details);
 
         return map;

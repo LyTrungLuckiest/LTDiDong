@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.Data.Products;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 
 import java.text.DecimalFormat;
@@ -49,7 +49,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     private void initData() {
         // Lấy dữ liệu từ Intent
-        Products sanphammoi = (Products) getIntent().getSerializableExtra("chi tiết");
+        Product sanphammoi = (Product) getIntent().getSerializableExtra("chi tiết");
 
         if (sanphammoi != null) {
             tensp.setText(sanphammoi.getName());

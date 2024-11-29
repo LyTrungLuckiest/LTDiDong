@@ -2,14 +2,14 @@ package com.example.btlon.Data;
 
 import java.io.Serializable;
 
-public class Products implements Serializable {
+public class Product implements Serializable {
     private int id;
     private String image;
     private String name;
     private String price;
     private String description;
     private String quality;
-    public Products( String name, String description, String price, String image, String quality) {
+    public Product(String name, String description, String price, String image, String quality) {
         this.image = image;
         this.name = name;
         this.price = price;
@@ -17,14 +17,14 @@ public class Products implements Serializable {
         this.quality=quality;
     }
 
-    public Products( int id, String name, String description, String price, String image) {
+    public Product(int id, String name, String description, String price, String image) {
         this.image = image;
         this.name = name;
         this.price = price;
         this.description=description;
         this.id=id;
     }
-    public Products( int id, String name,  String price) {
+    public Product(int id, String name, String price) {
         this.image = image;
         this.name = name;
         this.price = price;
@@ -32,18 +32,30 @@ public class Products implements Serializable {
         this.id=id;
     }
 
-    public Products(String productName, double price, int quantity) {
+    public Product(String productName, double price, int quantity) {
         this.name = productName;
         this.price = String.valueOf(price);
         this.quality = String.valueOf(quantity);
 
     }
 
-    public Products(String productName, double price, int quantity, String imageUrl) {
+    public Product(String productName, double price, int quantity, String imageUrl) {
         this.name = productName;
         this.price = String.valueOf(price);
         this.quality = String.valueOf(quantity);
         this.image = imageUrl;
+    }
+    public Product( String name, String price, String description) {
+        this.description = description;
+        this.name = name;
+        this.price = price;
+    }
+
+    public Product(String name, String priceStr, String description, String stockStr) {
+        this.name = name;
+        this.price = priceStr;
+        this.description = description;
+        this.quality = stockStr;
     }
 
     public String getQuality() {

@@ -10,14 +10,14 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductTableHelper extends BaseTableHelper<Products> {
+public class ProductTableHelper extends BaseTableHelper<Product> {
     private static final String TABLE_NAME = "Products";
     private static final String COL_ID = "product_id";
     private static final String COL_NAME = "name";
     private static final String COL_DESCRIPTION = "description";
     private static final String COL_PRICE = "price";
     private static final String COL_IMAGE = "image_url";
-    private static final String COL_QUANTITY = "quantity";
+    private static final String COL_QUANTITY = "stock_quantity";
 
     private SQLiteDatabase database;
     private final Context context;
@@ -42,13 +42,13 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
     }
 
     @Override
-    protected Products mapCursorToEntity(Cursor cursor) {
+    protected Product mapCursorToEntity(Cursor cursor) {
         int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME));
         String price = cursor.getString(cursor.getColumnIndexOrThrow(COL_PRICE));
         String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
         String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
-        return new Products(id, name,description, price, image);
+        return new Product(id, name,description, price, image);
     }
 
     public boolean addProduct(String name,String description, String price, String image) {
@@ -60,7 +60,7 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
         return insert(values);
     }
 
-    public List<Products> getAllProducts() {
+    public List<Product> getAllProducts() {
         return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE}, null, null, null);
     }
 
@@ -77,29 +77,29 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
         return delete(COL_ID + "=?", new String[]{String.valueOf(productId)});
     }
 
-    public List<Products> getNewProducts() {
+    public List<Product> getNewProducts() {
         String orderBy = "created_at DESC";
         String limit = "10";
         return getAll(new String[]{COL_ID, COL_NAME,COL_DESCRIPTION, COL_PRICE, COL_IMAGE, "created_at"},
                 null, null, orderBy + " LIMIT " + limit);
     }
 
-    public List<Products> getBestSellingProducts() {
+    public List<Product> getBestSellingProducts() {
         String orderBy = "sold_quantity DESC";
         String limit = "10";
         return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, "sold_quantity"},
                 null, null, orderBy + " LIMIT " + limit);
     }
 
-    public List<Products> getProductsByCategory(int categoryId) {
+    public List<Product> getProductsByCategory(int categoryId) {
         String selection = "category_id = ?";
         String[] selectionArgs = new String[]{String.valueOf(categoryId)};
         return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, "category_id"},
                 selection, selectionArgs, null);
     }
 
-    public List<Products> searchProducts(String keyword) {
-        List<Products> products = new ArrayList<>();
+    public List<Product> searchProducts(String keyword) {
+        List<Product> products = new ArrayList<>();
         Cursor cursor = null;
 
         try {
@@ -116,7 +116,7 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
                     String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
                     String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
 
-                    products.add(new Products(id, name,description, price, image));
+                    products.add(new Product(id, name,description, price, image));
                 } while (cursor.moveToNext());
             }
         } catch (SQLException e) {
@@ -153,7 +153,7 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
         return update(values, COL_ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    public boolean addProduct(Products newProduct) {
+    public boolean addProduct(Product newProduct) {
         ContentValues values = new ContentValues();
         values.put(COL_NAME, newProduct.getName());
         values.put(COL_PRICE, newProduct.getPrice());
@@ -161,7 +161,7 @@ public class ProductTableHelper extends BaseTableHelper<Products> {
         return insert(values);
     }
 
-    public boolean updateProduct(Products product) {
+    public boolean updateProduct(Product product) {
         ContentValues values = new ContentValues();
         values.put(COL_NAME, product.getName());
         values.put(COL_PRICE, product.getPrice());

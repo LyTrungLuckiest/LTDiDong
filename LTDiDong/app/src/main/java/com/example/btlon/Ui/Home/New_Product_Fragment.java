@@ -7,10 +7,10 @@ import android.widget.GridView;
 import android.widget.ViewFlipper;
 import androidx.fragment.app.Fragment;
 import com.example.btlon.Adapter.ActionViewFlipperAdapter;
-import com.example.btlon.Adapter.ProductsAdapter;
+import com.example.btlon.Adapter.ProductAdapter;
 import com.example.btlon.Data.AdvertisementTableHelper;
 import com.example.btlon.Data.ProductTableHelper;
-import com.example.btlon.Data.Products;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 
 import java.util.List;
@@ -37,8 +37,8 @@ public class New_Product_Fragment extends Fragment {
         actionViewFlipperAdapter.ActionViewFlipper(getContext(), viewFlipper, advertisementList);
 
         ProductTableHelper productTableHelper = new ProductTableHelper(getContext());
-        List<Products> productsList = productTableHelper.getNewProducts();
-        ProductsAdapter adapter = new ProductsAdapter(getActivity(), R.layout.item_product, productsList);
+        List<Product> productList = productTableHelper.getNewProducts();
+        ProductAdapter adapter = new ProductAdapter(getActivity(), R.layout.item_product, productList);
         gridView.setAdapter(adapter);
 
         return view;

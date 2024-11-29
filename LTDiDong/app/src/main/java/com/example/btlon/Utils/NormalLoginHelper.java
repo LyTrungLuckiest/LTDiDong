@@ -44,15 +44,21 @@ public class NormalLoginHelper {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("userId", userId);  // Lưu userId của tài khoản đang đăng nhập
                     editor.apply();
+                    UserTableHelper UsersTableHelper = new UserTableHelper(context);
 
                     PreferenceManager preferenceManager = new PreferenceManager(context);
-                    String role = preferenceManager.getUserRole();
-                    preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, role
-                    );
+                   if(UsersTableHelper.checkRole(Integer.parseInt(PreferenceManager.getUserId())).equals("Admin")){
+                       preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, "Admin"
+                       );
+                   }else{
+                       preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, "User"
+                       );
+                   }
+
                     Log.d("Login", "User login state saved: " + preferenceManager.isLoggedIn());
 
 
-                    Intent intent = user.equals("admin") ? new Intent(context, AdminActivity.class)
+                    Intent intent = user.equals("Admin") ? new Intent(context, AdminActivity.class)
                             : new Intent(context, HomeActivity.class);
                     intent.putExtra("USERNAME", user);
                     context.startActivity(intent);

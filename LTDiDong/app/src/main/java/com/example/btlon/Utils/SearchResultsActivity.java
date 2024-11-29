@@ -8,9 +8,9 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.btlon.Adapter.ProductsAdapter;
+import com.example.btlon.Adapter.ProductAdapter;
 import com.example.btlon.Data.ProductTableHelper;
-import com.example.btlon.Data.Products;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class SearchResultsActivity extends AppCompatActivity {
 
     private GridView gridView;
-    private ProductsAdapter adapter;
+    private ProductAdapter adapter;
     private SearchView searchView;
 
     @Override
@@ -61,11 +61,11 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void performSearch(String query) {
         // Thực hiện tìm kiếm từ cơ sở dữ liệu
         ProductTableHelper productTableHelper = new ProductTableHelper(this);
-        List<Products> searchResults = productTableHelper.searchProducts(query);
+        List<Product> searchResults = productTableHelper.searchProducts(query);
 
         // Cập nhật GridView với kết quả tìm kiếm
         if (adapter == null) {
-            adapter = new ProductsAdapter(this, R.layout.item_product, searchResults);
+            adapter = new ProductAdapter(this, R.layout.item_product, searchResults);
             gridView.setAdapter(adapter);
         } else {
             adapter.updateData(searchResults);
