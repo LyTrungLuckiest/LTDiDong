@@ -10,8 +10,8 @@ import java.util.List;
 
 public class CategoryTableHelper {
 
-    private SQLiteDatabase db;
-    private SqliteHelper dbHelper;
+    private static SQLiteDatabase db;
+    private static SqliteHelper dbHelper;
 
     public CategoryTableHelper(Context context) {
         dbHelper = new SqliteHelper(context);
@@ -59,7 +59,7 @@ public class CategoryTableHelper {
     }
 
     // Get all categories
-    public List<Category> getAllCategories() {
+    public static List<Category> getAllCategories() {
         db = dbHelper.getReadableDatabase();
         List<Category> categoryList = new ArrayList<>();
         Cursor cursor = db.query("Categories", null, null, null, null, null, null);

@@ -9,12 +9,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -28,6 +31,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.btlon.Adapter.ProductAdapterRecycler;
+import com.example.btlon.Data.Category;
+import com.example.btlon.Data.CategoryTableHelper;
 import com.example.btlon.Data.Product;
 import com.example.btlon.Data.ProductTableHelper;
 import com.example.btlon.R;
@@ -43,8 +48,8 @@ public class AdminProductSettingFragment extends Fragment {
     private List<Product> productList;
     private ProductTableHelper productTableHelper;
     private Button btnAddProduct;
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private String selectedImagePath = "";
+    private String selectedImagePath = ""; // Đường dẫn ảnh được chọn
+    private Spinner spinnerCategory;
 
     // Declare the ActivityResultLauncher
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -59,7 +64,7 @@ public class AdminProductSettingFragment extends Fragment {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
-                        selectedImagePath = imageUri.toString();
+                        selectedImagePath = imageUri.toString(); // Cập nhật đường dẫn ảnh
                     }
                 });
 
@@ -104,6 +109,7 @@ public class AdminProductSettingFragment extends Fragment {
         return view;
     }
 
+    // Method to show Add Product Dialog
     private void showAddProductDialog() {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.product_edit_dialog, null);
         EditText edtProductName = dialogView.findViewById(R.id.edtProductName);
@@ -113,8 +119,14 @@ public class AdminProductSettingFragment extends Fragment {
         ImageView imgProduct = dialogView.findViewById(R.id.img_product);
         Button btn_select_image = dialogView.findViewById(R.id.btn_select_image);
 
-        btn_select_image.setOnClickListener(v -> openImagePicker());
+        spinnerCategory = dialogView.findViewById(R.id.spinnerCategory);
+        List<Category> categories = CategoryTableHelper.getAllCategories();
+        ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, categories);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(categoryAdapter);
 
+        btn_select_image.setOnClickListener(v -> openImagePicker());
         imgProduct.setOnClickListener(v -> openImagePicker());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -125,6 +137,7 @@ public class AdminProductSettingFragment extends Fragment {
                     String priceStr = edtProductPrice.getText().toString().trim();
                     String description = edtProductDescription.getText().toString().trim();
                     String stockStr = edtProductStock.getText().toString().trim();
+                    Category selectedCategory = (Category) spinnerCategory.getSelectedItem();
 
                     if (TextUtils.isEmpty(name) || TextUtils.isEmpty(priceStr)) {
                         Toast.makeText(getContext(), "Tên và giá sản phẩm không thể để trống!", Toast.LENGTH_SHORT).show();
@@ -132,10 +145,11 @@ public class AdminProductSettingFragment extends Fragment {
                     }
 
                     try {
-                        Product newProduct = new Product(name, priceStr, description, selectedImagePath, Integer.parseInt(stockStr));
+                        Product newProduct = new Product(name, priceStr, description, selectedImagePath, Integer.parseInt(stockStr), selectedCategory.getCategory_id());
 
                         if (productTableHelper.addProduct(newProduct)) {
                             productList.add(newProduct);
+                            reloadCategories(); // Reload categories after adding product
                             productAdapter.notifyItemInserted(productList.size() - 1);
                             Toast.makeText(getContext(), "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
                         } else {
@@ -151,6 +165,7 @@ public class AdminProductSettingFragment extends Fragment {
         builder.create().show();
     }
 
+    // Method to show Edit Product Dialog
     private void showEditProductDialog(Product product, int position) {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.product_edit_dialog, null);
         EditText edtProductName = dialogView.findViewById(R.id.edtProductName);
@@ -160,13 +175,30 @@ public class AdminProductSettingFragment extends Fragment {
         ImageView imgProduct = dialogView.findViewById(R.id.img_product);
         Button btn_select_image = dialogView.findViewById(R.id.btn_select_image);
 
-        btn_select_image.setOnClickListener(v -> openImagePicker());
+        spinnerCategory = dialogView.findViewById(R.id.spinnerCategory);
+        List<Category> categories = CategoryTableHelper.getAllCategories();
+        ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_item, categories);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(categoryAdapter);
 
+        // Set current product details
         edtProductName.setText(product.getName());
         edtProductPrice.setText(String.valueOf(product.getPrice()));
         edtProductDescription.setText(product.getDescription());
         edtProductStock.setText(String.valueOf(product.getQuantity()));
+        if (!TextUtils.isEmpty(product.getImage())) {
+            imgProduct.setImageURI(Uri.parse(product.getImage()));
+        }
+        // Chọn danh mục đúng cho sản phẩm
+        int categoryIndex = getCategoryIndex(product.getCategory_id());
+        if (categoryIndex != -1) {
+            spinnerCategory.setSelection(categoryIndex);
+        }
 
+
+        // Image selection
+        btn_select_image.setOnClickListener(v -> openImagePicker());
         imgProduct.setOnClickListener(v -> openImagePicker());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -183,16 +215,20 @@ public class AdminProductSettingFragment extends Fragment {
                         return;
                     }
 
+                    // If no new image selected, keep the old one
+                    String updatedImagePath = TextUtils.isEmpty(selectedImagePath) ? product.getImage() : selectedImagePath;
+
                     try {
-                        double price = Double.parseDouble(priceStr);
                         product.setName(name);
-                        product.setPrice(String.valueOf(price));
+                        product.setPrice(priceStr);
                         product.setDescription(description);
                         product.setQuantity(Integer.parseInt(stockStr));
-                        product.setImage(selectedImagePath);
+                        product.setImage(updatedImagePath);
+                        product.setCategory_id(((Category) spinnerCategory.getSelectedItem()).getCategory_id());
 
                         if (productTableHelper.updateProduct(product)) {
                             productList.set(position, product);
+                            reloadCategories(); // Reload categories after updating product
                             productAdapter.notifyItemChanged(position);
                             Toast.makeText(getContext(), "Cập nhật sản phẩm thành công!", Toast.LENGTH_SHORT).show();
                         } else {
@@ -208,44 +244,55 @@ public class AdminProductSettingFragment extends Fragment {
         builder.create().show();
     }
 
+    // Method to reload categories in spinner
+    private void reloadCategories() {
+        List<Category> updatedCategories = CategoryTableHelper.getAllCategories();
+        if (spinnerCategory != null) {
+            ArrayAdapter<Category> categoryAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.simple_spinner_item, updatedCategories);
+            categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategory.setAdapter(categoryAdapter);
+        } else {
+            Log.e("AdminProductSetting", "spinnerCategory is null in reloadCategories.");
+        }
+    }
+
+    // Method to get category index for the current product
+    private int getCategoryIndex(int categoryId) {
+        List<Category> categories = CategoryTableHelper.getAllCategories();
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getCategory_id() == categoryId) {
+                return i;
+            }
+        }
+        return 0; // Default to the first item if not found
+    }
+
+    // Method to open image picker
+    private void openImagePicker() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        imagePickerLauncher.launch(intent);
+    }
+
+    // Method to show Delete Product Dialog
     private void showDeleteProductDialog(Product product, int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Xóa sản phẩm")
-                .setMessage("Bạn có chắc chắn muốn xóa sản phẩm này?")
-                .setPositiveButton("Xóa", (dialog, which) -> {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Xóa sản phẩm")
+                .setMessage("Bạn có chắc muốn xóa sản phẩm này?")
+                .setPositiveButton("Có", (dialog, which) -> {
                     if (productTableHelper.deleteProduct(product.getId())) {
                         productList.remove(position);
                         productAdapter.notifyItemRemoved(position);
-                        Toast.makeText(getContext(), "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Sản phẩm đã bị xóa", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getContext(), "Xóa sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("Hủy", null)
-                .setCancelable(false);
-
-        builder.create().show();
-    }
-
-    private void openImagePicker() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/*");
-            imagePickerLauncher.launch(intent);  // Use imagePickerLauncher instead of startActivityForResult
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openImagePicker();  // If permission granted, open image picker
-            } else {
-                Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
-            }
-        }
+                .setNegativeButton("Không", null)
+                .show();
     }
 }

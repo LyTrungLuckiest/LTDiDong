@@ -18,6 +18,7 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
     private static final String COL_PRICE = "price";
     private static final String COL_IMAGE = "image_url";
     private static final String COL_QUANTITY = "stock_quantity";
+    private static final String COL_CATEGORY_ID = "category_id";
 
 
     private SQLiteDatabase database;
@@ -50,13 +51,15 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
         String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
         int stock = cursor.getInt(cursor.getColumnIndexOrThrow(COL_QUANTITY));
-        return new Product(id, name, description, price, image, stock);
+        int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(COL_CATEGORY_ID));
+
+        return new Product(id, name, description, price, image, stock, categoryId);
     }
 
 
 
     public List<Product> getAllProducts() {
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY}, null, null, null);
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, COL_CATEGORY_ID}, null, null, null);
     }
 
 
@@ -67,14 +70,14 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
     public List<Product> getNewProducts() {
         String orderBy = "created_at DESC";
         String limit = "10";
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "created_at"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, COL_CATEGORY_ID, "created_at"},
                 null, null, orderBy + " LIMIT " + limit);
     }
 
     public List<Product> getTopRatedProducts() {
         String orderBy = "rating DESC";
         String limit = "10";
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "rating"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, COL_CATEGORY_ID, "rating"},
                 null, null, orderBy + " LIMIT " + limit);
 
     }
@@ -83,14 +86,14 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
     public List<Product> getBestSellingProducts() {
         String orderBy = "sold_quantity DESC";
         String limit = "10";
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "sold_quantity"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, COL_CATEGORY_ID, "sold_quantity"},
                 null, null, orderBy + " LIMIT " + limit);
     }
 
     public List<Product> getProductsByCategory(int categoryId) {
         String selection = "category_id = ?";
         String[] selectionArgs = new String[]{String.valueOf(categoryId)};
-        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, "category_id"},
+        return getAll(new String[]{COL_ID, COL_NAME, COL_DESCRIPTION, COL_PRICE, COL_IMAGE, COL_QUANTITY, COL_CATEGORY_ID, "category_id"},
                 selection, selectionArgs, null);
     }
 
@@ -112,8 +115,9 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
                     String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
                     String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
                     int stock = cursor.getInt(cursor.getColumnIndexOrThrow(COL_QUANTITY));
+                    int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(COL_CATEGORY_ID));
 
-                    products.add(new Product(id, name, description, price, image, stock));
+                    products.add(new Product(id, name, description, price, image, stock, categoryId));
                 } while (cursor.moveToNext());
             }
         } catch (SQLException e) {
@@ -142,6 +146,7 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         values.put(COL_PRICE, newProduct.getPrice());
         values.put(COL_IMAGE, newProduct.getImage()); // Thêm đường dẫn ảnh
         values.put(COL_QUANTITY, newProduct.getQuantity()); // Số lượng trong kho
+        values.put(COL_CATEGORY_ID, newProduct.getCategory_id()); // Thêm category_id
         return insert(values);
     }
 
@@ -153,7 +158,30 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         values.put(COL_PRICE, product.getPrice());
         values.put(COL_IMAGE, product.getImage()); // Thêm đường dẫn ảnh
         values.put(COL_QUANTITY, product.getQuantity()); // Số lượng trong kho
+        values.put(COL_CATEGORY_ID, product.getCategory_id()); // Thêm category_id
         return update(values, COL_ID + "=?", new String[]{String.valueOf(product.getId())});
     }
+    public String getCategoryName(int categoryId) {
+        String categoryName = null;
+        String query = "SELECT name FROM Categories WHERE category_id = ?";
+        String[] selectionArgs = {String.valueOf(categoryId)};
+        Cursor cursor = null;
+
+        try {
+            cursor = database.rawQuery(query, selectionArgs);
+            if (cursor != null && cursor.moveToFirst()) {
+                categoryName = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+            }
+        } catch (Exception e) {
+            Log.e("DatabaseError", "Error fetching category name", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return categoryName;
+    }
+
 
 }

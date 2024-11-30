@@ -58,17 +58,19 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rdAdmin"
-            android:layout_width="match_parent"
+            android:layout_marginEnd="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Admin" />
 
         <RadioButton
             android:id="@+id/rdUser"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="User" />

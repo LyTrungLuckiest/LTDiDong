@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.btlon.Data.Category;
 import com.example.btlon.Data.Product;
+import com.example.btlon.Data.ProductTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.ChiTietSanPhamActivity;
 import com.example.btlon.Utils.PreferenceManager;
@@ -43,10 +45,14 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = productList.get(position);
 
+
         // Thiết lập dữ liệu cho item
-        holder.txtProductName.setText(product.getName());
-        holder.txtPrice.setText(product.getPrice() + " VNĐ/1kg");
-        holder.txtSoluong.setText(product.getQuantity() + " trái");
+        holder.txtProductName.setText("Tên: " + product.getName());
+        holder.txtPrice.setText("Giá: " + product.getPrice() + " VNĐ/1kg");
+        holder.txtSoluong.setText("Số lượng: " + product.getQuantity());
+        holder.txtLoai.setText("Loại: "+product.getCategory_id());
+
+
         Glide.with(context)
                 .load(product.getImageUrl())
                 .placeholder(R.drawable.traicay)
@@ -98,7 +104,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtProductName, txtPrice, txtSoluong;
+        TextView txtProductName, txtPrice, txtSoluong, txtLoai;
         ImageView imgProduct;
 
         public ViewHolder(@NonNull View itemView) {
@@ -108,6 +114,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
             imgProduct = itemView.findViewById(R.id.img_product);
 
             txtSoluong = itemView.findViewById(R.id.txtSoluong);
+            txtLoai = itemView.findViewById(R.id.txtLoai);
         }
     }
 }
