@@ -67,7 +67,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         initControl();
         // Xử lý sự kiện click vào sản phẩm
         findViewById(R.id.btnthemvaogiohang).setOnClickListener(v -> {
-            Product product = new Product(); // Dữ liệu sản phẩm
+            Product product = new Product();
             Intent intent = new Intent(ChiTietSanPhamActivity.this, ChiTietSanPhamActivity.class);
             intent.putExtra("chi tiết", product);
             startActivity(intent);
@@ -87,38 +87,53 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private void themGioHang() {
 
 
-
-
     }
-
 
 
     private void initData() {
         // Lấy dữ liệu từ Intent
-        Product sanphammoi = (Product) getIntent().getSerializableExtra("chi tiết");
+        Product sanphammoi = (Product) getIntent().getSerializableExtra("product");
 
+        sanPhamMoi = sanphammoi; // Gán sản phẩm mới
 
-            sanPhamMoi = sanphammoi;
-            if (sanphammoi != null) {
-                tensp.setText(sanphammoi.getName());
-                mota.setText(sanphammoi.getDescription());
+        if (sanphammoi != null) {
+            tensp.setText(sanphammoi.getName() != null ? sanphammoi.getName() : "Tên sản phẩm không có");
+            mota.setText(sanphammoi.getDescription() != null ? sanphammoi.getDescription() : "Mô tả không có");
+
+            // Tải hình ảnh (kiểm tra null)
+            if (sanphammoi.getImageUrl() != null) {
                 Glide.with(getApplicationContext()).load(sanphammoi.getImageUrl()).into(imgHinhanh);
-
-                DecimalFormat decimal = new DecimalFormat("###,###,###");
-                giaSp.setText("Giá: " + decimal.format(Double.parseDouble(sanphammoi.getPrice())) + "Đ");
-
-                // Thiết lập Spinner số lượng
-                Integer[] so = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-                ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, so);
-                spinner.setAdapter(adapter);
             } else {
-                // Xử lý nếu không có dữ liệu
-                tensp.setText("Không có dữ liệu sản phẩm");
-                mota.setText("");
-                giaSp.setText("");
+                imgHinhanh.setImageResource(R.drawable.error_image); // Hình ảnh thay thế
             }
 
+            // Kiểm tra và định dạng giá
+            if (sanphammoi.getPrice() != null && !sanphammoi.getPrice().isEmpty()) {
+                try {
+                    DecimalFormat decimal = new DecimalFormat("###,###,###");
+                    double price = Double.parseDouble(sanphammoi.getPrice().trim());
+                    giaSp.setText("Giá: " + decimal.format(price) + "Đ");
+                } catch (NumberFormatException e) {
+                    giaSp.setText("Giá: Không hợp lệ");
+                }
+            } else {
+                giaSp.setText("Giá: Không xác định");
+            }
+
+            // Thiết lập Spinner số lượng
+            Integer[] so = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, so);
+            spinner.setAdapter(adapter);
+
+        } else {
+            // Nếu không có sản phẩm
+            tensp.setText("Không có dữ liệu sản phẩm");
+            mota.setText("");
+            giaSp.setText("");
+            imgHinhanh.setImageResource(R.drawable.error_image); // Hình ảnh thay thế
+        }
     }
+
 
     private void initView() {
         tensp = findViewById(R.id.txttensp);
