@@ -36,6 +36,7 @@ public class ProductsAdapter extends BaseAdapter {
 
 
 
+
     @Override
     public int getCount() {
         return productsList.size();
@@ -57,13 +58,6 @@ public class ProductsAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layoutId, null);
         }
-
-
-
-
-
-
-
 
         Button btnMuaHang = convertView.findViewById(R.id.btnMuaHang);
 
@@ -120,6 +114,7 @@ public class ProductsAdapter extends BaseAdapter {
         productsList.addAll(newProducts);
         notifyDataSetChanged();
     }
+
 
 
 

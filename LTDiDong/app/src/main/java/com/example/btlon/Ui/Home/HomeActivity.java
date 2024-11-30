@@ -33,6 +33,8 @@ public class HomeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     private ImageButton dropdownButton;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +87,14 @@ public class HomeActivity extends AppCompatActivity {
         HideBottomNavigation(bottomNavigationView, navController);
 
         DropDownbuttonClick();
+
+
+
+
+
     }
+
+
 
     private static void HideBottomNavigation(BottomNavigationView bottomNavigationView, NavController navController) {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {

@@ -1,5 +1,7 @@
 package com.example.btlon.Data;
 
+import com.example.btlon.Utils.Utils;
+
 import java.io.Serializable;
 
 public class Products implements Serializable {
@@ -15,7 +17,12 @@ public class Products implements Serializable {
         this.description=description;
         this.id=id;
     }
-    public Products( int id, String name,  String price) {
+
+
+    public Products() {
+    }
+
+    public Products(int id, String name, String price) {
         this.image = image;
         this.name = name;
         this.price = price;

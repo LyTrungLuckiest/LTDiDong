@@ -1,47 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/bkg_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bkg_color">
 
-
-    <LinearLayout
-        android:id="@+id/searchBar"
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/custom_button"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        app:title="@string/gio_hang"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/arrow_left_icon" />
 
-        android:padding="1dp">
-
-        <ImageButton
-            android:id="@+id/btnExit"
-            android:layout_width="48dp"
-            android:layout_height="50dp"
-            android:layout_margin="0dp"
-            android:background="@drawable/custom_button"
-            android:contentDescription="@string/exit"
-            android:scaleType="center"
-            android:src="@drawable/arrow_left_icon" />
-
-
-        <TextView
-            android:id="@+id/textView22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/gio_hang"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
+    <!-- Nội dung cuộn -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,9 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="8dp">
 
-
+            <!-- Thông tin giao hàng -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,16 +65,18 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-
+            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewgiohang"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/toolbar_background" />
 
+            <!-- Giỏ hàng trống -->
             <TextView
-                android:id="@+id/txtgiohangtrong"
+                android:id="@+id/txtgiohangtrong2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -110,16 +87,17 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-
+            <!-- Tổng tiền -->
             <LinearLayout
                 android:id="@+id/totalContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="16dp"
                 android:background="@drawable/item_border"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
-
+                <!-- Tiền hàng -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,6 +125,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <!-- Tổng đơn hàng -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,7 +142,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/txttongtien"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -172,23 +151,21 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
-
-
             </LinearLayout>
 
+            <!-- Phương thức thanh toán -->
             <LinearLayout
-                android:id="@+id/totalContainer1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/user_tab_bot"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical"
-                android:padding="10dp">
-
+                android:padding="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:padding="4dp">
 
                     <TextView
@@ -200,34 +177,24 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-
                     <Spinner
                         android:id="@+id/spinnerPaymentMethod"
                         android:layout_width="150dp"
                         android:layout_height="50dp"
-                        android:layout_marginTop="8dp"
-                        android:backgroundTint="@color/black"
-                        android:text="@string/doi_phuong_thuc"
-                        android:textColor="@color/white" />
-
+                        android:background="@android:drawable/spinner_background" />
                 </LinearLayout>
 
-
+                <!-- Button Thanh Toán -->
                 <Button
-                    android:id="@+id/buttonCheckout"
+                    android:id="@+id/btntienhang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:backgroundTint="@color/background"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/custom_button"
                     android:text="@string/thanh_toan"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
-
-
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
