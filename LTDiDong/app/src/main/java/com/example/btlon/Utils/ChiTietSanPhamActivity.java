@@ -20,7 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.btlon.Data.GioHang;
-import com.example.btlon.Data.Products;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 import com.example.btlon.Ui.Home.CartFragment;
 import com.example.btlon.Ui.Home.HomeActivity;
@@ -34,7 +34,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     ImageView imgHinhanh;
     Spinner spinner;
     Toolbar toolbar;
-    Products sanPhamMoi;
+    Product sanPhamMoi;
     Notification badge;
 
 
@@ -67,7 +67,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         initControl();
         // Xử lý sự kiện click vào sản phẩm
         findViewById(R.id.btnthemvaogiohang).setOnClickListener(v -> {
-            Products product = new Products(); // Dữ liệu sản phẩm
+            Product product = new Product(); // Dữ liệu sản phẩm
             Intent intent = new Intent(ChiTietSanPhamActivity.this, ChiTietSanPhamActivity.class);
             intent.putExtra("chi tiết", product);
             startActivity(intent);
@@ -95,7 +95,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     private void initData() {
         // Lấy dữ liệu từ Intent
-        Products sanphammoi = (Products) getIntent().getSerializableExtra("chi tiết");
+        Product sanphammoi = (Product) getIntent().getSerializableExtra("chi tiết");
 
 
             sanPhamMoi = sanphammoi;

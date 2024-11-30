@@ -88,6 +88,10 @@ public class Product implements Serializable {
         this.category_id = categoryId;
     }
 
+    public Product() {
+
+    }
+
     public int getCategory_id() {
         return category_id;
     }
