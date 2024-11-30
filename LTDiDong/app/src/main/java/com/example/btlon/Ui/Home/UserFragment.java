@@ -116,8 +116,6 @@ public class UserFragment extends Fragment {
         view.findViewById(R.id.btUserFeedBack).setOnClickListener(v -> {
             navController.navigate(R.id.action_userFragment_to_userFeedBackFragment);
         });
-        view.findViewById(R.id.btUserPoint).setOnClickListener(v -> {
-            navController.navigate(R.id.action_userFragment_to_userPointFragment);
-        });
+       
     }
 }

@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Ui.Admin.AdminUserSettingFragment">
+    tools:context=".Ui.Admin.AdminCategorySettingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Header của danh mục -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,29 +24,22 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center"
-                android:text="@string/id"
+                android:text="ID"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:gravity="center"
-                android:text="@string/username"
+                android:text="Name"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/password"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/textView"
@@ -53,29 +47,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/role"
+                android:text="@string/actions"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:text="@string/chuc_nang"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-
         </LinearLayout>
 
-
+        <!-- RecyclerView để hiển thị danh sách danh mục -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewUsers"
+            android:id="@+id/recyclerViewCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white" />
 
+        <!-- Các nút chức năng: Thêm, Quay lại -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -94,20 +78,17 @@
                 app:backgroundTint="@color/bkg_color" />
 
             <Button
-                android:id="@+id/btnThem"
+                android:id="@+id/btnAddCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/custom_button"
-                android:text="Thêm"
+                android:text="Thêm danh mục"
                 android:textColor="@color/black"
                 app:backgroundTint="@color/bkg_color" />
-
         </LinearLayout>
 
-
     </LinearLayout>
-
 
 </ScrollView>

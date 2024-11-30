@@ -149,7 +149,7 @@
                 android:id="@+id/btUserGift"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/user_tab_btshape"
+                android:background="@drawable/user_tab_bot"
                 android:backgroundTint="@null"
                 android:drawableLeft="@drawable/gift"
                 android:drawableRight="@drawable/arrow_right_icon"
@@ -158,18 +158,7 @@
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
 
-            <Button
-                android:id="@+id/btUserPoint"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/user_tab_bot"
-                android:backgroundTint="@null"
-                android:drawableLeft="@drawable/baseline_diamond_24"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Tích điểm đổi quà"
-                android:textAlignment="textStart"
-                android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
+
 
         </LinearLayout>
         <Button

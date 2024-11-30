@@ -2,14 +2,14 @@ package com.example.btlon.Data;
 
 public class OrderDetail {
     private int orderDetailId;
-    private Products product; // Mỗi dòng chi tiết liên kết đến 1 Product
+    private Product product; // Mỗi dòng chi tiết liên kết đến 1 Product
     private int quantity;
     private double subtotal;
 
     private double totalPrice;
 
 
-    public OrderDetail(int orderDetailId, Products product, int quantity) {
+    public OrderDetail(int orderDetailId, Product product, int quantity) {
         this.orderDetailId = orderDetailId;
         this.product = product;
         this.quantity = quantity;
@@ -32,11 +32,11 @@ public class OrderDetail {
         this.orderDetailId = orderDetailId;
     }
 
-    public Products getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Products product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 

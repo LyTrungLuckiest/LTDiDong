@@ -50,67 +50,63 @@
         android:layout_margin="16dp" />
 
     <!-- Layout nhập địa chỉ -->
+
     <LinearLayout
-        android:id="@+id/addressInputLayout"
+        android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/viewpager_bkg"
         android:orientation="vertical"
+        android:padding="10dp"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="48dp"
+        tools:ignore="MissingConstraints">
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Tiêu đề -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@drawable/tab_bkg"
+            android:orientation="horizontal"
             android:padding="10dp">
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Thêm địa chỉ nhận hàng"
-                android:textSize="25sp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textSize="25sp" />
+
             <Button
                 android:id="@+id/btCancelAddAddress"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/baseline_cancel_24"/>
+                android:background="@drawable/baseline_cancel_24" />
         </LinearLayout>
 
-        <!-- Form nhập địa chỉ -->
-        <LinearLayout
+        <EditText
+            android:id="@+id/edtAddressInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/viewpager_bkg"
-            android:padding="10dp">
-            <EditText
-                android:id="@+id/edtAddressInfo"
-                android:paddingLeft="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:hint="Ghi địa chỉ ở đây"
-                android:background="@drawable/edittext_bkg"
-                android:inputType="textPostalAddress"
-                android:layout_marginTop="20dp"/>
-           <CheckBox
-               android:id="@+id/checkboxDefaultAddress"
-               android:layout_marginTop="10dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Địa chỉ mặc định"/>
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edittext_bkg"
+            android:hint="Ghi địa chỉ ở đây"
+            android:inputType="textPostalAddress"
+            android:paddingLeft="15dp" />
 
-            <Button
-                android:id="@+id/btSaveAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hoàn tất"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"/>
-        </LinearLayout>
+        <CheckBox
+            android:id="@+id/checkboxDefaultAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Địa chỉ mặc định" />
+
+        <Button
+            android:id="@+id/btSaveAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Hoàn tất" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

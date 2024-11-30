@@ -74,6 +74,15 @@
     <string name="tim_kiem_san_pham">Tìm kiếm sản phẩm</string>
     <string name="mua">Mua</string>
     <string name="suu_thong_tin_ca_nhan">Sửa thông tin cá nhân</string>
+    <string name="role">Role</string>
+    <string name="enter_role">Enter Role</string>
+
+    <string name="product_name">Tên sản phẩm</string>
+    <string name="price">Giá</string>
+    <string name="quantity">Số lượng</string>
+    <string name="actions">Chức năng</string>
+    <string name="add">Thêm</string>
+
 
 
 </resources>

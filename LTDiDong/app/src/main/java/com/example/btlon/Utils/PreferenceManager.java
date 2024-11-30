@@ -4,14 +4,13 @@ import static android.app.PendingIntent.getActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.example.btlon.Ui.Home.HomeActivity;
 import com.example.btlon.Ui.Login.LoginActivity;
 
 public class PreferenceManager {
-    private android.content.SharedPreferences sharedPref;
+    private static android.content.SharedPreferences sharedPref;
     private android.content.SharedPreferences.Editor editor;
 
     public PreferenceManager(Context context) {
@@ -20,16 +19,17 @@ public class PreferenceManager {
     }
 
     // Lưu trạng thái đăng nhập
-    public void saveLoginState(boolean isLoggedIn, String loginMethod, String userId, String token) {
+    public void saveLoginState(boolean isLoggedIn, String loginMethod, String userId, String token, String role) {
         editor.putBoolean("IS_LOGGED_IN", isLoggedIn);
         editor.putString("LOGIN_METHOD", loginMethod); // "google", "facebook", "custom"
         editor.putString("USER_ID", userId); // ID từ backend, Google hoặc Facebook
         editor.putString("ACCESS_TOKEN", token); // Token truy cập (nếu có)
+        editor.putString("ROLE", role); // "user" hoặc "admin")
         editor.apply();
     }
 
     // Lấy trạng thái đăng nhập
-    public  boolean isLoggedIn() {
+    public static boolean isLoggedIn() {
         return sharedPref.getBoolean("IS_LOGGED_IN", false);
     }
 
@@ -37,12 +37,15 @@ public class PreferenceManager {
         return sharedPref.getString("LOGIN_METHOD", "");
     }
 
-    public String getUserId() {
+    public static String getUserId() {
         return sharedPref.getString("USER_ID", "");
     }
 
     public String getAccessToken() {
         return sharedPref.getString("ACCESS_TOKEN", "");
+    }
+    public String getUserRole() {
+        return sharedPref.getString("ROLE", "");
     }
 
 

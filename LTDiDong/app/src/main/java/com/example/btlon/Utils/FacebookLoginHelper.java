@@ -20,6 +20,7 @@ public class FacebookLoginHelper {
     private CallbackManager callbackManager;
     private Activity activity;
 
+    // Singleton Pattern
     private FacebookLoginHelper(Activity activity) {
         this.activity = activity;
         this.callbackManager = CallbackManager.Factory.create();
@@ -32,6 +33,7 @@ public class FacebookLoginHelper {
         return instance;
     }
 
+    // Thiết lập đăng nhập Facebook
     public void setupFacebookLogin(LoginButton loginButton, final FacebookLoginListener listener) {
         loginButton.setPermissions("email", "public_profile");
 
@@ -54,6 +56,7 @@ public class FacebookLoginHelper {
         });
     }
 
+    // Xác thực Firebase với token Facebook
     private void firebaseAuthWithFacebook(AccessToken token, final FacebookLoginListener listener) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         FirebaseAuth.getInstance().signInWithCredential(credential)
@@ -61,8 +64,10 @@ public class FacebookLoginHelper {
                     if (task.isSuccessful()) {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                        // Lấy role người dùng và lưu trạng thái đăng nhập
                         PreferenceManager preferenceManager = new PreferenceManager(activity);
-                        preferenceManager.saveLoginState(true, "facebook", user.getUid(), null);
+                        String role = preferenceManager.getUserRole();  // Lấy role từ shared preferences
+                        preferenceManager.saveLoginState(true, "facebook", user.getUid(), null, role);
 
                         listener.onLoginSuccess(user);
                     } else {
@@ -71,10 +76,26 @@ public class FacebookLoginHelper {
                 });
     }
 
+    // Xử lý kết quả trả về từ Facebook
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    // Đăng xuất từ Firebase và Facebook
+    public static void logout(FacebookLogoutListener listener) {
+        // Đăng xuất Firebase
+        FirebaseAuth.getInstance().signOut();
+
+        // Đăng xuất Facebook
+        if (AccessToken.getCurrentAccessToken() != null) {
+            com.facebook.login.LoginManager.getInstance().logOut();
+        }
+
+        // Thông báo listener sau khi đăng xuất
+        listener.onLogoutSuccess();
+    }
+
+    // Interface cho các sự kiện đăng nhập thành công, hủy và lỗi
     public interface FacebookLoginListener {
         void onLoginSuccess(FirebaseUser user);
 
@@ -83,16 +104,7 @@ public class FacebookLoginHelper {
         void onLoginError(Exception e);
     }
 
-    public static void logout(FacebookLogoutListener listener) {
-        FirebaseAuth.getInstance().signOut();
-
-        if (AccessToken.getCurrentAccessToken() != null) {
-            com.facebook.login.LoginManager.getInstance().logOut();
-        }
-
-        listener.onLogoutSuccess();
-    }
-
+    // Interface cho sự kiện đăng xuất thành công
     public interface FacebookLogoutListener {
         void onLogoutSuccess();
     }

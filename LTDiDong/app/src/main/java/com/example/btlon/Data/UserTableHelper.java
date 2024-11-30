@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +19,13 @@ public class UserTableHelper extends BaseTableHelper<Users> {
     private static final String COL_PASSWORD = "password";
     private static final String COL_ROLE = "role";
     private SqliteHelper sqliteHelper;
+    private Context Context;
 
     public UserTableHelper(Context context) {
         super(context);
+        this.Context=context;
         this.sqliteHelper = new SqliteHelper(context);
+        PreferenceManager preferenceManager = new PreferenceManager(context);
     }
 
     @Override
@@ -103,6 +109,10 @@ public class UserTableHelper extends BaseTableHelper<Users> {
     }
 
     public boolean updateUser(int userId, String username, String password, String role) {
+        if(userId == Integer.parseInt(PreferenceManager.getUserId())) {
+            Toast.makeText(Context, "Không thể cập nhật tài khoản đang đăng nhập", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         ContentValues values = new ContentValues();
         values.put(COL_USERNAME, username);
         values.put(COL_PASSWORD, password);
@@ -111,6 +121,10 @@ public class UserTableHelper extends BaseTableHelper<Users> {
     }
 
     public boolean deleteUser(int userId) {
+        if(userId == Integer.parseInt(PreferenceManager.getUserId())) {
+            Toast.makeText(Context, "Không thể xóa tài khoản đang đăng nhập", Toast.LENGTH_SHORT).show();
+               return false;
+        }
         return delete(COL_ID + "=?", new String[]{String.valueOf(userId)});
     }
 
@@ -141,4 +155,54 @@ public class UserTableHelper extends BaseTableHelper<Users> {
     public boolean delete(String whereClause, String[] whereArgs) {
         return sqliteHelper.getWritableDatabase().delete(getTableName(), whereClause, whereArgs) > 0;
     }
+    // Thêm phương thức lấy role của người dùng từ userId
+    public String checkRole(String userId) {
+        String role = null;
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Truy vấn lấy role từ bảng Users theo userId
+            String query = "SELECT " + COL_ROLE + " FROM " + TABLE_NAME + " WHERE " + COL_ID + " = ?";
+            cursor = db.rawQuery(query, new String[]{userId});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                role = cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE));
+            }
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi lấy role từ userId: " + userId, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return role;
+    }
+
+    public boolean checkUsernameExists(String newUsername) {
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = null;
+        boolean exists = false;
+
+        try {
+            // Truy vấn để kiểm tra username
+            String query = "SELECT 1 FROM " + TABLE_NAME + " WHERE " + COL_USERNAME + " = ?";
+            cursor = db.rawQuery(query, new String[]{newUsername});
+
+            // Nếu cursor trả về kết quả, username đã tồn tại
+            exists = (cursor != null && cursor.moveToFirst());
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi kiểm tra username tồn tại: " + newUsername, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return exists;
+    }
+
 }

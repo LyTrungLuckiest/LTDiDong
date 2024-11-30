@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@android:color/white"
+    android:gravity="center_vertical">
+
+    <!-- Category Name -->
+    <TextView
+        android:id="@+id/txtId_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="ID" />
+
+    <TextView
+        android:id="@+id/txtCategoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:text="Category Name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+
+    <!-- Action Button (Edit/Delete) -->
+    <Button
+        android:id="@+id/btnA"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/create_icon"
+        android:contentDescription="Edit/Delete Action" />
+</LinearLayout>

@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_bak"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Tên danh mục -->
+    <TextView
+        android:id="@+id/textViewCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên danh mục: " />
+
+    <EditText
+        android:id="@+id/edtCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="Nhập danh mục"
+        android:inputType="text" />
+
+    <!-- Trạng thái danh mục -->
+
+</LinearLayout>
