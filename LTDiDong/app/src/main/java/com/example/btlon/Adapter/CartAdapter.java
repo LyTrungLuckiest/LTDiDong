@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.btlon.Data.GioHang;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
+import com.example.btlon.Utils.Utils;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -25,11 +27,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     List<GioHang> gioHangList;
     private CartUpdateListener cartUpdateListener;
 
+
+
     public CartAdapter(Context context, List<GioHang> gioHangList, CartUpdateListener listener) {
         this.context = context;
         this.gioHangList = gioHangList;
         this.cartUpdateListener = listener;
     }
+
+    public CartAdapter(List<Product> cartItems) {
+    }
+
     // Định nghĩa interface
     public interface CartUpdateListener {
         void onCartUpdated();
@@ -94,6 +102,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
         }
     }
+
+
+
+
 
 
 }

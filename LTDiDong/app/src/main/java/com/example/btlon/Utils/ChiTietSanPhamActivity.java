@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.btlon.Data.CartManager;
 import com.example.btlon.Data.GioHang;
 import com.example.btlon.Data.Product;
 import com.example.btlon.R;
@@ -61,18 +64,62 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             return insets;
         });
 
+
+        // Đặt OnClickListener
+        frameGioHang.setOnClickListener(v -> {
+            // Chuyển sang Tab Giỏ hàng
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("tabIndex", 1); // 1 là chỉ số tab giỏ hàng
+            startActivity(intent);
+        });
+
         initView();
         ActionToolBar();
         initData();
         initControl();
         // Xử lý sự kiện click vào sản phẩm
-        findViewById(R.id.btnthemvaogiohang).setOnClickListener(v -> {
-            Product product = new Product();
-            Intent intent = new Intent(ChiTietSanPhamActivity.this, ChiTietSanPhamActivity.class);
-            intent.putExtra("chi tiết", product);
-            startActivity(intent);
+
+
+
+
+
+
+
+
+        Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
+        addToCartButton.setOnClickListener(v -> {
+            // Lấy thông tin sản phẩm từ Intent
+
+            if (sanPhamMoi != null) {
+                // Thêm sản phẩm vào giỏ hàng
+                String name = ((TextView) findViewById(R.id.txttensp)).getText().toString();
+                String price = ((TextView) findViewById(R.id.txtgia)).getText().toString();
+                String description = ((TextView) findViewById(R.id.txtmotachitiet)).getText().toString();
+                String image = "link/to/image";
+                int productId = 1; // Thay bằng ID thực tế của sản phẩm.
+
+                Product product = new Product(productId, name, description, price, image);
+
+
+
+
+                CartManager.addToCart(sanPhamMoi);
+                Toast.makeText(ChiTietSanPhamActivity.this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ChiTietSanPhamActivity.this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
+            }
         });
-    }
+
+
+
+
+
+
+
+        }
+
+
+
 
     private void initControl() {
         btnThem.setOnClickListener(new View.OnClickListener() {

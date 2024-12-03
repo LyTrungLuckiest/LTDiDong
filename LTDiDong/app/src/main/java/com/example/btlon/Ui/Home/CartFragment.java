@@ -1,5 +1,6 @@
 package com.example.btlon.Ui.Home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btlon.Adapter.CartAdapter;
+import com.example.btlon.Data.CartManager;
 import com.example.btlon.Data.GioHang;
+import com.example.btlon.Data.Product;
 import com.example.btlon.R;
 import com.example.btlon.Utils.Utils;
+
+import java.util.List;
 
 public class CartFragment extends Fragment {
     private TextView giohangtrong, tongtien;
@@ -31,6 +36,7 @@ public class CartFragment extends Fragment {
     private Spinner spinnerPaymentMethod;
     private String selectedPaymentMethod = "Tiền mặt";
     private CartAdapter adapter;
+    private CartAdapter cartAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,29 @@ public class CartFragment extends Fragment {
         setupSpinner();
         setupButtonListeners();
 
+        // Inflate layout
+
+        recyclerView = view.findViewById(R.id.recyclerviewgiohang);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+// Lấy danh sách sản phẩm trong giỏ hàng từ CartManager
+        List<Product> cartItems = CartManager.getCart();
+        cartAdapter = new CartAdapter(cartItems);
+        recyclerView.setAdapter(cartAdapter);
+
+// Cập nhật tổng tiền
+        TextView totalPriceTextView = view.findViewById(R.id.txttongtien);
+        double total = CartManager.getTotalPrice();
+        totalPriceTextView.setText("Tổng tiền: " + total + " VND");
+
+
+
+
         return view;
     }
+
+
 
     private void setupToolbar() {
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
@@ -162,5 +189,9 @@ public class CartFragment extends Fragment {
             tongtien.setText(String.format("%,d Đ", total)); // Hiển thị tổng tiền
         }
     }
+
+
+
+
 
 }

@@ -1,37 +1,45 @@
 package com.example.btlon.Data;
 
-import com.example.btlon.Utils.Utils;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CartManager {
-    private static CartManager instance;
-    private List<GioHang> cartList;
+    private static List<Product> cart = new ArrayList<>();
 
-    private CartManager() {
-        cartList = new ArrayList<>();
-    }
-
-    public static CartManager getInstance() {
-        if (instance == null) {
-            instance = new CartManager();
+    // Thêm sản phẩm vào giỏ hàng
+    public static void addToCart(Product product) {
+        if (!cart.contains(product)) { // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
+            cart.add(product);
         }
-        return instance;
     }
 
-    public List<GioHang> getCartList() {
-        return cartList;
+    // Lấy danh sách giỏ hàng (trả về bản sao của danh sách)
+    public static List<Product> getCart() {
+        return new ArrayList<>(cart); // Trả về bản sao của giỏ hàng
     }
 
+    // Xóa sản phẩm khỏi giỏ hàng
+    public static void removeFromCart(Product product) {
+        if (cart.contains(product)) { // Kiểm tra sản phẩm có trong giỏ hàng không
+            cart.remove(product);
+        }
+    }
 
-    public void addToCart(GioHang gioHang) {
-        for (GioHang item : Utils.manggiohang) {
-            if (item.getIdSp() == gioHang.getIdSp()) {
-                item.setSoLuong(item.getSoLuong() + gioHang.getSoLuong());
-                return;
+    // Tính tổng giá trị của giỏ hàng
+    public static double getTotalPrice() {
+        double total = 0;
+        for (Product product : cart) {
+            try {
+                total += Double.parseDouble(product.getPrice()); // Chuyển giá thành double
+            } catch (NumberFormatException e) {
+                e.printStackTrace(); // In ra lỗi nếu không thể chuyển đổi giá trị
             }
         }
-        Utils.manggiohang.add(gioHang);
+        return total;
+    }
+
+    // Kiểm tra giỏ hàng có trống không
+    public static boolean isCartEmpty() {
+        return cart.isEmpty();
     }
 }
