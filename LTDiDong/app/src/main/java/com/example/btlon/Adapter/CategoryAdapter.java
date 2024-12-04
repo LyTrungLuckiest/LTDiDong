@@ -8,14 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContentProviderCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btlon.Data.CartManager;
 import com.example.btlon.Data.Category;
 import com.example.btlon.R;
-import com.example.btlon.Utils.Utils;
 
 import java.util.ArrayList;
 
@@ -76,33 +72,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public interface OnCategoryActionListener {
         void onAction(Category category, int position);
     }
-   // Gán adapter cho RecyclerView
-
-
-    private void setupRecyclerView() {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        CartAdapter cartAdapter = new CartAdapter(CartManager.getCart());
-        recyclerView.setAdapter(cartAdapter);
-        updateCartView(); // Cập nhật giao diện giỏ hàng
-    }
-
-    private void updateCartView() {
-        if (Utils.manggiohang.isEmpty()) {
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            recyclerView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-    }
-
-
-
-
-
-
-
+    // Gán adapter cho RecyclerView
 
 
 }

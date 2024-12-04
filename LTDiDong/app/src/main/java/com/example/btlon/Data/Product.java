@@ -92,6 +92,14 @@ public class Product implements Serializable {
 
     }
 
+    public Product(int productId, String name, String price, String imageUrl) {
+        this.id = productId;
+        this.name = name;
+        this.price = price;
+        this.image = imageUrl;
+
+    }
+
     public int getCategory_id() {
         return category_id;
     }
