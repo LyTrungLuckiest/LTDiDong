@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,60 +18,89 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btlon.Adapter.CartAdapter;
-import com.example.btlon.Data.GioHang;
+import com.example.btlon.Data.Cart;
+import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.R;
-import com.example.btlon.Utils.Utils;
+import com.example.btlon.Utils.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartFragment extends Fragment {
     private TextView giohangtrong, tongtien;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private Button btnmtienhang;
+    private Button btnmtienhang, btnXoaAll;
     private Spinner spinnerPaymentMethod;
     private String selectedPaymentMethod = "Tiền mặt";
-    private CartAdapter adapter;
+    private CartAdapter cartAdapter;
+    private List<Cart> cartProducts = new ArrayList<>();
+
+    private CartTableHelper cartTableHelper;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_cart_fragment, container, false);
 
         // Initialize UI components
         giohangtrong = view.findViewById(R.id.txtgiohangtrong2);
         tongtien = view.findViewById(R.id.txttongtien);
-        toolbar = view.findViewById(R.id.toolbar);
         recyclerView = view.findViewById(R.id.recyclerviewgiohang);
         btnmtienhang = view.findViewById(R.id.btntienhang);
         spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
+        btnXoaAll = view.findViewById(R.id.btnXoaAll);
 
-        setupToolbar();
-        setupRecyclerView();
+        cartTableHelper = new CartTableHelper(requireContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        cartAdapter = new CartAdapter(requireContext(), cartProducts, cartTableHelper);
+        recyclerView.setAdapter(cartAdapter);
+
         setupSpinner();
         setupButtonListeners();
-
+        loadCartProducts();
+        btnXoaAll.setOnClickListener(v -> {
+            PreferenceManager preferenceManager = new PreferenceManager(requireContext());
+            String id = preferenceManager.getUserId();
+            cartTableHelper.clearCart(Integer.parseInt(id));
+            cartProducts.clear();
+            cartAdapter.notifyDataSetChanged();
+            loadCartProducts();
+        });
         return view;
     }
 
-    private void setupToolbar() {
-        AppCompatActivity activity = (AppCompatActivity) requireActivity();
-        activity.setSupportActionBar(toolbar);
-        if (activity.getSupportActionBar() != null) {
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    private void loadCartProducts() {
+        PreferenceManager preferenceManager = new PreferenceManager(requireContext());
+        String id = preferenceManager.getUserId();
+
+        cartProducts = cartTableHelper.getCartItems(Integer.parseInt(id));
+
+        if (cartProducts != null && !cartProducts.isEmpty()) {
+            cartAdapter = new CartAdapter(requireContext(), cartProducts, cartTableHelper);
+            recyclerView.setAdapter(cartAdapter);
+            giohangtrong.setVisibility(View.GONE); // Ẩn thông báo giỏ hàng trống
+            cartAdapter.notifyDataSetChanged();
+            updateTotalPrice();
+
+
+        } else {
+            giohangtrong.setText("Giỏ hàng trống");
+            tongtien.setText("0 VND");
         }
-
-        toolbar.setNavigationOnClickListener(v -> requireActivity().finish());
     }
 
-    private void setupRecyclerView() {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        updateCartView();
+    private void updateTotalPrice() {
+        double total = 0;
+        for (Cart product : cartProducts) {
+            total += product.getPrice() * product.getQuantity();
+        }
+        tongtien.setText(String.format("%s VND", total)); // Cập nhật tổng tiền
     }
+
+
+
+
 
     private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
@@ -88,8 +116,7 @@ public class CartFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -98,69 +125,6 @@ public class CartFragment extends Fragment {
     }
 
     private void handleCheckout() {
-        switch (selectedPaymentMethod) {
-            case "Tiền mặt":
-                processCashPayment();
-                break;
-            case "MoMo":
-                processMoMoPayment();
-                break;
-            case "ZaloPay":
-                processZaloPayPayment();
-                break;
-            case "Ngân hàng":
-                processBankPayment();
-                break;
-            default:
-                Toast.makeText(requireContext(), "Vui lòng chọn phương thức thanh toán hợp lệ!", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(requireContext(), "Đang xử lý thanh toán: " + selectedPaymentMethod, Toast.LENGTH_SHORT).show();
     }
-
-    private void processCashPayment() {
-        Toast.makeText(requireContext(), "Thanh toán bằng tiền mặt thành công!", Toast.LENGTH_SHORT).show();
-    }
-
-    private void processMoMoPayment() {
-        Toast.makeText(requireContext(), "Đang chuyển đến MoMo...", Toast.LENGTH_SHORT).show();
-    }
-
-    private void processZaloPayPayment() {
-        Toast.makeText(requireContext(), "Đang chuyển đến ZaloPay...", Toast.LENGTH_SHORT).show();
-    }
-
-    private void processBankPayment() {
-        Toast.makeText(requireContext(), "Đang chuyển đến thanh toán ngân hàng...", Toast.LENGTH_SHORT).show();
-    }
-
-    private void updateCartView() {
-        // Cập nhật giao diện giỏ hàng, ví dụ kiểm tra giỏ hàng có sản phẩm hay không
-        if (Utils.manggiohang.isEmpty()) {
-            giohangtrong.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-            tongtien.setText("0 Đ");
-        } else {
-            giohangtrong.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            // Cập nhật RecyclerView
-            adapter.notifyDataSetChanged(); // Làm mới dữ liệu giỏ hàng
-            updateTotalPrice(); // Cập nhật tổng tiền
-        }
-
-        updateTotalPrice(); // Tính lại tổng tiền
-    }
-    private void onCartUpdated() {
-        updateTotalPrice(); // Tính lại tổng tiền
-    }
-    private void updateTotalPrice() {
-        if (Utils.manggiohang.isEmpty()) {
-            tongtien.setText("Giỏ hàng của bạn đang trống");
-        } else {
-            long total = 0;
-            for (GioHang gioHang : Utils.manggiohang) {
-                total += gioHang.getGiaSp() * gioHang.getSoLuong();
-            }
-            tongtien.setText(String.format("%,d Đ", total)); // Hiển thị tổng tiền
-        }
-    }
-
 }

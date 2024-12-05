@@ -9,20 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import androidx.appcompat.widget.Toolbar;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.Data.GioHang;
+import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.Data.Product;
 import com.example.btlon.R;
-import com.example.btlon.Ui.Home.CartFragment;
 import com.example.btlon.Ui.Home.HomeActivity;
 
 import java.text.DecimalFormat;
@@ -36,7 +32,8 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     Toolbar toolbar;
     Product sanPhamMoi;
     Notification badge;
-
+    ImageView Tru, Cong;
+    TextView Soluong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,59 +52,89 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
+        // Call to initialize views
         initView();
         ActionToolBar();
         initData();
-        initControl();
-        // Xử lý sự kiện click vào sản phẩm
-        findViewById(R.id.btnthemvaogiohang).setOnClickListener(v -> {
-            Product product = new Product();
-            Intent intent = new Intent(ChiTietSanPhamActivity.this, ChiTietSanPhamActivity.class);
-            intent.putExtra("chi tiết", product);
-            startActivity(intent);
-        });
-    }
 
-    private void initControl() {
-        btnThem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                themGioHang();
+        // Button click to add to cart
+        Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
+        addToCartButton.setOnClickListener(v -> {
+            if (sanPhamMoi != null) {
+                // Get selected quantity from spinner
+                int quantity= Integer.parseInt(Soluong.getText().toString());
+                PreferenceManager preferenceManager = new PreferenceManager(ChiTietSanPhamActivity.this);
+                String userId = preferenceManager.getUserId();
+                int productId = sanPhamMoi.getId();  // Corrected variable name
+
+                // Add product to cart
+                CartTableHelper cartTableHelper = new CartTableHelper(ChiTietSanPhamActivity.this);
+                boolean success = cartTableHelper.addItemToCart(Integer.parseInt(userId), productId, quantity); // Corrected variable name
+
+                if (success) {
+                    Toast.makeText(ChiTietSanPhamActivity.this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ChiTietSanPhamActivity.this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(ChiTietSanPhamActivity.this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
             }
         });
-
+        Tru.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(Soluong.getText().toString());
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    Soluong.setText(String.valueOf(currentQuantity));
+                }
+            }
+        });
+        Cong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(Soluong.getText().toString());
+                currentQuantity++;
+                Soluong.setText(String.valueOf(currentQuantity));
+            }
+        });
     }
 
-    private void themGioHang() {
-
-
+    private void initView() {
+        tensp = findViewById(R.id.txttensp);
+        giaSp = findViewById(R.id.txtgia);
+        mota = findViewById(R.id.txtmotachitiet);
+        btnThem = findViewById(R.id.btnthemvaogiohang);
+        imgHinhanh = findViewById(R.id.imageChiTiet);
+        toolbar = findViewById(R.id.toolbar);
+        Tru = findViewById(R.id.Tru);
+        Cong = findViewById(R.id.Cong);
+        Soluong = findViewById(R.id.Soluong);
     }
 
+    private void ActionToolBar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
 
     private void initData() {
-        // Lấy dữ liệu từ Intent
+        // Get data from Intent
         Product sanphammoi = (Product) getIntent().getSerializableExtra("product");
-
-        sanPhamMoi = sanphammoi; // Gán sản phẩm mới
+        sanPhamMoi = sanphammoi;
 
         if (sanphammoi != null) {
             tensp.setText(sanphammoi.getName() != null ? sanphammoi.getName() : "Tên sản phẩm không có");
             mota.setText(sanphammoi.getDescription() != null ? sanphammoi.getDescription() : "Mô tả không có");
 
-            // Tải hình ảnh (kiểm tra null)
+            // Load image
             if (sanphammoi.getImageUrl() != null) {
                 Glide.with(getApplicationContext()).load(sanphammoi.getImageUrl()).into(imgHinhanh);
             } else {
-                imgHinhanh.setImageResource(R.drawable.error_image); // Hình ảnh thay thế
+                imgHinhanh.setImageResource(R.drawable.error_image); // Fallback image
             }
 
-            // Kiểm tra và định dạng giá
+            // Format price
             if (sanphammoi.getPrice() != null && !sanphammoi.getPrice().isEmpty()) {
                 try {
                     DecimalFormat decimal = new DecimalFormat("###,###,###");
@@ -120,36 +147,11 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 giaSp.setText("Giá: Không xác định");
             }
 
-            // Thiết lập Spinner số lượng
-            Integer[] so = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-            ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, so);
-            spinner.setAdapter(adapter);
-
         } else {
-            // Nếu không có sản phẩm
             tensp.setText("Không có dữ liệu sản phẩm");
             mota.setText("");
             giaSp.setText("");
-            imgHinhanh.setImageResource(R.drawable.error_image); // Hình ảnh thay thế
+            imgHinhanh.setImageResource(R.drawable.error_image); // Fallback image
         }
     }
-
-
-    private void initView() {
-        tensp = findViewById(R.id.txttensp);
-        giaSp = findViewById(R.id.txtgia);
-        mota = findViewById(R.id.txtmotachitiet);
-        btnThem = findViewById(R.id.btnthemvaogiohang);
-        spinner = findViewById(R.id.spinner);
-        imgHinhanh = findViewById(R.id.imageChiTiet);
-        toolbar = findViewById(R.id.toolbar);
-
-    }
-
-    private void ActionToolBar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
-    }
-
 }

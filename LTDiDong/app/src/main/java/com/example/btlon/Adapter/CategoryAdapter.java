@@ -20,6 +20,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Context context;
     private ArrayList<Category> categoryList;
     private OnCategoryActionListener onCategoryActionListener;
+    private RecyclerView recyclerView;
 
     public CategoryAdapter(Context context, ArrayList<Category> categoryList) {
         this.context = context;
@@ -71,4 +72,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public interface OnCategoryActionListener {
         void onAction(Category category, int position);
     }
+    // Gán adapter cho RecyclerView
+
+
 }

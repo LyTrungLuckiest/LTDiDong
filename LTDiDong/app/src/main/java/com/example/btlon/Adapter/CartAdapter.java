@@ -1,10 +1,10 @@
 package com.example.btlon.Adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,88 +12,117 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.Data.GioHang;
+import com.example.btlon.Data.Cart;
+import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.R;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
+    private List<Cart> cartList;
+    private Context context;
+    private CartTableHelper cartTableHelper;
 
-    Context context;
-    List<GioHang> gioHangList;
-    private CartUpdateListener cartUpdateListener;
-
-    public CartAdapter(Context context, List<GioHang> gioHangList, CartUpdateListener listener) {
+    public CartAdapter(Context context, List<Cart> cartList, CartTableHelper cartTableHelper) {
         this.context = context;
-        this.gioHangList = gioHangList;
-        this.cartUpdateListener = listener;
+        this.cartList = cartList;
+        this.cartTableHelper = cartTableHelper;
     }
-    // Định nghĩa interface
-    public interface CartUpdateListener {
-        void onCartUpdated();
-    }
-
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_giohang, parent ,false);
-        return new MyViewHolder(view);
+    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
+        return new CartViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        GioHang  gioHang = gioHangList.get(position);
-        holder.item_giohang_tensanpham.setText(gioHang.getTenSp());
-        holder.item_giohang_soluong.setText(gioHang.getSoLuong()+" ");
-        Glide.with(context).load(gioHang.getHinhSp()).into(holder.item_giohang_image);
+    public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
+        Cart cart = cartList.get(position);
 
-        DecimalFormat decimal = new DecimalFormat("###,###,###");
-        holder.item_giohang_gia.setText(decimal.format((gioHang.getGiaSp())) + "Đ");
-        long gia = gioHang.getSoLuong() * gioHang.getGiaSp();
-        holder.item_giohang_giaSp2.setText(decimal.format(gia));
+        if (cart != null) {
+            holder.productName.setText(cart.getProductName());
+            holder.productPrice.setText(String.format("%s VND", cart.getPrice() * cart.getQuantity()));
+            holder.productQuantity.setText(String.valueOf(cart.getQuantity()));
 
 
 
+            // Tải ảnh bằng Glide
+            Glide.with(holder.itemView.getContext())
+                    .load(cart.getImage())
+                    .placeholder(R.drawable.traicay)
+                    .error(R.drawable.error_image)
+                    .into(holder.productImage);
 
-
-
-
-
-    }
-
-
-
-
-    @Override
-    public int getItemCount() {
-        return gioHangList.size();
-    }
-
-
-
-    public class MyViewHolder extends  RecyclerView.ViewHolder {
-        ImageView item_giohang_image;
-        TextView item_giohang_tensanpham,item_giohang_gia,item_giohang_soluong,item_giohang_giaSp2;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            item_giohang_image = itemView.findViewById(R.id.item_giohang_image);
-            item_giohang_tensanpham = itemView.findViewById(R.id.item_giohang_tensanpham);
-            item_giohang_gia = itemView.findViewById(R.id.item_giohang_gia);
-            item_giohang_soluong = itemView.findViewById(R.id.item_giohang_soluong);
-            item_giohang_giaSp2 = itemView.findViewById(R.id.item_giohang_giaSp2);
+            // Xử lý nút tăng số lượng
+            holder.btnIncrease.setOnClickListener(v -> {
+                int currentQuantity = cart.getQuantity();
+                cart.setQuantity(currentQuantity + 1);
+                cartTableHelper.updateQuantity(cart.getCartId(), currentQuantity + 1);
+                notifyItemChanged(position); // Cập nhật RecyclerView
 
 
 
 
+
+            });
+
+            // Xử lý nút giảm số lượng
+            holder.btnDecrease.setOnClickListener(v -> {
+                int currentQuantity = cart.getQuantity();
+                if (currentQuantity > 1) { // Không cho giảm số lượng xuống 0
+                    cart.setQuantity(currentQuantity - 1);
+                    cartTableHelper.updateQuantity(cart.getCartId(), currentQuantity - 1);
+                    notifyItemChanged(position); // Cập nhật RecyclerView
+
+                } else {
+
+                    if (position >= 0 && position < cartList.size()) {
+                        cartList.remove(position);  // Xóa phần tử tại vị trí `position`
+                        cartTableHelper.removeItemFromCart(cart.getCartId());  // Xóa phần tử khỏi cơ sở dữ liệu
+                        notifyItemRemoved(position);  // Cập nhật RecyclerView
+                        notifyItemRangeChanged(position, cartList.size());  // Cập nhật các phần tử xung quanh
+                        notifyDataSetChanged();
+                    }
+
+
+                }
+            });
+            holder.btnDelete.setOnClickListener(v->{
+                if (position >= 0 && position < cartList.size()) {
+                    cartList.remove(position);  // Xóa phần tử tại vị trí `position`
+                    cartTableHelper.removeItemFromCart(cart.getCartId());  // Xóa phần tử khỏi cơ sở dữ liệu
+                    notifyItemRemoved(position);  // Cập nhật RecyclerView
+                }
+            });
 
 
         }
     }
 
+    @Override
+    public int getItemCount() {
+        return cartList.size();
+    }
 
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
+        TextView productName, productPrice, productQuantity;
+        ImageView productImage, btnIncrease, btnDecrease;
+        Button btnDelete;
+
+
+        public CartViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            productName = itemView.findViewById(R.id.productName);
+            productPrice = itemView.findViewById(R.id.productPrice);
+            productQuantity = itemView.findViewById(R.id.productQuantity);
+
+            productImage = itemView.findViewById(R.id.productImage);
+            btnIncrease = itemView.findViewById(R.id.item_giohang_cong);
+            btnDecrease = itemView.findViewById(R.id.item_giohang_tru);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
+        }
+    }
 }
