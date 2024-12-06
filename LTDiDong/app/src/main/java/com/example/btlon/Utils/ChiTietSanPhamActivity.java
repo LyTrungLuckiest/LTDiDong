@@ -1,14 +1,12 @@
 package com.example.btlon.Utils;
 
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +22,10 @@ import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.Data.Comment;
 import com.example.btlon.Data.CommentTableHelper;
 import com.example.btlon.Data.Product;
+import com.example.btlon.Data.Rating;
+import com.example.btlon.Data.RatingTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Ui.Home.CartFragment;
-import com.example.btlon.Ui.Home.HomeActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -34,60 +33,151 @@ import java.util.List;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 
-    TextView tensp, giaSp, mota;
-    Button btnThem;
-    ImageView imgHinhanh;
-    Spinner spinner;
-    Toolbar toolbar;
-    Product sanPhamMoi;
-    Notification badge;
-    ImageView Tru, Cong;
-    TextView Soluong;
+    private TextView tensp, giaSp, mota, Soluong, tongDanhGia;
+    private EditText edtComment;
+    private Button btnSendComment;
+    private ImageView imgHinhanh, Tru, Cong;
+    private Product sanPhamMoi;
     private RecyclerView recyclerViewComment;
     private ProductCommentAdapter commentAdapter;
     private List<Comment> commentList = new ArrayList<>();
-    private EditText edtComment;
-    private Button btnSendComment;
+    private RatingBar ratingBar;
+    int productId;
+    String userId;
+
+    RatingTableHelper ratingTableHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chi_tiet_san_pham);
+        PreferenceManager preferenceManager = new PreferenceManager(this);
+        userId = preferenceManager.getUserId();
 
-        // Tham chiếu đến nút giỏ hàng
-        View frameGioHang = findViewById(R.id.framegiohang);
+        // Kiểm tra userId
+        if (userId == null || userId.isEmpty()) {
+            Toast.makeText(this, "Người dùng chưa đăng nhập", Toast.LENGTH_SHORT).show();
+            return; // Ngừng thực thi nếu không có userId hợp lệ
+        }
 
-        // Ánh xạ view
+        initView();
+        setupToolbar();
+        loadProductData();
+        setupRecyclerView();
+        setupAddToCartButton();
+        setupCommentButton();
+        setupCartButton();
+
+        // Kiểm tra nếu sanPhamMoi không phải null
+        if (sanPhamMoi != null) {
+            productId = sanPhamMoi.getId();
+            tongDanhGia.setText(calculateAverageRating(productId) + "");
+            ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId),productId));
+        }
+
+        // Lắng nghe sự kiện khi giá trị của RatingBar thay đổi
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (sanPhamMoi != null) {
+                    ratingTableHelper.addOrUpdateRating(Integer.parseInt(userId), sanPhamMoi.getId(), rating);
+                    ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId), sanPhamMoi.getId()));
+                    tongDanhGia.setText(calculateAverageRating(productId) + "");
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadCommentsFromDatabase();
+    }
+
+    private void initView() {
+        tensp = findViewById(R.id.txttensp);
+        giaSp = findViewById(R.id.txtgia);
+        mota = findViewById(R.id.txtmotachitiet);
+        imgHinhanh = findViewById(R.id.imageChiTiet);
         edtComment = findViewById(R.id.edtcomment);
         btnSendComment = findViewById(R.id.btSendComment);
         recyclerViewComment = findViewById(R.id.recyclerViewComment);
+        Tru = findViewById(R.id.Tru);
+        Cong = findViewById(R.id.Cong);
+        Soluong = findViewById(R.id.Soluong);
+        ratingBar = findViewById(R.id.ratingBar);
+        tongDanhGia = findViewById(R.id.txtAverageRating);
+        ratingTableHelper = new RatingTableHelper(this);
+    }
 
-        // Cài đặt RecyclerView cho comment
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    private void loadProductData() {
+        sanPhamMoi = (Product) getIntent().getSerializableExtra("product");
+        if (sanPhamMoi != null) {
+            tensp.setText(sanPhamMoi.getName() != null ? sanPhamMoi.getName() : "Tên sản phẩm không có");
+            mota.setText(sanPhamMoi.getDescription() != null ? sanPhamMoi.getDescription() : "Mô tả không có");
+            giaSp.setText(formatPrice(sanPhamMoi.getPrice()));
+            Glide.with(this).load(sanPhamMoi.getImageUrl()).into(imgHinhanh);
+        } else {
+            tensp.setText("Không có dữ liệu sản phẩm");
+            mota.setText("");
+            giaSp.setText("");
+            imgHinhanh.setImageResource(R.drawable.error_image);
+        }
+    }
+
+    private String formatPrice(String price) {
+        if (price != null && !price.isEmpty()) {
+            try {
+                DecimalFormat decimal = new DecimalFormat("###,###,###");
+                return "Giá: " + decimal.format(Double.parseDouble(price.trim())) + "Đ";
+            } catch (NumberFormatException e) {
+                return "Giá: Không hợp lệ";
+            }
+        } else {
+            return "Giá: Không xác định";
+        }
+    }
+
+    private void setupRecyclerView() {
         commentAdapter = new ProductCommentAdapter(this, commentList);
         recyclerViewComment.setAdapter(commentAdapter);
         recyclerViewComment.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        // Thêm sự kiện gửi đánh giá
+    private void setupAddToCartButton() {
+        Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
+        addToCartButton.setOnClickListener(v -> {
+            if (sanPhamMoi != null) {
+                int quantity = Integer.parseInt(Soluong.getText().toString());
+                if (new CartTableHelper(this).addItemToCart(Integer.parseInt(userId), sanPhamMoi.getId(), quantity)) {
+                    Toast.makeText(this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Tru.setOnClickListener(v -> updateQuantity(-1));
+        Cong.setOnClickListener(v -> updateQuantity(1));
+    }
+
+    private void setupCommentButton() {
         btnSendComment.setOnClickListener(v -> {
             String commentText = edtComment.getText().toString().trim();
-            PreferenceManager preferenceManager = new PreferenceManager(this);
-            String userId = preferenceManager.getUserId();
-
             if (!commentText.isEmpty() && sanPhamMoi != null) {
-                int productId = sanPhamMoi.getId(); // Lấy productId từ sản phẩm hiện tại
-
-                // Lưu bình luận vào SQLite
-                CommentTableHelper commentTableHelper = new CommentTableHelper(this);
-                boolean isAdded = commentTableHelper.insertComment(
-                        Integer.parseInt(userId),
-                        productId,
-                        commentText
-                );
-
-                if (isAdded) {
+                int productId = sanPhamMoi.getId();
+                if (new CommentTableHelper(this).insertComment(Integer.parseInt(userId), productId, commentText)) {
                     Toast.makeText(this, "Bình luận đã được thêm", Toast.LENGTH_SHORT).show();
-                    loadCommentsFromDatabase(); // Tải lại danh sách bình luận
+                    loadCommentsFromDatabase();
                     edtComment.setText("");
                 } else {
                     Toast.makeText(this, "Không thể thêm bình luận", Toast.LENGTH_SHORT).show();
@@ -96,129 +186,45 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 Toast.makeText(this, "Vui lòng nhập nội dung bình luận", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        // Đặt OnClickListener cho giỏ hàng
-        frameGioHang.setOnClickListener(v -> {
-            // Chuyển sang Tab Giỏ hàng
+    private void setupCartButton() {
+        findViewById(R.id.framegiohang).setOnClickListener(v -> {
             Intent intent = new Intent(this, CartFragment.class);
-            intent.putExtra("tabIndex", 1); // 1 là chỉ số tab giỏ hàng
+            intent.putExtra("tabIndex", 1);
             startActivity(intent);
         });
-
-        // Call to initialize views
-        initView();
-        ActionToolBar();
-        initData();
-
-        // Button click to add to cart
-        Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
-        addToCartButton.setOnClickListener(v -> {
-            if (sanPhamMoi != null) {
-                // Get selected quantity from spinner
-                int quantity = Integer.parseInt(Soluong.getText().toString());
-                PreferenceManager preferenceManager = new PreferenceManager(ChiTietSanPhamActivity.this);
-                String userId = preferenceManager.getUserId();
-                int productId = sanPhamMoi.getId();  // Corrected variable name
-
-                // Add product to cart
-                CartTableHelper cartTableHelper = new CartTableHelper(ChiTietSanPhamActivity.this);
-                boolean success = cartTableHelper.addItemToCart(Integer.parseInt(userId), productId, quantity); // Corrected variable name
-
-                if (success) {
-                    Toast.makeText(ChiTietSanPhamActivity.this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ChiTietSanPhamActivity.this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(ChiTietSanPhamActivity.this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Tru.setOnClickListener(v -> {
-            int currentQuantity = Integer.parseInt(Soluong.getText().toString());
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                Soluong.setText(String.valueOf(currentQuantity));
-            }
-        });
-
-        Cong.setOnClickListener(v -> {
-            int currentQuantity = Integer.parseInt(Soluong.getText().toString());
-            currentQuantity++;
-            Soluong.setText(String.valueOf(currentQuantity));
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadCommentsFromDatabase();  // Tải lại danh sách bình luận khi Activity quay lại
-    }
-
-    private void initView() {
-        tensp = findViewById(R.id.txttensp);
-        giaSp = findViewById(R.id.txtgia);
-        mota = findViewById(R.id.txtmotachitiet);
-        btnThem = findViewById(R.id.btnthemvaogiohang);
-        imgHinhanh = findViewById(R.id.imageChiTiet);
-        toolbar = findViewById(R.id.toolbar);
-        Tru = findViewById(R.id.Tru);
-        Cong = findViewById(R.id.Cong);
-        Soluong = findViewById(R.id.Soluong);
-    }
-
-    private void ActionToolBar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
-    }
-
-    private void initData() {
-        // Get data from Intent
-        Product sanphammoi = (Product) getIntent().getSerializableExtra("product");
-        sanPhamMoi = sanphammoi;
-
-        if (sanphammoi != null) {
-            tensp.setText(sanphammoi.getName() != null ? sanphammoi.getName() : "Tên sản phẩm không có");
-            mota.setText(sanphammoi.getDescription() != null ? sanphammoi.getDescription() : "Mô tả không có");
-
-            // Load image
-            if (sanphammoi.getImageUrl() != null) {
-                Glide.with(getApplicationContext()).load(sanphammoi.getImageUrl()).into(imgHinhanh);
-            } else {
-                imgHinhanh.setImageResource(R.drawable.error_image); // Fallback image
-            }
-
-            // Format price
-            if (sanphammoi.getPrice() != null && !sanphammoi.getPrice().isEmpty()) {
-                try {
-                    DecimalFormat decimal = new DecimalFormat("###,###,###");
-                    double price = Double.parseDouble(sanphammoi.getPrice().trim());
-                    giaSp.setText("Giá: " + decimal.format(price) + "Đ");
-                } catch (NumberFormatException e) {
-                    giaSp.setText("Giá: Không hợp lệ");
-                }
-            } else {
-                giaSp.setText("Giá: Không xác định");
-            }
-
-        } else {
-            tensp.setText("Không có dữ liệu sản phẩm");
-            mota.setText("");
-            giaSp.setText("");
-            imgHinhanh.setImageResource(R.drawable.error_image); // Fallback image
-        }
     }
 
     private void loadCommentsFromDatabase() {
         if (sanPhamMoi != null) {
-            int productId = sanPhamMoi.getId();
-            CommentTableHelper commentTableHelper = new CommentTableHelper(this);
-            List<Comment> comments = commentTableHelper.getCommentsByProductId(productId);
-
+            List<Comment> comments = new CommentTableHelper(this).getCommentsByProductId(sanPhamMoi.getId());
             commentList.clear();
             commentList.addAll(comments);
             commentAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void updateQuantity(int delta) {
+        int currentQuantity = Integer.parseInt(Soluong.getText().toString());
+        if (currentQuantity + delta > 0) {
+            Soluong.setText(String.valueOf(currentQuantity + delta));
+        }
+    }
+
+    public float calculateAverageRating(int productId) {
+        RatingTableHelper ratingTableHelper = new RatingTableHelper(this);
+        ArrayList<Rating> ratings = ratingTableHelper.getRatingsForProduct(productId);
+
+        if (ratings.isEmpty()) {
+            return 0; // Trả về 0 nếu không có đánh giá
+        }
+
+        float totalRating = 0;
+        for (Rating rating : ratings) {
+            totalRating += rating.getRating(); // Thêm giá trị rating của mỗi đánh giá
+        }
+
+        return totalRating / ratings.size(); // Tính trung bình
     }
 }

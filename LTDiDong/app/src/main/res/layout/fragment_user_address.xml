@@ -13,15 +13,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/squre_shape"
+        android:drawableLeft="@drawable/arrow_left_icon"
         android:text="Thoát"
         android:textColor="@color/text_color"
         android:textSize="20sp"
         app:backgroundTint="@null"
-        android:drawableLeft="@drawable/arrow_left_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView hiển thị địa chỉ đã lưu -->
     <androidx.recyclerview.widget.RecyclerView
@@ -55,17 +54,19 @@
         android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:background="@drawable/viewpager_bkg"
         android:orientation="vertical"
         android:padding="10dp"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btUserAddressBack"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/tab_bkg"
             android:orientation="horizontal"
             android:padding="10dp">
 

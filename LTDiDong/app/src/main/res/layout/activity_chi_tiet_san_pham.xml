@@ -202,10 +202,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:padding="10dp"
-        android:text="5 sao"
+        android:padding="5dp"
+        android:text="Đánh giá"
         android:textAlignment="textStart"
-        android:textSize="25sp" />
+        android:textSize="20sp" />
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="0.5" />
+    <TextView
+        android:id="@+id/txtAverageRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Điểm trung bình: 0"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
+
+
 
     <EditText
         android:id="@+id/edtcomment"

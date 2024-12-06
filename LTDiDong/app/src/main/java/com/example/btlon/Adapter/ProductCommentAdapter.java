@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,12 +49,14 @@ public class ProductCommentAdapter extends RecyclerView.Adapter<ProductCommentAd
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView txtUserId;
+
         TextView txtComment;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             txtUserId=itemView.findViewById(R.id.txtUser);
             txtComment = itemView.findViewById(R.id.txtComment);
+
         }
     }
 }

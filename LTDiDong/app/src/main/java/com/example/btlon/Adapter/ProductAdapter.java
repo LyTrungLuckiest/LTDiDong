@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 
@@ -76,10 +77,14 @@ public class ProductAdapter extends BaseAdapter {
 
         // Xử lý sự kiện nhấn vào sản phẩm
         View.OnClickListener productClickListener = v -> {
-            Log.d("ProductAdapter", "Clicked product: " + product.getName());
-            Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
-            intent.putExtra("product", product);
-            context.startActivity(intent);
+            PreferenceManager preferenceManager= new PreferenceManager(context);
+            if(preferenceManager.isLoggedIn()) {
+                Log.d("ProductAdapter", "Clicked product: " + product.getName());
+                Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
+                intent.putExtra("product", product);
+                context.startActivity(intent);
+            }
+            else Toast.makeText(context,"Vui lòng đăng nhập",Toast.LENGTH_SHORT).show();
         };
 
         // Assign the listener to both the product view and the button
