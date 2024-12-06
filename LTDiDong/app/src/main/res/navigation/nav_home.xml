@@ -9,7 +9,11 @@
         android:id="@+id/productFragment"
         android:name="com.example.btlon.Ui.Home.ProductFragment"
         android:label="fragment_product"
-        tools:layout="@layout/home_product_fragment" />
+        tools:layout="@layout/home_product_fragment" >
+        <action
+            android:id="@+id/action_productFragment_to_productDetail"
+            app:destination="@id/productDetail" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.btlon.Ui.Home.CartFragment"
@@ -34,9 +38,6 @@
         <action
             android:id="@+id/action_userFragment_to_userOderFragment"
             app:destination="@id/userOderFragment" />
-        <action
-            android:id="@+id/action_userFragment_to_userPointFragment"
-            app:destination="@id/userPointFragment" />
         <action
             android:id="@+id/action_userFragment_to_userGiftFragment"
             app:destination="@id/userGiftFragment" />
@@ -70,8 +71,8 @@
         android:label="fragment_user_gift"
         tools:layout="@layout/fragment_user_gift" />
     <fragment
-        android:id="@+id/userPointFragment"
-        android:name="com.example.btlon.UserLayoutAction.UserPointFragment"
-        android:label="fragment_user_point"
-        tools:layout="@layout/fragment_user_point" />
+        android:id="@+id/productDetail"
+        android:name="com.example.btlon.Ui.Home.ProductDetail"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail" />
 </navigation>

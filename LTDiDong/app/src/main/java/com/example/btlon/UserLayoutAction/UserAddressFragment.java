@@ -24,6 +24,8 @@ import com.example.btlon.Adapter.AddressAdapter;
 import com.example.btlon.Data.Address;
 import com.example.btlon.Data.AddressTableHelper;
 import com.example.btlon.R;
+import com.example.btlon.Utils.PreferenceManager;
+
 import java.util.ArrayList;
 
 public class UserAddressFragment extends Fragment {
@@ -41,17 +43,16 @@ public class UserAddressFragment extends Fragment {
     private boolean isEditMode = false;
     private Address editingAddress = null;
     private AddressTableHelper addressTableHelper;
-    private int userId; // ID của người dùng từ SharedPreferences
+    private String userId; // ID của người dùng từ SharedPreferences
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_address, container, false);
 
-        // Lấy userId từ SharedPreferences
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getInt("userId", -1);
+        PreferenceManager preferenceManager = new PreferenceManager(requireActivity());
+       userId = preferenceManager.getUserId();
 
-        if (userId == -1) {
+        if (userId.isEmpty()) {
             Toast.makeText(getContext(), "Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!", Toast.LENGTH_SHORT).show();
             return view;
         }
@@ -146,9 +147,9 @@ public class UserAddressFragment extends Fragment {
 
             addressTableHelper.updateAddress(editingAddress);
         } else {
-            Address newAddress = new Address(addressList.size() + 1, userId, address, isDefault);
+            Address newAddress = new Address(addressList.size() + 1, Integer.parseInt(userId), address, isDefault);
             addressList.add(newAddress);
-            addressTableHelper.addNewAddressForUser(userId, address);
+            addressTableHelper.addNewAddressForUser(Integer.parseInt(userId), address);
 
             if (isDefault) {
                 clearDefaultForOthers(newAddress);
@@ -186,7 +187,7 @@ public class UserAddressFragment extends Fragment {
 
     private void loadAllAddresses() {
         addressList.clear();
-        addressList.addAll(addressTableHelper.getAllAddressesForUser(userId));
+        addressList.addAll(addressTableHelper.getAllAddressesForUser(Integer.parseInt(userId)));
         adapter.notifyDataSetChanged();
     }
 

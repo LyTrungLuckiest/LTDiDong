@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -14,14 +15,22 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.btlon.Adapter.ProductCommentAdapter;
 import com.example.btlon.Data.CartTableHelper;
+import com.example.btlon.Data.Comment;
+import com.example.btlon.Data.CommentTableHelper;
 import com.example.btlon.Data.Product;
 import com.example.btlon.R;
+import com.example.btlon.Ui.Home.CartFragment;
 import com.example.btlon.Ui.Home.HomeActivity;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 
@@ -34,6 +43,11 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     Notification badge;
     ImageView Tru, Cong;
     TextView Soluong;
+    private RecyclerView recyclerViewComment;
+    private ProductCommentAdapter commentAdapter;
+    private List<Comment> commentList = new ArrayList<>();
+    private EditText edtComment;
+    private Button btnSendComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +58,49 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         // Tham chiếu đến nút giỏ hàng
         View frameGioHang = findViewById(R.id.framegiohang);
 
-        // Đặt OnClickListener
+        // Ánh xạ view
+        edtComment = findViewById(R.id.edtcomment);
+        btnSendComment = findViewById(R.id.btSendComment);
+        recyclerViewComment = findViewById(R.id.recyclerViewComment);
+
+        // Cài đặt RecyclerView cho comment
+        commentAdapter = new ProductCommentAdapter(this, commentList);
+        recyclerViewComment.setAdapter(commentAdapter);
+        recyclerViewComment.setLayoutManager(new LinearLayoutManager(this));
+
+        // Thêm sự kiện gửi đánh giá
+        btnSendComment.setOnClickListener(v -> {
+            String commentText = edtComment.getText().toString().trim();
+            PreferenceManager preferenceManager = new PreferenceManager(this);
+            String userId = preferenceManager.getUserId();
+
+            if (!commentText.isEmpty() && sanPhamMoi != null) {
+                int productId = sanPhamMoi.getId(); // Lấy productId từ sản phẩm hiện tại
+
+                // Lưu bình luận vào SQLite
+                CommentTableHelper commentTableHelper = new CommentTableHelper(this);
+                boolean isAdded = commentTableHelper.insertComment(
+                        Integer.parseInt(userId),
+                        productId,
+                        commentText
+                );
+
+                if (isAdded) {
+                    Toast.makeText(this, "Bình luận đã được thêm", Toast.LENGTH_SHORT).show();
+                    loadCommentsFromDatabase(); // Tải lại danh sách bình luận
+                    edtComment.setText("");
+                } else {
+                    Toast.makeText(this, "Không thể thêm bình luận", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Vui lòng nhập nội dung bình luận", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Đặt OnClickListener cho giỏ hàng
         frameGioHang.setOnClickListener(v -> {
             // Chuyển sang Tab Giỏ hàng
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(this, CartFragment.class);
             intent.putExtra("tabIndex", 1); // 1 là chỉ số tab giỏ hàng
             startActivity(intent);
         });
@@ -62,7 +115,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         addToCartButton.setOnClickListener(v -> {
             if (sanPhamMoi != null) {
                 // Get selected quantity from spinner
-                int quantity= Integer.parseInt(Soluong.getText().toString());
+                int quantity = Integer.parseInt(Soluong.getText().toString());
                 PreferenceManager preferenceManager = new PreferenceManager(ChiTietSanPhamActivity.this);
                 String userId = preferenceManager.getUserId();
                 int productId = sanPhamMoi.getId();  // Corrected variable name
@@ -80,24 +133,26 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 Toast.makeText(ChiTietSanPhamActivity.this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
             }
         });
-        Tru.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentQuantity = Integer.parseInt(Soluong.getText().toString());
-                if (currentQuantity > 1) {
-                    currentQuantity--;
-                    Soluong.setText(String.valueOf(currentQuantity));
-                }
-            }
-        });
-        Cong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentQuantity = Integer.parseInt(Soluong.getText().toString());
-                currentQuantity++;
+
+        Tru.setOnClickListener(v -> {
+            int currentQuantity = Integer.parseInt(Soluong.getText().toString());
+            if (currentQuantity > 1) {
+                currentQuantity--;
                 Soluong.setText(String.valueOf(currentQuantity));
             }
         });
+
+        Cong.setOnClickListener(v -> {
+            int currentQuantity = Integer.parseInt(Soluong.getText().toString());
+            currentQuantity++;
+            Soluong.setText(String.valueOf(currentQuantity));
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadCommentsFromDatabase();  // Tải lại danh sách bình luận khi Activity quay lại
     }
 
     private void initView() {
@@ -152,6 +207,18 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             mota.setText("");
             giaSp.setText("");
             imgHinhanh.setImageResource(R.drawable.error_image); // Fallback image
+        }
+    }
+
+    private void loadCommentsFromDatabase() {
+        if (sanPhamMoi != null) {
+            int productId = sanPhamMoi.getId();
+            CommentTableHelper commentTableHelper = new CommentTableHelper(this);
+            List<Comment> comments = commentTableHelper.getCommentsByProductId(productId);
+
+            commentList.clear();
+            commentList.addAll(comments);
+            commentAdapter.notifyDataSetChanged();
         }
     }
 }

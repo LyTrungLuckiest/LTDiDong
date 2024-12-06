@@ -110,7 +110,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
     private static void HideBottomNavigation(BottomNavigationView bottomNavigationView, NavController navController) {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int[] fragmentsToHideBottomNav = {
@@ -119,7 +118,8 @@ public class HomeActivity extends AppCompatActivity {
                     R.id.userOderFragment,
                     R.id.userGiftFragment,
                     R.id.userFeedBackFragment,
-                    R.id.userPointFragment
+                    R.id.productDetail,
+
             };
 
             boolean shouldHide = false;

@@ -3,6 +3,7 @@ package com.example.btlon.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
+
 import com.bumptech.glide.Glide;
 import com.example.btlon.Data.Product;
 import com.example.btlon.R;
@@ -20,7 +23,6 @@ import com.example.btlon.Utils.ChiTietSanPhamActivity;
 import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ProductAdapter extends BaseAdapter {
     private final Activity context;
@@ -73,21 +75,21 @@ public class ProductAdapter extends BaseAdapter {
                 .into(imgProduct);
 
         // Xử lý sự kiện nhấn vào sản phẩm
-        convertView.setOnClickListener(v -> {
+        View.OnClickListener productClickListener = v -> {
             Log.d("ProductAdapter", "Clicked product: " + product.getName());
             Intent intent = new Intent(context, ChiTietSanPhamActivity.class);
             intent.putExtra("product", product);
             context.startActivity(intent);
-        });
+        };
+
+        // Assign the listener to both the product view and the button
+        convertView.setOnClickListener(productClickListener);
+        btnMuaHang.setOnClickListener(productClickListener);
+
+        // Fetch user role for any conditional logic if needed
         PreferenceManager preferenceManager = new PreferenceManager(context);
         String role = preferenceManager.getUserRole();
-        Log.d("ProductAdapter", "User role: " + role); // Kiểm tra giá trị quyền
-
-
-        // Xử lý sự kiện nhấn nút Mua hàng
-        btnMuaHang.setOnClickListener(v -> {
-            preferenceManager.checkLoginStatus(context);
-        });
+        Log.d("ProductAdapter", "User role: " + role); // Log the user role
 
         return convertView;
     }

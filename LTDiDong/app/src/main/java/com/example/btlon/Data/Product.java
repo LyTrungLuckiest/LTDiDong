@@ -1,6 +1,8 @@
 package com.example.btlon.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Product implements Serializable {
     private int id;
@@ -10,7 +12,8 @@ public class Product implements Serializable {
     private String description;
     private int quantity;
     private int category_id;
-    private  String CategoryName;
+    private List<Comment> comments;
+    private String CategoryName;
     public  Product(String name, String price, String description, String image, int quantity, int category_id){
         this.image = image;
         this.name = name;
@@ -39,7 +42,6 @@ public class Product implements Serializable {
         this.image = image;
         this.name = name;
         this.price = price;
-
         this.id=id;
     }
 
@@ -158,5 +160,17 @@ public class Product implements Serializable {
 
     public void setCategoryName(String categoryName) {
         CategoryName = categoryName;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
     }
 }
