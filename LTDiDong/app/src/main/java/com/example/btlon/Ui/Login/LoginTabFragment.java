@@ -135,6 +135,7 @@ public class LoginTabFragment extends Fragment {
                 getActivity().finish();
             }
 
+            
             @Override
             public void onLoginCancel() {
                 Toast.makeText(getContext(), "Đăng nhập Facebook đã bị hủy", Toast.LENGTH_SHORT).show();

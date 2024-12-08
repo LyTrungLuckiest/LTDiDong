@@ -24,6 +24,7 @@ public class SignupTabFragment extends Fragment {
     private Button btSignup;
     private UserTableHelper userTableHelper;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

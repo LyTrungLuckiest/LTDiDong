@@ -16,6 +16,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     private final Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
+
     public ViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
