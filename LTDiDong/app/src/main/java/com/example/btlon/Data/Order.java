@@ -7,6 +7,7 @@ public class Order {
     private Users user;
     private String orderDate;
     private double totalAmount;
+    private boolean status;  // 0 là chưa thanh toán 1 là đã thanh toán r
     private List<OrderDetail> orderDetails;
 
     public Order(int orderId, Users user, String orderDate, List<OrderDetail> orderDetails) {
@@ -14,6 +15,22 @@ public class Order {
         this.user = user;
         this.orderDate = orderDate;
         this.orderDetails = orderDetails;
+    }
+    public Order(int orderId, Users user, String orderDate, double totalAmount, List<OrderDetail> orderDetails, boolean status) {
+        this.orderId = orderId;
+        this.user = user;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.orderDetails = orderDetails;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getOrderId() {

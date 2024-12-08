@@ -182,6 +182,38 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
 
         return categoryName;
     }
+    public Product getProductById(int productId) {
+        Cursor cursor = null;
+
+        try {
+            SQLiteDatabase db = getDatabase(); // Lazy initialization
+            String selection = COL_ID + " = ?";
+            String[] selectionArgs = {String.valueOf(productId)};
+
+            cursor = db.query(
+                    TABLE_NAME,
+                    null, // Chọn tất cả các cột
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                return mapCursorToEntity(cursor); // Sử dụng phương thức mapCursorToEntity để chuyển đổi
+            }
+        } catch (Exception e) {
+            Log.e("ProductTableHelper", "Error fetching product by ID: " + e.getMessage(), e);
+        } finally {
+            if (cursor != null) {
+                cursor.close(); // Đảm bảo đóng cursor để tránh rò rỉ tài nguyên
+            }
+        }
+
+        return null; // Nếu không tìm thấy sản phẩm
+    }
+
 
 
 }

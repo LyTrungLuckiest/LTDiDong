@@ -44,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
         UserTableHelper userTableHelper = new UserTableHelper(this);
         PreferenceManager preferenceManager = new PreferenceManager(this);
 
@@ -53,11 +54,45 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+
+        // Kiểm tra flag isCartTransition
+        boolean isCartTransition = getIntent().getBooleanExtra("isCartTransition", false);
+        if (isCartTransition) {
+            navController.navigate(R.id.cartFragment); // Điều hướng đến CartFragment
+            bottomNavigationView.setSelectedItemId(R.id.cartFragment); // Đánh dấu CartFragment là mục được chọn
+            getIntent().putExtra("isCartTransition", false); // Đặt lại flag để tránh sự kiện lặp lại
+        }
+
+        // Đảm bảo BottomNavigationView không tự động điều hướng nếu không cần thiết
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.productFragment:
+                    // Điều hướng đến ProductFragment, không tự động đến CartFragment
+                    navController.navigate(R.id.productFragment);
+                    return true;
+                case R.id.cartFragment:
+                    // Điều hướng đến CartFragment nếu cần
+                    navController.navigate(R.id.cartFragment);
+                    return true;
+                case R.id.saleFragment:
+                    // Điều hướng đến , không tự động đến CartFragment
+                    navController.navigate(R.id.saleFragment);
+                    return true;
+                case R.id.userFragment:
+                    // Điều hướng đến , không tự động đến CartFragment
+                    navController.navigate(R.id.userFragment);
+                    return true;
+                default:
+                    return false;
+            }
+        });
 
         // Khởi tạo SearchView
         SearchView searchView = findViewById(R.id.searchview);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -71,7 +106,6 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Không cần xử lý tại đây vì hiển thị trên trang mới
                 return false;
             }
         });
@@ -88,27 +122,18 @@ public class HomeActivity extends AppCompatActivity {
         // Nhận diện giọng nói
         btnMicrophone.setOnClickListener(v -> startVoiceRecognition());
 
+        // Bấm vào giỏ hàng (sản phẩm) và chuyển hướng đến CartFragment
         ImageButton btnGiohang = findViewById(R.id.btnGiohang);
         btnGiohang.setOnClickListener(v -> {
-            BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
-            bottomNavigationView.setSelectedItemId(R.id.cartFragment);
+            // Điều hướng trực tiếp đến CartFragment
+            navController.navigate(R.id.cartFragment); // Giả sử cartFragment là ID của CartFragment trong nav_graph.xml
+            bottomNavigationView.setSelectedItemId(R.id.cartFragment); // Đảm bảo giỏ hàng được chọn trong BottomNavigationView
         });
 
         // Điều hướng BottomNavigationView
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
-        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
         HideBottomNavigation(bottomNavigationView, navController);
-
         DropDownbuttonClick();
-
-
-
-
-
     }
-
 
     private static void HideBottomNavigation(BottomNavigationView bottomNavigationView, NavController navController) {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
@@ -119,7 +144,6 @@ public class HomeActivity extends AppCompatActivity {
                     R.id.userGiftFragment,
                     R.id.userFeedBackFragment,
                     R.id.productDetail,
-
             };
 
             boolean shouldHide = false;
@@ -164,6 +188,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+
     private void startVoiceRecognition() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Nhận diện giọng nói không khả dụng trên thiết bị này.", Toast.LENGTH_SHORT).show();
@@ -194,4 +219,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

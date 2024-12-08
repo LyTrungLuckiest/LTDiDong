@@ -204,5 +204,34 @@ public class UserTableHelper extends BaseTableHelper<Users> {
 
         return exists;
     }
+    public Users getUserById(int userId) {
+        Users user = null;
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Truy vấn lấy thông tin người dùng dựa trên userId
+            String query = "SELECT * FROM Users WHERE " + COL_ID + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Lấy thông tin người dùng từ cursor
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID));
+                // Bạn có thể thêm các thông tin khác nếu bảng Users có nhiều cột hơn
+                user = new Users(id);
+            }
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi lấy thông tin người dùng từ userId: " + userId, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return user;
+    }
+
+
 
 }

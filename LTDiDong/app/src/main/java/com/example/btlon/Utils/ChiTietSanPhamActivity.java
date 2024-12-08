@@ -2,6 +2,7 @@ package com.example.btlon.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.btlon.Adapter.ProductCommentAdapter;
+import com.example.btlon.Data.CartProduct;
+import com.example.btlon.Data.CartProductTableHelper;
 import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.Data.Comment;
 import com.example.btlon.Data.CommentTableHelper;
@@ -26,6 +29,7 @@ import com.example.btlon.Data.Rating;
 import com.example.btlon.Data.RatingTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Ui.Home.CartFragment;
+import com.example.btlon.Ui.Home.HomeActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -47,12 +51,16 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     RatingTableHelper ratingTableHelper;
 
+    PreferenceManager preferenceManager;
+    boolean isLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chi_tiet_san_pham);
-        PreferenceManager preferenceManager = new PreferenceManager(this);
+        preferenceManager = new PreferenceManager(this);
+        isLogin=preferenceManager.isLoggedIn();
         userId = preferenceManager.getUserId();
 
         // Kiểm tra userId
@@ -72,22 +80,34 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         // Kiểm tra nếu sanPhamMoi không phải null
         if (sanPhamMoi != null) {
             productId = sanPhamMoi.getId();
-            tongDanhGia.setText(calculateAverageRating(productId) + "");
-            ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId),productId));
+            tongDanhGia.setText("Tổng đánh giá: "+calculateAverageRating(productId));
+            if(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId),productId)==0.0){
+
+                    float ratingValue =calculateAverageRating(productId);
+                    ratingBar.setRating(ratingValue);
+ 
+            }
+           else ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId),productId));
         }
 
         // Lắng nghe sự kiện khi giá trị của RatingBar thay đổi
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (sanPhamMoi != null) {
-                    ratingTableHelper.addOrUpdateRating(Integer.parseInt(userId), sanPhamMoi.getId(), rating);
-                    ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId), sanPhamMoi.getId()));
-                    tongDanhGia.setText(calculateAverageRating(productId) + "");
+        if(isLogin){
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (sanPhamMoi != null) {
+                        ratingTableHelper.addOrUpdateRating(Integer.parseInt(userId), sanPhamMoi.getId(), rating);
+                        ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId), sanPhamMoi.getId()));
+                        tongDanhGia.setText("Tổng đánh giá: "+calculateAverageRating(productId));
+                    }
                 }
-            }
-        });
+            });
+        }
+        else Toast.makeText(this,"Bạn cần đăng nhập",Toast.LENGTH_SHORT).show();
+
     }
+
+
 
     @Override
     protected void onResume() {
@@ -119,6 +139,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     }
 
     private void loadProductData() {
+
         sanPhamMoi = (Product) getIntent().getSerializableExtra("product");
         if (sanPhamMoi != null) {
             tensp.setText(sanPhamMoi.getName() != null ? sanPhamMoi.getName() : "Tên sản phẩm không có");
@@ -154,45 +175,50 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     private void setupAddToCartButton() {
         Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
-        addToCartButton.setOnClickListener(v -> {
-            if (sanPhamMoi != null) {
-                int quantity = Integer.parseInt(Soluong.getText().toString());
-                if (new CartTableHelper(this).addItemToCart(Integer.parseInt(userId), sanPhamMoi.getId(), quantity)) {
-                    Toast.makeText(this, "Sản phẩm đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
+        if(isLogin){
+            addToCartButton.setOnClickListener(v -> {
+                if (sanPhamMoi != null) {
+                    int quantity = Integer.parseInt(Soluong.getText().toString());
+                    CartProductTableHelper cartProductTableHelper= new CartProductTableHelper(this);
+                    CartProduct cartProduct = new CartProduct(sanPhamMoi,quantity);
+                    cartProductTableHelper.addOrUpdateCartProduct(Integer.parseInt(userId),cartProduct);
+                    Toast.makeText(this,"Thêm sản phẩm thành công",Toast.LENGTH_SHORT).show();
+
                 }
-            } else {
-                Toast.makeText(this, "Có lỗi xảy ra, không thể thêm sản phẩm", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        }else Toast.makeText(this,"Bạn cần đăng nhập",Toast.LENGTH_SHORT).show();
+
         Tru.setOnClickListener(v -> updateQuantity(-1));
         Cong.setOnClickListener(v -> updateQuantity(1));
     }
 
     private void setupCommentButton() {
-        btnSendComment.setOnClickListener(v -> {
-            String commentText = edtComment.getText().toString().trim();
-            if (!commentText.isEmpty() && sanPhamMoi != null) {
-                int productId = sanPhamMoi.getId();
-                if (new CommentTableHelper(this).insertComment(Integer.parseInt(userId), productId, commentText)) {
-                    Toast.makeText(this, "Bình luận đã được thêm", Toast.LENGTH_SHORT).show();
-                    loadCommentsFromDatabase();
-                    edtComment.setText("");
+        if(isLogin){
+            btnSendComment.setOnClickListener(v -> {
+                String commentText = edtComment.getText().toString().trim();
+                if (!commentText.isEmpty() && sanPhamMoi != null) {
+                    int productId = sanPhamMoi.getId();
+                    if (new CommentTableHelper(this).insertComment(Integer.parseInt(userId), productId, commentText)) {
+                        Toast.makeText(this, "Bình luận đã được thêm", Toast.LENGTH_SHORT).show();
+                        loadCommentsFromDatabase();
+                        edtComment.setText("");
+                    } else {
+                        Toast.makeText(this, "Không thể thêm bình luận", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "Không thể thêm bình luận", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Vui lòng nhập nội dung bình luận", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, "Vui lòng nhập nội dung bình luận", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        } else Toast.makeText(this,"Bạn cần đăng nhập",Toast.LENGTH_SHORT).show();
     }
+
 
     private void setupCartButton() {
         findViewById(R.id.framegiohang).setOnClickListener(v -> {
-            Intent intent = new Intent(this, CartFragment.class);
-            intent.putExtra("tabIndex", 1);
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("isCartTransition", true); // Truyền biến
             startActivity(intent);
+
         });
     }
 

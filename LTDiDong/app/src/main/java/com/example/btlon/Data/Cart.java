@@ -1,64 +1,79 @@
 package com.example.btlon.Data;
 
+import java.util.List;
+
 public class Cart {
     private int cartId;
-    private int userId;
-    private int productId;
-    private int quantity;
+    private Users user;
+    private String cartDate;  // Thời gian tạo giỏ hàng (có thể là thời gian thêm sản phẩm vào giỏ)
+    private double totalAmount; // Tổng giá trị các sản phẩm trong giỏ
+    private boolean status;  // 0 là chưa thanh toán, 1 là đã thanh toán (nếu bạn cần chức năng này)
+    private List<CartProduct> cartProducts; // Danh sách các sản phẩm trong giỏ hàng
 
-    private String productName;
-    private double price;
-    private String image;
-
-
-    public Cart(int cartId, int userId, int productId, int quantity, String productName, String price, String image) {
+    // Constructor khi không có tổng giá trị
+    public Cart(int cartId, Users user, List<CartProduct> cartProducts) {
         this.cartId = cartId;
-        this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.productName = productName;
-        this.price = Double.parseDouble(price);
-        this.image = image;
-
+        this.user = user;
+        this.cartDate = cartDate;
+        this.cartProducts = cartProducts;
     }
 
-    // Getters and setters
+    // Constructor khi có tổng giá trị và trạng thái thanh toán
+    public Cart(int cartId, Users user, String cartDate, double totalAmount, List<CartProduct> cartProducts, boolean status) {
+        this.cartId = cartId;
+        this.user = user;
+        this.cartDate = cartDate;
+        this.totalAmount = totalAmount;
+        this.cartProducts = cartProducts;
+        this.status = status;
+    }
 
+    // Getter và Setter
     public int getCartId() {
         return cartId;
     }
 
-    public int getUserId() {
-        return userId;
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
     }
 
-    public int getProductId() {
-        return productId;
+    public Users getUser() {
+        return user;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
-
-
-    public String getProductName() {
-        return productName;
+    public String getCartDate() {
+        return cartDate;
     }
 
-    public double getPrice() {
-        return price;
+    public void setCartDate(String cartDate) {
+        this.cartDate = cartDate;
     }
 
-
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public double getTotalAmount() {
+        return totalAmount;
     }
-    public String getImage() {
-        return image;
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
-    public void setImage(){
-        this.image = image;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public List<CartProduct> getCartProducts() {
+        return cartProducts;
+    }
+
+    public void setCartProducts(List<CartProduct> cartProducts) {
+        this.cartProducts = cartProducts;
     }
 }

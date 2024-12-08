@@ -49,6 +49,7 @@ public class UserOderFragment extends Fragment {
         List<Order> orders = getOrders(); // Lấy danh sách đơn hàng
         Map<Integer, List<OrderDetail>> orderDetailsMap = getOrderDetails(); // Lấy chi tiết đơn hàng
 
+
         // Cài đặt Adapter
         orderAdapter = new OrderAdapter(requireContext(), orders, orderDetailsMap);
         recyclerViewOrder.setAdapter(orderAdapter);

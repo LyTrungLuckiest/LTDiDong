@@ -1,7 +1,7 @@
 package com.example.btlon.Data;
 
 public class Users {
-
+    private int userId;
     private String username;
     private String password;
     private String role;
@@ -16,6 +16,10 @@ public class Users {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+    public Users( int userId) {
+
+       this.userId=userId;
     }
     public Users(int Userid, String username, String password, String role) {
 

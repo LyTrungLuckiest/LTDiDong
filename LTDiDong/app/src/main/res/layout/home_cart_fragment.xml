@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bkg_color">
+    android:background="@color/bkg_color"
+    android:orientation="vertical">
 
     <!-- Toolbar -->
 
     <!-- Nội dung cuộn -->
     <ScrollView
+        android:id="@+id/scrollviewCart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -56,28 +57,29 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <Button
+                android:id="@+id/btnXoaAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnXoaAll"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_button"
                 android:text="Xóa tất cả"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:background="@drawable/custom_button"
-                app:backgroundTint="@color/background"
                 android:textStyle="bold"
-                android:layout_gravity="right"
-                android:layout_marginBottom="10dp"
-                />
+                app:backgroundTint="@color/background" />
 
-            <!-- RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewgiohang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/toolbar_background" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/toolbar_background"
+                     />
+
 
 
             <!-- Giỏ hàng trống -->
@@ -141,8 +143,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
@@ -169,9 +171,9 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/custom_button"
                     android:text="@string/thanh_toan"
-                    app:backgroundTint="@color/background"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    app:backgroundTint="@color/background" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

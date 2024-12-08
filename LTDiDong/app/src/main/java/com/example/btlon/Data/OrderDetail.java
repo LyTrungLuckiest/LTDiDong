@@ -4,7 +4,6 @@ public class OrderDetail {
     private int orderDetailId;
     private Product product; // Mỗi dòng chi tiết liên kết đến 1 Product
     private int quantity;
-    private double subtotal;
 
     private double totalPrice;
 
@@ -15,6 +14,11 @@ public class OrderDetail {
         this.quantity = quantity;
         this.totalPrice = Double.parseDouble(product.getPrice())* quantity;// Calculate total price here
 
+    }
+
+
+    public  OrderDetail(int orderDetailId){
+        this.orderDetailId=orderDetailId;
     }
     public double getTotalPrice() {
         return totalPrice;
@@ -48,11 +52,5 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public double getSubtotal() {
-        return subtotal;
-    }
 
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
-    }
 }

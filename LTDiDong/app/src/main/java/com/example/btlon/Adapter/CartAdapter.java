@@ -4,125 +4,78 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.btlon.Data.Cart;
-import com.example.btlon.Data.CartTableHelper;
+import com.example.btlon.Data.CartProduct;
+import com.example.btlon.Data.OrderDetail;
 import com.example.btlon.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
-
-    private List<Cart> cartList;
+    private List<Cart> carts; // List of carts
+    private Map<Integer, List<CartProduct>> cartProductMap; // cartId -> list of CartProducts
     private Context context;
-    private CartTableHelper cartTableHelper;
+    private CartUpdateListener cartUpdateListener;  // Declare CartUpdateListener
 
-    public CartAdapter(Context context, List<Cart> cartList, CartTableHelper cartTableHelper) {
+    // Modify constructor to accept CartUpdateListener
+    public CartAdapter(Context context, List<Cart> carts, Map<Integer, List<CartProduct>> cartProductMap, CartUpdateListener cartUpdateListener) {
         this.context = context;
-        this.cartList = cartList;
-        this.cartTableHelper = cartTableHelper;
+        this.carts = carts;
+        this.cartProductMap = cartProductMap;
+        this.cartUpdateListener = cartUpdateListener;  // Store the listener
     }
 
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_cart, parent, false);
         return new CartViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        Cart cart = cartList.get(position);
+        Cart cart = carts.get(position);
+        List<CartProduct> cartProductList = cartProductMap.get(cart.getCartId());
 
-        if (cart != null) {
-            holder.productName.setText(cart.getProductName());
-            holder.productPrice.setText(String.format("%s VND", cart.getPrice() * cart.getQuantity()));
-            holder.productQuantity.setText(String.valueOf(cart.getQuantity()));
-
-
-
-            // Tải ảnh bằng Glide
-            Glide.with(holder.itemView.getContext())
-                    .load(cart.getImage())
-                    .placeholder(R.drawable.traicay)
-                    .error(R.drawable.error_image)
-                    .into(holder.productImage);
-
-            // Xử lý nút tăng số lượng
-            holder.btnIncrease.setOnClickListener(v -> {
-                int currentQuantity = cart.getQuantity();
-                cart.setQuantity(currentQuantity + 1);
-                cartTableHelper.updateQuantity(cart.getCartId(), currentQuantity + 1);
-                notifyItemChanged(position); // Cập nhật RecyclerView
-
-
-
-
-
-            });
-
-            // Xử lý nút giảm số lượng
-            holder.btnDecrease.setOnClickListener(v -> {
-                int currentQuantity = cart.getQuantity();
-                if (currentQuantity > 1) { // Không cho giảm số lượng xuống 0
-                    cart.setQuantity(currentQuantity - 1);
-                    cartTableHelper.updateQuantity(cart.getCartId(), currentQuantity - 1);
-                    notifyItemChanged(position); // Cập nhật RecyclerView
-
-                } else {
-
-                    if (position >= 0 && position < cartList.size()) {
-                        cartList.remove(position);  // Xóa phần tử tại vị trí `position`
-                        cartTableHelper.removeItemFromCart(cart.getCartId());  // Xóa phần tử khỏi cơ sở dữ liệu
-                        notifyItemRemoved(position);  // Cập nhật RecyclerView
-                        notifyItemRangeChanged(position, cartList.size());  // Cập nhật các phần tử xung quanh
-                        notifyDataSetChanged();
-                    }
-
-
-                }
-            });
-            holder.btnDelete.setOnClickListener(v->{
-                if (position >= 0 && position < cartList.size()) {
-                    cartList.remove(position);  // Xóa phần tử tại vị trí `position`
-                    cartTableHelper.removeItemFromCart(cart.getCartId());  // Xóa phần tử khỏi cơ sở dữ liệu
-                    notifyItemRemoved(position);  // Cập nhật RecyclerView
-                }
-            });
-
-
-        }
+        // Pass the CartUpdateListener to CartProductAdapter
+        CartProductAdapter cartProductAdapter = new CartProductAdapter(context, cartProductList, cartUpdateListener);
+        holder.recyclerViewCartProduct.setAdapter(cartProductAdapter);
+        holder.recyclerViewCartProduct.setLayoutManager(new LinearLayoutManager(context));
     }
+
 
     @Override
     public int getItemCount() {
-        return cartList.size();
+        return carts.size();
     }
 
-    public static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView productName, productPrice, productQuantity;
-        ImageView productImage, btnIncrease, btnDecrease;
-        Button btnDelete;
+    // Optional: Method to update data in CartAdapter
+    public void updateData(List<Cart> carts, Map<Integer, List<CartProduct>> cartProductsMap) {
+        this.carts = carts;
+        this.cartProductMap = cartProductsMap;
+        notifyDataSetChanged();  // Refresh RecyclerView
+    }
 
+    // ViewHolder class
+    public static class CartViewHolder extends RecyclerView.ViewHolder {
+        RecyclerView recyclerViewCartProduct;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            productName = itemView.findViewById(R.id.productName);
-            productPrice = itemView.findViewById(R.id.productPrice);
-            productQuantity = itemView.findViewById(R.id.productQuantity);
-
-            productImage = itemView.findViewById(R.id.productImage);
-            btnIncrease = itemView.findViewById(R.id.item_giohang_cong);
-            btnDecrease = itemView.findViewById(R.id.item_giohang_tru);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            recyclerViewCartProduct = itemView.findViewById(R.id.recyclerViewCartProduct);
         }
+    }
+
+    // Interface for cart updates
+    public interface CartUpdateListener {
+        void onCartUpdated();  // Method to notify when the cart is updated
     }
 }

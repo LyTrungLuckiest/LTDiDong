@@ -78,6 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         TextView tvOrderId, tvOrderDate, tvTotalAmount;
         RecyclerView recyclerViewOrderDetail;
 
+
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             tvOrderId = itemView.findViewById(R.id.tvOrderId);
