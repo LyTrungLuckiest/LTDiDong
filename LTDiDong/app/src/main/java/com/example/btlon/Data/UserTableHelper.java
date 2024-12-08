@@ -93,15 +93,23 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         ContentValues values = new ContentValues();
         values.put(COL_USERNAME, username);
         values.put(COL_PASSWORD, password);
-        boolean result = insert(values);
-        return true;
+        return insert(values); // Trả về kết quả thực tế từ phương thức insert
     }
+
 
     private boolean isUsernameExists(String username) {
         String[] columns = {COL_ID};
         String selection = COL_USERNAME + "=?";
         String[] selectionArgs = {username};
-        return getOne(columns, selection, selectionArgs) != null;
+
+        Cursor cursor = sqliteHelper.getReadableDatabase().query(
+                getTableName(), columns, selection, selectionArgs, null, null, null);
+
+        boolean exists = (cursor != null && cursor.moveToFirst());
+        if (cursor != null) {
+            cursor.close(); // Đảm bảo đóng cursor
+        }
+        return exists;
     }
 
     public List<Users> getAllUsers() {

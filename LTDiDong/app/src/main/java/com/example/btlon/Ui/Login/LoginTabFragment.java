@@ -152,5 +152,10 @@ public class LoginTabFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         FacebookLoginHelper.getInstance(getActivity()).onActivityResult(requestCode, resultCode, data);
     }
+    public void ResetForm() {
+        usernameEditText.setText("");
+        passwordEditText.setText("");
+
+    }
 
 }

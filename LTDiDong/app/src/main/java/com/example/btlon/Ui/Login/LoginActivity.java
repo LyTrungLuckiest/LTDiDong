@@ -9,8 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.Adapter.ViewPagerAdapter;
 
+
+import com.example.btlon.Adapter.ViewPagerAdapter;
 import com.example.btlon.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -43,7 +44,21 @@ public class LoginActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setCurrentItem(tab.getPosition());
+                int position = tab.getPosition();
+                viewPager2.setCurrentItem(position);
+
+                // Lấy fragment hiện tại và reset các trường nhập liệu
+                if (position == 0) { // Đăng nhập
+                    LoginTabFragment loginFragment = (LoginTabFragment) adapter.getFragmentAt(0);
+                    if (loginFragment != null) {
+                        loginFragment.ResetForm();
+                    }
+                } else if (position == 1) { // Đăng ký
+                    SignupTabFragment signupFragment = (SignupTabFragment) adapter.getFragmentAt(1);
+                    if (signupFragment != null) {
+                        signupFragment.ResetForm();
+                    }
+                }
             }
 
             @Override
@@ -54,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

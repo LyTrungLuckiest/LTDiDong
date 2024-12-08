@@ -54,7 +54,7 @@ public class SignupTabFragment extends Fragment {
                 boolean isInserted = userTableHelper.addUser(username, password);
                 if (isInserted) {
                     Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-
+                    ResetForm();
                     TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
                     if (tabLayout != null) {
                         TabLayout.Tab tab = tabLayout.getTabAt(0);
@@ -67,5 +67,11 @@ public class SignupTabFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void ResetForm() {
+        edtUsername.setText("");
+        edtPassword.setText("");
+        edtConfirmPassword.setText("");
     }
 }

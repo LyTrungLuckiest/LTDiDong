@@ -9,7 +9,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.btlon.Ui.Login.LoginTabFragment;
 import com.example.btlon.Ui.Login.SignupTabFragment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ViewPagerAdapter extends FragmentStateAdapter {
+
+    private final Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     public ViewPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
@@ -18,15 +23,22 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        Fragment fragment;
         if (position == 0) {
-            return new LoginTabFragment();
+            fragment = new LoginTabFragment();
         } else {
-            return new SignupTabFragment();
+            fragment = new SignupTabFragment();
         }
+        fragmentMap.put(position, fragment); // Lưu fragment vào Map
+        return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 2; // Số lượng tab
+    }
+
+    public Fragment getFragmentAt(int position) {
+        return fragmentMap.get(position);
     }
 }
