@@ -51,14 +51,22 @@ public class NormalLoginHelper {
                 PreferenceManager preferenceManager = new PreferenceManager(context);
                 if (userTableHelper.checkRole(String.valueOf(userId)).equals("Admin")) {
                     preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, "Admin");
-                } else {
+                } else if (userTableHelper.checkRole(String.valueOf(userId)).equals("User")) {
                     preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, "User");
+                } else {
+                    preferenceManager.saveLoginState(true, "custom", String.valueOf(userId), null, "Staff");
                 }
 
                 // Đăng nhập thành công, chuyển hướng đến màn hình phù hợp
                 Log.d("Login", "User login state saved: " + preferenceManager.isLoggedIn());
-                Intent intent = user.equals("Admin") ? new Intent(context, AdminActivity.class)
-                        : new Intent(context, HomeActivity.class);
+                Intent intent;
+                if (userTableHelper.checkRole(String.valueOf(userId)).equals("Admin") || userTableHelper.checkRole(String.valueOf(userId)).equals("Staff")) {
+                    intent = new Intent(context, AdminActivity.class);
+                } else{
+                    intent = new Intent(context, HomeActivity.class);
+                }
+
+
                 intent.putExtra("USERNAME", user);
                 context.startActivity(intent);
 

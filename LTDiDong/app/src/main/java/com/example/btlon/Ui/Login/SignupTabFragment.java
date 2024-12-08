@@ -52,17 +52,22 @@ public class SignupTabFragment extends Fragment {
             } else if (!password.equals(confirmPassword)) {
                 Toast.makeText(getContext(), "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
             } else {
-                boolean isInserted = userTableHelper.addUser(username, password);
-                if (isInserted) {
-                    Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                    ResetForm();
-                    TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
-                    if (tabLayout != null) {
-                        TabLayout.Tab tab = tabLayout.getTabAt(0);
-                        if (tab != null) tab.select();
-                    }
+                if (userTableHelper.checkUsernameExists(username)) {
+                    Toast.makeText(getContext(), "Tên người dùng đã tồn tại!", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    Toast.makeText(getContext(), "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.", Toast.LENGTH_SHORT).show();
+                    boolean isInserted = userTableHelper.addUser(username, password);
+                    if (isInserted) {
+                        Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                    ResetForm();
+                        TabLayout tabLayout = getActivity().findViewById(R.id.tab_layout);
+                        if (tabLayout != null) {
+                            TabLayout.Tab tab = tabLayout.getTabAt(0);
+                            if (tab != null) tab.select();
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
