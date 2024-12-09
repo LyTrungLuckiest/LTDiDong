@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btlon.R;
 import com.example.btlon.Data.ItemManager;
+import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.List;
 
@@ -42,22 +43,28 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
 
         holder.cardView.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(v);
+            PreferenceManager preferenceManager = new PreferenceManager(v.getContext());
+            String role= preferenceManager.getUserRole();
 
             Bundle bundle = new Bundle();
             bundle.putString("itemId", item.getTitle());
             switch (item.getTitle()) {
                 case "Người dùng":
+                    if(role.equals("Admin")){
                     navController.navigate(R.id.action_settingsFragment_to_adminUserSettingFragment, bundle);
-                    break;
+                    break;}
                 case "Sản phẩm":
+                    if(role.equals("Admin")){
                     navController.navigate(R.id.action_settingsFragment_to_adminProductSettingFragment, bundle);
-                    break;
+                    break;}
 //                case "Hóa đơn":
 //                    navController.navigate(R.id.action_settingsFragment_to_adminOrderSettingFragment, bundle);
 //                    break;
                 case "Danh mục sản phẩm":
-                    navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
-                    break;
+                    if(role.equals("Admin")) {
+                        navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
+                        break;
+                    }
 //
             }
         });

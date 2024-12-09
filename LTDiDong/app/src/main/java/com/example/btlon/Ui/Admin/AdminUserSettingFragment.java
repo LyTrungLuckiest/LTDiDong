@@ -88,6 +88,7 @@ public class AdminUserSettingFragment extends Fragment {
         EditText edtPassword = dialogView.findViewById(R.id.edtPassword);
         RadioButton rdAdmin = dialogView.findViewById(R.id.rdAdmin);
         RadioButton rdUser = dialogView.findViewById(R.id.rdUser);
+        RadioButton rdStaff = dialogView.findViewById(R.id.rdStaff);
         rdUser.setChecked(true);
         toggle = dialogView.findViewById(R.id.btnXem);
         new PasswordToggleHelper(edtPassword, toggle);
@@ -101,7 +102,8 @@ public class AdminUserSettingFragment extends Fragment {
                     // Lấy thông tin từ các trường nhập liệu
                     String newUsername = edtUsername.getText().toString().trim();
                     String newPassword = edtPassword.getText().toString().trim();
-                    String newRole = rdAdmin.isChecked() ? "Admin" : "User";
+                    String newRole = rdAdmin.isChecked() ? "Admin" : rdStaff.isChecked() ? "Staff" : "User";
+
 
                     // Kiểm tra hợp lệ dữ liệu
                     if (TextUtils.isEmpty(newUsername) || TextUtils.isEmpty(newPassword)) {
@@ -143,6 +145,8 @@ public class AdminUserSettingFragment extends Fragment {
         EditText edtPassword = dialogView.findViewById(R.id.edtPassword);
         RadioButton rdAdmin = dialogView.findViewById(R.id.rdAdmin);
         RadioButton rdUser = dialogView.findViewById(R.id.rdUser);
+        RadioButton rdStaff = dialogView.findViewById(R.id.rdStaff);
+
         toggle = dialogView.findViewById(R.id.btnXem);
         new PasswordToggleHelper(edtPassword, toggle);
 
@@ -152,6 +156,7 @@ public class AdminUserSettingFragment extends Fragment {
         edtPassword.setText(users.getPassword());
         rdAdmin.setChecked(users.getRole().equals("Admin"));
         rdUser.setChecked(users.getRole().equals("User"));
+        rdStaff.setChecked(users.getRole().equals("Staff"));
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -160,7 +165,7 @@ public class AdminUserSettingFragment extends Fragment {
                 .setPositiveButton("Cập nhật", (dialog, which) -> {
                     String newUsername = edtUsername.getText().toString().trim();
                     String newPassword = edtPassword.getText().toString().trim();
-                    String newRole = rdAdmin.isChecked() ? "Admin" : "User";
+                    String newRole = rdAdmin.isChecked() ? "Admin" : rdStaff.isChecked() ? "Staff" : "User";
 
 
 

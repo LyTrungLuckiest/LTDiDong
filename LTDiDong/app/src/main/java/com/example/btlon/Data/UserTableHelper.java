@@ -89,7 +89,6 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         if (isUsernameExists(username)) {
             return false;
         }
-
         ContentValues values = new ContentValues();
         values.put(COL_USERNAME, username);
         values.put(COL_PASSWORD, password);
