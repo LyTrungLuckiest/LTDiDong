@@ -1,6 +1,7 @@
 package com.example.btlon.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,14 @@ import com.example.btlon.Data.OrderDetail;
 import com.example.btlon.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
-    private List<Order> orders;
-    private Map<Integer, List<OrderDetail>> orderDetailsMap; // orderId -> danh sách chi tiết
+    private List<Order> orders; // Danh sách các đơn hàng
     private Context context;
 
-    public OrderAdapter(Context context, List<Order> orders, Map<Integer, List<OrderDetail>> orderDetailsMap) {
+    public OrderAdapter(Context context, List<Order> orders) {
         this.context = context;
         this.orders = orders;
-        this.orderDetailsMap = orderDetailsMap;
     }
 
     @NonNull
@@ -38,46 +36,45 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orders.get(position);
-
-        // Set order ID and date
+        Log.d("OrderAdapter", "Binding order with ID: " + order.getOrderId());
+        // Hiển thị mã đơn hàng và ngày
         holder.tvOrderId.setText("Mã đơn hàng: #" + order.getOrderId());
         holder.tvOrderDate.setText("Ngày: " + order.getOrderDate());
 
-        // Get the details for this order
-        List<OrderDetail> details = orderDetailsMap.get(order.getOrderId());
+        // Lấy danh sách chi tiết đơn hàng
+        List<OrderDetail> details = order.getOrderDetails();  // Lấy trực tiếp từ Order
+
         double totalAmount = 0.0;
 
-        // Sum the total prices from the order details
+        // Tính tổng giá trị đơn hàng từ chi tiết
         if (details != null) {
             for (OrderDetail detail : details) {
-                totalAmount += detail.getTotalPrice();  // Sum total price for this order
+                totalAmount += detail.getTotalPrice();  // Tổng giá trị từ chi tiết đơn hàng
             }
         }
 
-        // Set the total amount on the order
-        order.setTotalAmount(totalAmount);
-
-        // Display the total amount with commas and the correct format
+        // Hiển thị tổng tiền
         holder.tvTotalAmount.setText("Tổng tiền: " + String.format("%,.0f VND", totalAmount));
 
-        // Set RecyclerView for order details
+        // Set RecyclerView cho chi tiết đơn hàng
         OrderDetailAdapter detailAdapter = new OrderDetailAdapter(context, details);
         holder.recyclerViewOrderDetail.setAdapter(detailAdapter);
         holder.recyclerViewOrderDetail.setLayoutManager(new LinearLayoutManager(context));
     }
 
-
-
-
     @Override
     public int getItemCount() {
         return orders.size();
+    }
+    // Phương thức để cập nhật danh sách đơn hàng
+    public void updateOrders(List<Order> newOrders) {
+        this.orders = newOrders;  // Cập nhật danh sách đơn hàng mới
+        notifyDataSetChanged();  // Thông báo cho adapter rằng dữ liệu đã thay đổi
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
         TextView tvOrderId, tvOrderDate, tvTotalAmount;
         RecyclerView recyclerViewOrderDetail;
-
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,4 +85,3 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
     }
 }
-

@@ -4,35 +4,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/bkg_color"
-    tools:context=".UserLayoutAction.UserOderFragment">
+    android:orientation="vertical"
+    tools:context=".UserLayoutAction.UserOrderFragment">
+
+    <!-- Button at the top -->
     <Button
         android:id="@+id/btUserOrderBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thoát"
-        android:textSize="20sp"
-        android:textColor="@color/text_color"
         android:background="@drawable/squre_shape"
-        app:backgroundTint="@null"
-        android:drawableLeft="@drawable/arrow_left_icon"/>
+        android:drawableLeft="@drawable/arrow_left_icon"
+        android:text="Thoát"
+        android:textColor="@color/text_color"
+        android:textSize="20sp"
+        app:backgroundTint="@null" />
 
-
+    <!-- TextView (fixed at the top) -->
     <TextView
-        android:layout_marginTop="15dp"
+        android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/square_shape_stroke_black"
         android:padding="10dp"
         android:text="Thông tin hóa đơn"
         android:textAlignment="center"
-        android:textSize="25dp" />
+        android:textSize="25sp" />
+
+    <!-- RecyclerView (takes the remaining space) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp" />
 
+    <!-- Bottom Button (fixed at the bottom) -->
+    <Button
+        android:id="@+id/btDeleteData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xoá all" />
 
 </LinearLayout>

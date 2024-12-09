@@ -10,7 +10,13 @@ public class Order {
     private boolean status;  // 0 là chưa thanh toán 1 là đã thanh toán r
     private List<OrderDetail> orderDetails;
 
-    public Order(int orderId, Users user, String orderDate, List<OrderDetail> orderDetails) {
+    public Order( Users user, List<OrderDetail> orderDetails) {
+        this.orderId = orderId;
+        this.user = user;
+        this.orderDate = orderDate;
+        this.orderDetails = orderDetails;
+    }
+    public Order( int orderId,Users user, List<OrderDetail> orderDetails) {
         this.orderId = orderId;
         this.user = user;
         this.orderDate = orderDate;

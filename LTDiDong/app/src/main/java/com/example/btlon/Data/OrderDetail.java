@@ -15,6 +15,12 @@ public class OrderDetail {
         this.totalPrice = Double.parseDouble(product.getPrice())* quantity;// Calculate total price here
 
     }
+    public OrderDetail(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+        this.totalPrice = Double.parseDouble(product.getPrice())* quantity;// Calculate total price here
+
+    }
 
 
     public  OrderDetail(int orderDetailId){

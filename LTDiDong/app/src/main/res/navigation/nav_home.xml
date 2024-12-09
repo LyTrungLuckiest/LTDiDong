@@ -57,7 +57,7 @@
         tools:layout="@layout/fragment_user_address" />
     <fragment
         android:id="@+id/userOderFragment"
-        android:name="com.example.btlon.UserLayoutAction.UserOderFragment"
+        android:name="com.example.btlon.UserLayoutAction.UserOrderFragment"
         android:label="fragment_user_oder"
         tools:layout="@layout/fragment_user_oder" />
     <fragment

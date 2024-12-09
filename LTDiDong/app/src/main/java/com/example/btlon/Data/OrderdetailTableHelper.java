@@ -3,13 +3,14 @@ package com.example.btlon.Data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderdetailTableHelper extends BaseTableHelper<OrderDetail> {
-    private static final String TABLE_NAME = "OrderDetails";
+    private static final String TABLE_NAME = "Order_Details";
     private static final String COL_ORDER_DETAIL_ID = "order_detail_id";
     private static final String COL_ORDER_ID = "order_id";
     private static final String COL_PRODUCT_ID = "product_id";
@@ -56,12 +57,17 @@ public class OrderdetailTableHelper extends BaseTableHelper<OrderDetail> {
         values.put(COL_PRODUCT_ID, orderDetail.getProduct().getId());
         values.put(COL_QUANTITY, orderDetail.getQuantity());
 
+        // Make sure to include the price for the product in the order detail
+        double price = Double.parseDouble(orderDetail.getProduct().getPrice());  // Assuming getPrice() method exists in the Product class
+        values.put("price", price);  // Adding price to the values
+
         Log.d("OrderDetailTableHelper", "Adding order detail: " + orderDetail);
         return insert(values);
     }
 
+
     // Fetch all order details for a given orderId
-    public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
+    public List<OrderDetail> getListOrderDetailsByOrderId(int orderId) {
         List<OrderDetail> orderDetails = new ArrayList<>();
         Cursor cursor = null;
 
@@ -94,4 +100,51 @@ public class OrderdetailTableHelper extends BaseTableHelper<OrderDetail> {
     public boolean deleteOrderDetail(int orderDetailId) {
         return delete(COL_ORDER_DETAIL_ID + "=?", new String[]{String.valueOf(orderDetailId)});
     }
+    public Cursor getOrderDetailsByOrderId(int orderId) {
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        // Modify this SQL query to fetch details for a specific orderId
+        String query = "SELECT * FROM Order_Details WHERE order_id = ?";
+        return db.rawQuery(query, new String[]{String.valueOf(orderId)});
+    }
+    public boolean deleteOrderDetailsByUserId(int userId) {
+        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
+
+        // Truy vấn SQL để xóa order detail có order_id liên quan đến user_id
+        String query = "DELETE FROM Order_Details WHERE order_id IN (SELECT order_id FROM Orders WHERE user_id = ?)";
+
+        try {
+            // Thực thi câu lệnh SQL
+            db.execSQL(query, new Object[]{userId});
+            return true;
+        } catch (Exception e) {
+            Log.e("OrderDetailTableHelper", "Lỗi khi xóa order details cho user_id: " + userId, e);
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+    // Xóa tất cả các OrderDetail
+    public boolean deleteAllOrderDetails() {
+        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
+
+        try {
+            // Xóa tất cả bản ghi trong bảng Order_Details
+            int rowsDeleted = db.delete(TABLE_NAME, null, null);
+
+            if (rowsDeleted > 0) {
+                Log.d("OrderDetailTableHelper", "Đã xóa " + rowsDeleted + " chi tiết đơn hàng.");
+                return true;
+            } else {
+                Log.d("OrderDetailTableHelper", "Không có chi tiết đơn hàng nào để xóa.");
+                return false;
+            }
+        } catch (Exception e) {
+            Log.e("OrderDetailTableHelper", "Lỗi khi xóa tất cả OrderDetails: " + e.getMessage());
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+
+
 }

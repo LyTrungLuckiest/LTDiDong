@@ -4,6 +4,7 @@ import static android.app.PendingIntent.getActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.btlon.Ui.Home.HomeActivity;
@@ -38,8 +39,11 @@ public class PreferenceManager {
     }
 
     public static String getUserId() {
-        return sharedPref.getString("USER_ID", "");
+        String userId = sharedPref.getString("USER_ID", "");
+        Log.d("PreferenceManager", "Lấy userId: " + userId); // Thêm log để kiểm tra
+        return userId;
     }
+
 
     public String getAccessToken() {
         return sharedPref.getString("ACCESS_TOKEN", "");

@@ -1,6 +1,7 @@
 package com.example.btlon.Data;
+import java.io.Serializable;
 
-public class CartProduct {
+public class CartProduct implements Serializable{
     private int cartProductId; // ID của sản phẩm trong giỏ hàng
     private Product product; // Sản phẩm trong giỏ
     private int quantity; // Số lượng của sản phẩm trong giỏ

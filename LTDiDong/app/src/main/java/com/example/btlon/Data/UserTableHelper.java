@@ -219,14 +219,20 @@ public class UserTableHelper extends BaseTableHelper<Users> {
 
         try {
             // Truy vấn lấy thông tin người dùng dựa trên userId
-            String query = "SELECT * FROM Users WHERE " + COL_ID + " = ?";
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ID + " = ?";
+            Log.d("SQL Debug", "Truy vấn: " + query + ", userId: " + userId);
             cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
 
             if (cursor != null && cursor.moveToFirst()) {
                 // Lấy thông tin người dùng từ cursor
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID));
-                // Bạn có thể thêm các thông tin khác nếu bảng Users có nhiều cột hơn
-                user = new Users(id);
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(COL_USERNAME));
+                String password = cursor.getString(cursor.getColumnIndexOrThrow(COL_PASSWORD));
+                String role = cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE));
+
+                user = new Users(id, username, password, role);
+            } else {
+                Log.d("UserTableHelper", "Không tìm thấy user với ID: " + userId);
             }
         } catch (Exception e) {
             Log.e("UserTableHelper", "Lỗi khi lấy thông tin người dùng từ userId: " + userId, e);
@@ -234,7 +240,6 @@ public class UserTableHelper extends BaseTableHelper<Users> {
             if (cursor != null) {
                 cursor.close();
             }
-            db.close();
         }
 
         return user;
