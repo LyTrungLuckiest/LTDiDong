@@ -1,8 +1,6 @@
 package com.example.btlon.Ui.Home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
@@ -30,12 +28,9 @@ import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.Models.CreateOrder;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,8 +110,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -126,8 +120,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             Toast.makeText(requireContext(), "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
             return;
         }
-        handleCheckout();
-
 
         switch (selectedPaymentMethod) {
             case "Tiền mặt":
@@ -205,56 +197,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         return new HashMap() {{
             put(Integer.parseInt(userId), new CartProductTableHelper(requireContext()).getCartProductsByCartId(Integer.parseInt(userId)));
         }};
-    }
-
-    private void handleCheckout() {
-        // Lấy danh sách sản phẩm trong giỏ hàng của người dùng
-        Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
-        List<CartProduct> cartProductList = cartProductsMap.get(Integer.parseInt(userId));
-
-        if (cartProductList == null || cartProductList.isEmpty()) {
-            Toast.makeText(requireContext(), "Không có sản phẩm để thanh toán!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Tính tổng giá trị sản phẩm trong giỏ
-        double total = 0;
-        for (CartProduct product : cartProductList) {
-            total += product.getTotalPrice(); // Assuming this method exists
-        }
-
-        // Lấy dữ liệu cũ từ SharedPreferences
-        SharedPreferences preferences = requireContext().getSharedPreferences("CartData", Context.MODE_PRIVATE);
-        String ordersJson = preferences.getString("orders_list", "[]");  // Nếu không có, trả về danh sách trống
-
-        // Chuyển đổi dữ liệu JSON thành List<List<CartProduct>>
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<List<CartProduct>>>() {
-        }.getType();
-        List<List<CartProduct>> ordersList = gson.fromJson(ordersJson, type);
-
-        // Nếu ordersList rỗng, khởi tạo danh sách mới
-        if (ordersList == null) {
-            ordersList = new ArrayList<>();
-        }
-
-        // Thêm giỏ hàng hiện tại vào ordersList
-        ordersList.add(cartProductList);
-
-        // Lưu lại danh sách mới vào SharedPreferences
-        String updatedOrdersJson = gson.toJson(ordersList);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("orders_list", updatedOrdersJson);
-        editor.putString("payment_method", selectedPaymentMethod);
-        editor.putString("total_amount", String.valueOf(total));
-        editor.putBoolean("isPay", true);
-        editor.apply();
-
-        // Xóa tất cả sản phẩm trong giỏ hàng
-        deleteAllCartProducts();
-
-        // Thông báo thanh toán thành công
-        Toast.makeText(requireContext(), "Thanh toán bằng " + selectedPaymentMethod + ", vui lòng coi hóa đơn", Toast.LENGTH_SHORT).show();
     }
 
     @Override
