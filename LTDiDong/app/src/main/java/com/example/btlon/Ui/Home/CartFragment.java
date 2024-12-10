@@ -1,8 +1,11 @@
 package com.example.btlon.Ui.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,11 +27,13 @@ import com.example.btlon.Data.Cart;
 import com.example.btlon.Data.CartProduct;
 import com.example.btlon.Data.CartProductTableHelper;
 import com.example.btlon.Data.CartTableHelper;
+import com.example.btlon.Models.CreateOrder;
 import com.example.btlon.R;
-import com.example.btlon.UserLayoutAction.UserOrderFragment;
 import com.example.btlon.Utils.PreferenceManager;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -37,36 +41,46 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
+
 public class CartFragment extends Fragment implements CartAdapter.CartUpdateListener {
     private TextView txtGioHangTrong, txtTongTien;
     private RecyclerView recyclerView;
     private Button btnThanhToan, btnXoaAll;
-    private Spinner spinnerPaymentMethod;
+    private Spinner spinnerPhuongThucThanhToan;
     private CartAdapter cartAdapter;
     private String userId, selectedPaymentMethod = "Tiền mặt";
     private PreferenceManager preferenceManager;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        ZaloPaySDK.init(2553, Environment.SANDBOX); // Khởi tạo SDK ZaloPay
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_cart_fragment, container, false);
 
-        // Initialize PreferenceManager and check login status
-        preferenceManager = new PreferenceManager(getContext());
+        preferenceManager = new PreferenceManager(requireContext());
         userId = preferenceManager.getUserId();
 
-        // If user is not logged in, hide cart UI and show message
-        if (!preferenceManager.isLoggedIn() || userId == null || userId.isEmpty()) {
+        if (!preferenceManager.isLoggedIn() || TextUtils.isEmpty(userId)) {
             Toast.makeText(requireContext(), "Bạn cần đăng nhập để tiếp tục!", Toast.LENGTH_SHORT).show();
             ScrollView scrollView = view.findViewById(R.id.scrollviewCart);
-            scrollView.setVisibility(View.GONE);
+            scrollView.setVisibility(View.GONE); // Ẩn giỏ hàng nếu chưa đăng nhập
             return view;
         }
 
         initializeUI(view);
         setRecyclerViewAdapter(getCart(), getCartProducts());
+
         setupSpinner();
-        setupButtonListeners();
-        updateTotalPrice();
+        updateTotalPrice(); // Cập nhật tổng tiền khi hiển thị giỏ hàng
 
         return view;
     }
@@ -76,13 +90,89 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         txtTongTien = view.findViewById(R.id.txttongtien);
         recyclerView = view.findViewById(R.id.recyclerviewCart);
         btnThanhToan = view.findViewById(R.id.btntienhang);
-        spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
         btnXoaAll = view.findViewById(R.id.btnXoaAll);
+        spinnerPhuongThucThanhToan = view.findViewById(R.id.spinnerPaymentMethod);
 
-        ScrollView scrollView = view.findViewById(R.id.scrollviewCart);
-        scrollView.setVisibility(preferenceManager.isLoggedIn() ? View.VISIBLE : View.GONE);
-
+        btnThanhToan.setOnClickListener(v -> handlePayment());
         btnXoaAll.setOnClickListener(v -> deleteAllCartProducts());
+    }
+
+    private void setupSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                new String[]{"Tiền mặt", "MoMo", "ZaloPay", "Ngân hàng"});
+        spinnerPhuongThucThanhToan.setAdapter(adapter);
+        spinnerPhuongThucThanhToan.setSelection(0);
+        spinnerPhuongThucThanhToan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedPaymentMethod = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void handlePayment() {
+        double total = Double.parseDouble(txtTongTien.getText().toString().replace("VND", "").trim());
+        if (total <= 0) {
+            Toast.makeText(requireContext(), "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        switch (selectedPaymentMethod) {
+            case "Tiền mặt":
+                navigateToResult("Thanh toán tiền mặt thành công!");
+                handleCheckout();
+                break;
+            case "MoMo":
+                navigateToResult("Thanh toán MoMo thành công!");
+                break;
+            case "ZaloPay":
+                handleZaloPayPayment(total);
+                break;
+                case "Ngân hàng":
+                    navigateToResult("Thanh toán Ngân hàng thành công!");
+                break;
+            default:
+                Toast.makeText(requireContext(), "Phương thức chưa hỗ trợ!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handleZaloPayPayment(double total) {
+        try {
+            CreateOrder orderApi = new CreateOrder();
+            JSONObject data = orderApi.createOrder(String.valueOf((int) total));
+            if ("1".equals(data.getString("return_code"))) {
+                ZaloPaySDK.getInstance().payOrder(requireActivity(), data.getString("zp_trans_token"), "yourapp://callback", new PayOrderListener() {
+                    @Override
+                    public void onPaymentSucceeded(String transactionId, String zpTransId, String message) {
+                        navigateToResult("Thanh toán thành công!");
+                        handleCheckout();
+                    }
+
+                    @Override
+                    public void onPaymentCanceled(String zpTransToken, String message) {
+                        navigateToResult("Thanh toán đã bị hủy!");
+                    }
+
+                    @Override
+                    public void onPaymentError(vn.zalopay.sdk.ZaloPayError zaloPayError, String zpTransToken, String message) {
+                        Toast.makeText(requireContext(), "Thanh toán thất bại: " + message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            Log.e("CartFragment", "Lỗi ZaloPay", e);
+        }
+    }
+
+    private void navigateToResult(String result) {
+        Intent intent = new Intent(requireActivity(), PaymenActivity.class);
+        intent.putExtra("result", result);
+        startActivity(intent);
     }
 
     private void setRecyclerViewAdapter(List<Cart> carts, Map<Integer, List<CartProduct>> cartProductsMap) {
@@ -97,29 +187,12 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         }
     }
 
-    private void setupSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                new String[]{"Tiền mặt", "MoMo", "ZaloPay", "Ngân hàng"});
-        spinnerPaymentMethod.setAdapter(adapter);
-        spinnerPaymentMethod.setSelection(0);
-        spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedPaymentMethod = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-    }
-
     private void setupButtonListeners() {
-        btnThanhToan.setOnClickListener(v -> handleCheckout());
+        btnThanhToan.setOnClickListener(v -> handlePayment());
     }
 
     private void handleCheckout() {
-        // Get the cart products
+        // Lấy danh sách sản phẩm trong giỏ hàng của người dùng
         Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
         List<CartProduct> cartProductList = cartProductsMap.get(Integer.parseInt(userId));
 
@@ -128,30 +201,29 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             return;
         }
 
-        // Calculate total price
+        // Tính tổng giá trị sản phẩm trong giỏ
         double total = 0;
         for (CartProduct product : cartProductList) {
-            total += product.getTotalPrice(); // Assuming this method exists
+            total += product.getTotalPrice();
         }
 
-        // Retrieve old data from SharedPreferences
+        // Lấy dữ liệu cũ từ SharedPreferences
         SharedPreferences preferences = requireContext().getSharedPreferences("CartData", Context.MODE_PRIVATE);
         String ordersJson = preferences.getString("orders_list", "[]");
 
-        // Convert the JSON data to List<List<CartProduct>>
+        // Chuyển đổi dữ liệu JSON thành List<List<CartProduct>>
         Gson gson = new Gson();
         Type type = new TypeToken<List<List<CartProduct>>>() {}.getType();
         List<List<CartProduct>> ordersList = gson.fromJson(ordersJson, type);
 
-        // If ordersList is empty, initialize it
         if (ordersList == null) {
             ordersList = new ArrayList<>();
         }
 
-        // Add current cart to ordersList
+        // Thêm giỏ hàng hiện tại vào ordersList
         ordersList.add(cartProductList);
 
-        // Save the updated ordersList into SharedPreferences
+        // Lưu lại danh sách mới vào SharedPreferences
         String updatedOrdersJson = gson.toJson(ordersList);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("orders_list", updatedOrdersJson);
@@ -160,10 +232,10 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         editor.putBoolean("isPay", true);
         editor.apply();
 
-        // Clear the cart
+        // Xóa tất cả sản phẩm trong giỏ hàng
         deleteAllCartProducts();
 
-        // Show success message
+        // Thông báo thanh toán thành công
         Toast.makeText(requireContext(), "Thanh toán bằng " + selectedPaymentMethod + ", vui lòng coi hóa đơn", Toast.LENGTH_SHORT).show();
     }
 
@@ -172,10 +244,10 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         boolean isDeleted = cartTableHelper.deleteCartProductsByCartId(Integer.parseInt(userId));
 
         if (isDeleted) {
-            Log.d("CartFragment", "All cart products deleted successfully.");
+            Log.d("CartFragment", "Tất cả sản phẩm trong giỏ đã được xóa thành công.");
             updateUIAfterDeletion();
         } else {
-            Log.e("CartFragment", "Failed to delete cart products.");
+            Log.e("CartFragment", "Xóa sản phẩm trong giỏ thất bại.");
         }
     }
 

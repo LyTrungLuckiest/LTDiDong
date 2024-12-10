@@ -60,7 +60,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chi_tiet_san_pham);
         preferenceManager = new PreferenceManager(this);
-        isLogin=preferenceManager.isLoggedIn();
+        isLogin = preferenceManager.isLoggedIn();
         userId = preferenceManager.getUserId();
 
         // Kiểm tra userId
@@ -80,33 +80,31 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         // Kiểm tra nếu sanPhamMoi không phải null
         if (sanPhamMoi != null) {
             productId = sanPhamMoi.getId();
-            tongDanhGia.setText("Tổng đánh giá: "+calculateAverageRating(productId));
-            if(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId),productId)==0.0){
+            tongDanhGia.setText("Tổng đánh giá: " + calculateAverageRating(productId));
+            if (ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId), productId) == 0.0) {
 
-                    float ratingValue =calculateAverageRating(productId);
-                    ratingBar.setRating(ratingValue);
- 
-            }
-           else ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId),productId));
+                float ratingValue = calculateAverageRating(productId);
+                ratingBar.setRating(ratingValue);
+
+            } else
+                ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId), productId));
         }
 
         // Lắng nghe sự kiện khi giá trị của RatingBar thay đổi
-        if(isLogin){
+        if (isLogin) {
             ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (sanPhamMoi != null) {
                         ratingTableHelper.addOrUpdateRating(Integer.parseInt(userId), sanPhamMoi.getId(), rating);
                         ratingBar.setRating(ratingTableHelper.getRatingForUserAndProduct(Integer.parseInt(userId), sanPhamMoi.getId()));
-                        tongDanhGia.setText("Tổng đánh giá: "+calculateAverageRating(productId));
+                        tongDanhGia.setText("Tổng đánh giá: " + calculateAverageRating(productId));
                     }
                 }
             });
-        }
-        else Toast.makeText(this,"Bạn cần đăng nhập",Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
 
     }
-
 
 
     @Override
@@ -175,25 +173,25 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
     private void setupAddToCartButton() {
         Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
-        if(isLogin){
+        if (isLogin) {
             addToCartButton.setOnClickListener(v -> {
                 if (sanPhamMoi != null) {
                     int quantity = Integer.parseInt(Soluong.getText().toString());
-                    CartProductTableHelper cartProductTableHelper= new CartProductTableHelper(this);
-                    CartProduct cartProduct = new CartProduct(sanPhamMoi,quantity);
-                    cartProductTableHelper.addOrUpdateCartProduct(Integer.parseInt(userId),cartProduct);
-                    Toast.makeText(this,"Thêm sản phẩm thành công",Toast.LENGTH_SHORT).show();
+                    CartProductTableHelper cartProductTableHelper = new CartProductTableHelper(this);
+                    CartProduct cartProduct = new CartProduct(sanPhamMoi, quantity);
+                    cartProductTableHelper.addOrUpdateCartProduct(Integer.parseInt(userId), cartProduct);
+                    Toast.makeText(this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
 
                 }
             });
-        }else Toast.makeText(this,"Bạn cần đăng nhập",Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
 
         Tru.setOnClickListener(v -> updateQuantity(-1));
         Cong.setOnClickListener(v -> updateQuantity(1));
     }
 
     private void setupCommentButton() {
-        if(isLogin){
+        if (isLogin) {
             btnSendComment.setOnClickListener(v -> {
                 String commentText = edtComment.getText().toString().trim();
                 if (!commentText.isEmpty() && sanPhamMoi != null) {
@@ -209,7 +207,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                     Toast.makeText(this, "Vui lòng nhập nội dung bình luận", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else Toast.makeText(this,"Bạn cần đăng nhập",Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -218,9 +216,9 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("isCartTransition", true); // Truyền biến
             startActivity(intent);
-
         });
     }
+
 
     private void loadCommentsFromDatabase() {
         if (sanPhamMoi != null) {
