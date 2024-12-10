@@ -115,7 +115,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -125,6 +126,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             Toast.makeText(requireContext(), "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
             return;
         }
+        handleCheckout();
+
 
         switch (selectedPaymentMethod) {
             case "Tiền mặt":
@@ -203,6 +206,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             put(Integer.parseInt(userId), new CartProductTableHelper(requireContext()).getCartProductsByCartId(Integer.parseInt(userId)));
         }};
     }
+
     private void handleCheckout() {
         // Lấy danh sách sản phẩm trong giỏ hàng của người dùng
         Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
@@ -225,7 +229,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         // Chuyển đổi dữ liệu JSON thành List<List<CartProduct>>
         Gson gson = new Gson();
-        Type type = new TypeToken<List<List<CartProduct>>>() {}.getType();
+        Type type = new TypeToken<List<List<CartProduct>>>() {
+        }.getType();
         List<List<CartProduct>> ordersList = gson.fromJson(ordersJson, type);
 
         // Nếu ordersList rỗng, khởi tạo danh sách mới
