@@ -73,6 +73,9 @@
             android:name=".Ui.Login.LoginActivity"
             android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
+        <activity android:name=".Ui.Home.PaymenActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
             android:windowSoftInputMode="adjustNothing"

@@ -1,6 +1,5 @@
 package com.example.btlon.Ui.Home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -38,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 
 import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
@@ -54,7 +52,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // ZaloPay SDK Init
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -65,11 +62,9 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_cart_fragment, container, false);
 
-        // Initialize components
         preferenceManager = new PreferenceManager(requireContext());
         userId = preferenceManager.getUserId();
 
-        // Kiểm tra trạng thái đăng nhập
         if (!preferenceManager.isLoggedIn() || TextUtils.isEmpty(userId)) {
             Toast.makeText(requireContext(), "Bạn cần đăng nhập để tiếp tục!", Toast.LENGTH_SHORT).show();
             ScrollView scrollView = view.findViewById(R.id.scrollviewCart);
@@ -78,10 +73,9 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         }
 
         initializeUI(view);
-        setRecyclerViewAdapter(getCart(), getCartProducts());
+        setupRecyclerView();
         setupSpinner();
         updateTotalPrice();
-
         return view;
     }
 
@@ -93,13 +87,13 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         btnXoaAll = view.findViewById(R.id.btnXoaAll);
         spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
 
-        btnXoaAll.setOnClickListener(v -> deleteAllCartProducts());
         btnThanhToan.setOnClickListener(v -> handlePayment());
+        btnXoaAll.setOnClickListener(v -> deleteAllCartProducts());
     }
 
-    private void setRecyclerViewAdapter(List<Cart> carts, Map<Integer, List<CartProduct>> cartProductsMap) {
+    private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        cartAdapter = new CartAdapter(requireContext(), carts, cartProductsMap, this);
+        cartAdapter = new CartAdapter(requireContext(), getCart(), getCartProducts(), this);
         recyclerView.setAdapter(cartAdapter);
     }
 
@@ -109,7 +103,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 new String[]{"Tiền mặt", "MoMo", "ZaloPay", "Ngân hàng"});
         spinnerPaymentMethod.setAdapter(adapter);
         spinnerPaymentMethod.setSelection(0);
-
         spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -117,8 +110,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -131,43 +123,22 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         switch (selectedPaymentMethod) {
             case "Tiền mặt":
-                handleCashPayment();
-                break;
-            case "MoMo":
-                handleMoMoPayment(total);
+                navigateToResult("Thanh toán tiền mặt thành công!");
                 break;
             case "ZaloPay":
                 handleZaloPayPayment(total);
                 break;
-            case "Ngân hàng":
-                handleBankPayment(total);
-                break;
             default:
-                Toast.makeText(requireContext(), "Phương thức thanh toán không hợp lệ!", Toast.LENGTH_SHORT).show();
-                break;
+                Toast.makeText(requireContext(), "Phương thức chưa hỗ trợ!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void handleCashPayment() {
-        Toast.makeText(requireContext(), "Thanh toán bằng tiền mặt đã được chọn!", Toast.LENGTH_SHORT).show();
-        navigateToResult("Thanh toán tiền mặt thành công!");
-    }
-
-    private void handleMoMoPayment(double total) {
-        // Tích hợp MoMo SDK hoặc API tại đây
-        Toast.makeText(requireContext(), "Thanh toán bằng MoMo đang được thực hiện...", Toast.LENGTH_SHORT).show();
-        navigateToResult("Thanh toán MoMo thành công!");
     }
 
     private void handleZaloPayPayment(double total) {
         try {
             CreateOrder orderApi = new CreateOrder();
             JSONObject data = orderApi.createOrder(String.valueOf((int) total));
-            String code = data.getString("return_code");
-
-            if ("1".equals(code)) {
-                String token = data.getString("zp_trans_token");
-                ZaloPaySDK.getInstance().payOrder(requireActivity(), token, "demozpdk://app", new PayOrderListener() {
+            if ("1".equals(data.getString("return_code"))) {
+                ZaloPaySDK.getInstance().payOrder(requireActivity(), data.getString("zp_trans_token"), "yourapp://callback", new PayOrderListener() {
                     @Override
                     public void onPaymentSucceeded(String transactionId, String zpTransId, String message) {
                         navigateToResult("Thanh toán thành công!");
@@ -179,23 +150,14 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                     }
 
                     @Override
-                    public void onPaymentError(ZaloPayError zaloPayError, String zpTransToken, String message) {
-                        navigateToResult("Lỗi hệ thống, vui lòng thử lại sau!");
+                    public void onPaymentError(vn.zalopay.sdk.ZaloPayError zaloPayError, String zpTransToken, String message) {
+                        Toast.makeText(requireContext(), "Thanh toán thất bại: " + message, Toast.LENGTH_SHORT).show();
                     }
                 });
-            } else {
-                Toast.makeText(requireContext(), "Lỗi tạo đơn hàng: " + data.optString("return_message"), Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Log.e("CartFragment", "Error during ZaloPay payment", e);
-            Toast.makeText(requireContext(), "Lỗi hệ thống, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+            Log.e("CartFragment", "Lỗi ZaloPay", e);
         }
-    }
-
-    private void handleBankPayment(double total) {
-        // Tích hợp API ngân hàng tại đây
-        Toast.makeText(requireContext(), "Thanh toán qua ngân hàng đang được thực hiện...", Toast.LENGTH_SHORT).show();
-        navigateToResult("Thanh toán ngân hàng thành công!");
     }
 
     private void navigateToResult(String result) {
@@ -206,50 +168,35 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
     private void deleteAllCartProducts() {
         CartTableHelper cartTableHelper = new CartTableHelper(requireContext());
-        boolean isDeleted = cartTableHelper.deleteCartProductsByCartId(Integer.parseInt(userId));
-
-        if (isDeleted) {
-            Toast.makeText(requireContext(), "Xóa tất cả sản phẩm thành công!", Toast.LENGTH_SHORT).show();
-            updateUIAfterDeletion();
-        } else {
-            Toast.makeText(requireContext(), "Xóa sản phẩm thất bại!", Toast.LENGTH_SHORT).show();
+        if (cartTableHelper.deleteCartProductsByCartId(Integer.parseInt(userId))) {
+            Toast.makeText(requireContext(), "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+            cartAdapter.updateData(new ArrayList<>(), new HashMap<>());
+            updateTotalPrice();
         }
     }
 
-    private void updateUIAfterDeletion() {
-        cartAdapter.updateData(new ArrayList<>(), new HashMap<>());
-        cartAdapter.notifyDataSetChanged();
-        updateTotalPrice();
-    }
-
     private void updateTotalPrice() {
-        double totalPrice = getTotalPrice();
-        tongTien.setText(String.format("%s VND", totalPrice));
+        tongTien.setText(String.format("%s VND", getTotalPrice()));
     }
 
     private double getTotalPrice() {
         double total = 0;
         Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
-        List<CartProduct> cartProductList = cartProductsMap.get(Integer.parseInt(userId));
-
-        if (cartProductList != null) {
-            for (CartProduct product : cartProductList) {
-                total += product.getTotalPrice();
-            }
+        List<CartProduct> products = cartProductsMap.getOrDefault(Integer.parseInt(userId), new ArrayList<>());
+        for (CartProduct product : products) {
+            total += product.getTotalPrice();
         }
         return total;
     }
 
     private List<Cart> getCart() {
-        CartTableHelper cartTableHelper = new CartTableHelper(requireContext());
-        return cartTableHelper.getCartsByUserId(Integer.parseInt(userId));
+        return new CartTableHelper(requireContext()).getCartsByUserId(Integer.parseInt(userId));
     }
 
     private Map<Integer, List<CartProduct>> getCartProducts() {
-        CartProductTableHelper cartProductTableHelper = new CartProductTableHelper(requireContext());
-        Map<Integer, List<CartProduct>> map = new HashMap<>();
-        map.put(Integer.parseInt(userId), cartProductTableHelper.getCartProductsByCartId(Integer.parseInt(userId)));
-        return map;
+        return new HashMap() {{
+            put(Integer.parseInt(userId), new CartProductTableHelper(requireContext()).getCartProductsByCartId(Integer.parseInt(userId)));
+        }};
     }
 
     @Override
