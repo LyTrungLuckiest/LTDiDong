@@ -73,6 +73,9 @@
             android:name=".Ui.Login.LoginActivity"
             android:windowSoftInputMode="adjustNothing"
             android:exported="false" />
+        <activity android:name=".Ui.Home.PaymenActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="false" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
             android:windowSoftInputMode="adjustNothing"
@@ -86,7 +89,22 @@
         <activity
             android:name=".Ui.Home.HomeActivity"
             android:windowSoftInputMode="adjustNothing"
-            android:exported="true">
+            android:exported="true"
+            android:label="Merchant Demo"
+            android:launchMode="singleTask">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="app"
+                    android:scheme="demozpdk" />
+            </intent-filter>
+
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

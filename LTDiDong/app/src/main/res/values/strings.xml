@@ -18,10 +18,10 @@
     <string name="back">Back</string>
     <string name="exit">Exit</string>
     <string name="giao_den">Giao Đến</string>
-    <string name="nhap_thong_tin_khach_hang">Nhập thông tin nhận hàng</string>
-    <string name="sieu_thi_BXH">Siêu thị BXH 99</string>
+    <string name="nhap_thong_tin_khach_hang">Nhập thông tin địa chỉ nhận hàng</string>
+    <string name="sieu_thi_BXH">Địa Chỉ: </string>
     <string name="gio_hang_trong">Giỏ Hàng Trống</string>
-    <string name="tien_hang">Tiền Hàng</string>
+    <string name="tien_hang">Tổng Đơn</string>
     <string name="_75_000">000.000đ</string>
     <string name="tong_don_hang">Tổng Đơn Hàng</string>
     <string name="phuong_thuc_thanh_toan">Phương thức thanh toán</string>
@@ -36,7 +36,7 @@
     <string name="le">Lê</string>
     <string name="tao">Táo</string>
     <string name="bannerimage">bannerImage</string>
-    <string name="bang_san_pham">Bảng sản phẩm</string>
+    <string name="bang_san_pham">Bảng sản phẩm SALES</string>
     <string name="thong_tin_ca_nhan">Thông tin cá nhân</string>
     <string name="sua_thong_tin_ca_nhan">Sửa thông tin cá nhân</string>
     <string name="dia_chi_nhan_hang">Địa chỉ nhận hàng</string>
