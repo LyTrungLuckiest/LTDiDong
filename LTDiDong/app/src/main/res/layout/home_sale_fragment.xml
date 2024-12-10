@@ -18,100 +18,16 @@
             android:background="@color/white"
             android:padding="5dp">
 
-            <LinearLayout
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/cam"
-                    android:textColor="#3F4349" />
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/oi"
-                    android:textColor="#3F4349" />
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/man"
-                    android:textColor="#3F4349" />
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/xoai"
-                    android:textColor="#3F4349" />
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/nho"
-                    android:textColor="#3F4349" />
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/le"
-                    android:textColor="#3F4349" />
-
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:backgroundTint="@color/bkg_color"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/tao"
-                    android:textColor="#3F4349" />
-
-            </LinearLayout>
         </HorizontalScrollView>
 
 
         <ViewFlipper
             android:id="@+id/viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:layout_below="@id/topNavigation"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="1dp" />
 
 
         <ImageView
@@ -130,11 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bannerImage"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:gravity="center"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_background"
             android:text="@string/bang_san_pham"
-            android:textColor="@color/red"
-            android:textSize="25sp" />
+            android:textColor="@color/white"
+            android:textSize="35dp" />
 
 
         <LinearLayout
@@ -146,69 +64,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="8dp">
-
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/bkg_color"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/cam"
-                android:textColor="#3F4349" />
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/bkg_color"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/nho"
-                android:textColor="#3F4349" />
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/bkg_color"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/oi"
-                android:textColor="#3F4349" />
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/bkg_color"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/tao"
-                android:textColor="#3F4349" />
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/bkg_color"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/xoai"
-                android:textColor="#3F4349" />
-
+            android:padding="4dp">
         </LinearLayout>
 
 
