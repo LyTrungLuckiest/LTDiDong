@@ -7,12 +7,13 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
-    <uses-feature android:name="android.hardware.telephony" android:required="false" />
-
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
 
     <uses-permission
@@ -64,45 +65,52 @@
                     android:scheme="fb444729861689716" />
             </intent-filter>
         </activity>
-        <activity android:name=".Utils.ChiTietSanPhamActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+        <activity
+            android:name=".Utils.ChiTietSanPhamActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
 
 
         <activity
             android:name=".Ui.Login.LoginActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
-        <activity android:name=".Ui.Home.PaymenActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".Ui.Home.PaymenActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".Ui.Admin.AdminActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="true" >
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing">
 
         </activity>
-        <activity android:name=".Utils.SearchResultsActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="false" />
+        <activity
+            android:name=".Utils.SearchResultsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing" />
 
         <activity
             android:name=".Ui.Home.HomeActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:exported="true"
             android:label="Merchant Demo"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustNothing">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="app"
+                    android:host="callback"
                     android:scheme="demozpdk" />
-            </intent-filter>
 
+<!--                <data-->
+<!--                    android:host="app"-->
+<!--                    android:scheme="demozpdk" />-->
+            </intent-filter>
 
 
             <intent-filter>
@@ -110,7 +118,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
 
     </application>

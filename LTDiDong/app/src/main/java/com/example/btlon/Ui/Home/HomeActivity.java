@@ -5,19 +5,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuInflater;
-import android.widget.ImageButton;
-import android.widget.PopupMenu;
-
-import android.widget.SearchView;
-import android.widget.Toast;
-
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.btlon.Data.UserTableHelper;
 import com.example.btlon.Data.Users;
@@ -38,7 +37,6 @@ public class HomeActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     private ImageButton dropdownButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,25 +45,32 @@ public class HomeActivity extends AppCompatActivity {
         UserTableHelper userTableHelper = new UserTableHelper(this);
         PreferenceManager preferenceManager = new PreferenceManager(this);
 
+        // Kiểm tra xem người dùng đã đăng nhập và là admin chưa
         if (preferenceManager.isLoggedIn() && Objects.equals(userTableHelper.checkRole(preferenceManager.getUserId()), "Admin")) {
-            // Chuyển hướng đến AdminActivity nếu người dùng đã đăng nhập và là admin
             Intent intent = new Intent(HomeActivity.this, AdminActivity.class);
             startActivity(intent);
+            return;  // Dừng lại không tiếp tục các logic sau
         }
 
+        // Khởi tạo BottomNavigationView và NavController
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        // Xử lý deeplink nếu có
+        handleDeepLink(getIntent());
 
+        // Điều hướng giỏ hàng nếu cần
+        handleCartNavigation();
 
+        // Ẩn BottomNavigationView với một số Fragment
+        HideBottomNavigation(bottomNavigationView, navController);
 
         // Khởi tạo SearchView
         SearchView searchView = findViewById(R.id.searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Chuyển sang SearchResultsActivity với từ khóa tìm kiếm
                 Intent intent = new Intent(HomeActivity.this, SearchResultsActivity.class);
                 intent.putExtra("search_query", query);
                 startActivity(intent);
@@ -83,68 +88,56 @@ public class HomeActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this.getApplication());
 
-        Log.d("HomeActivity", "Hoạt động Home đã được bắt đầu!");
-
-        ImageButton btnMicrophone = findViewById(R.id.btnGiongnoi);
-        dropdownButton = findViewById(R.id.menu);
-
         // Nhận diện giọng nói
+        ImageButton btnMicrophone = findViewById(R.id.btnGiongnoi);
         btnMicrophone.setOnClickListener(v -> startVoiceRecognition());
 
-        // Bấm vào giỏ hàng (sản phẩm) và chuyển hướng đến CartFragment
-        ImageButton btnGiohang = findViewById(R.id.btnGiohang);
-        btnGiohang.setOnClickListener(v -> {
-            // Điều hướng trực tiếp đến CartFragment
-            navController.navigate(R.id.cartFragment); // Giả sử cartFragment là ID của CartFragment trong nav_graph.xml
-            bottomNavigationView.setSelectedItemId(R.id.cartFragment); // Đảm bảo giỏ hàng được chọn trong BottomNavigationView
-        });
-
-        // Điều hướng BottomNavigationView
-        HideBottomNavigation(bottomNavigationView, navController);
+        // Menu dropdown
+        dropdownButton = findViewById(R.id.menu);
         DropDownbuttonClick();
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        setIntent(intent); // Cập nhật Intent mới với thông tin mới.
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
-        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        // Kiểm tra lại flag
-        boolean isCartTransition = getIntent().getBooleanExtra("isCartTransition", false);
-        Log.d("HomeActivity", "onNewIntent - isCartTransition: " + isCartTransition);
+        setIntent(intent); // Cập nhật Intent mới với thông tin mới
 
+        // Xử lý deeplink
+        handleDeepLink(intent);
+
+        // Kiểm tra nếu có điều hướng giỏ hàng (CartFragment)
+        handleCartNavigation();
+    }
+
+    // Xử lý deeplink
+    private void handleDeepLink(Intent intent) {
+        Uri data = intent.getData();
+        if (data != null) {
+            String transactionStatus = data.getQueryParameter("status");
+            if ("success".equals(transactionStatus)) {
+                Toast.makeText(this, "Giao dịch thành công!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Giao dịch thất bại.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // Điều hướng giỏ hàng nếu có
+    private void handleCartNavigation() {
+        boolean isCartTransition = getIntent().getBooleanExtra("isCartTransition", false);
         if (isCartTransition) {
-            // Ensure navigation happens here as well
+            NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
             navController.navigate(R.id.cartFragment);
+
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
             bottomNavigationView.setSelectedItemId(R.id.cartFragment);
-            // Remove flag after transition
+
+            // Xóa flag sau khi điều hướng
             getIntent().removeExtra("isCartTransition");
         }
-        // Đảm bảo BottomNavigationView không tự động điều hướng nếu không cần thiết
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.productFragment:
-                    // Điều hướng đến ProductFragment, không tự động đến CartFragment
-                    navController.navigate(R.id.productFragment);
-                    return true;
-                case R.id.cartFragment:
-                    // Điều hướng đến CartFragment nếu cần
-                    navController.navigate(R.id.cartFragment);
-                    return true;
-                case R.id.saleFragment:
-                    // Điều hướng đến , không tự động đến CartFragment
-                    navController.navigate(R.id.saleFragment);
-                    return true;
-                case R.id.userFragment:
-                    // Điều hướng đến , không tự động đến CartFragment
-                    navController.navigate(R.id.userFragment);
-                    return true;
-                default:
-                    return false;
-            }
-        });
     }
+
+    // Ẩn BottomNavigationView với một số Fragment
     private static void HideBottomNavigation(BottomNavigationView bottomNavigationView, NavController navController) {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             int[] fragmentsToHideBottomNav = {
@@ -167,6 +160,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    // Xử lý sự kiện click menu dropdown
     private void DropDownbuttonClick() {
         dropdownButton.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(this, dropdownButton);
@@ -198,7 +192,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
+    // Khởi tạo nhận diện giọng nói
     private void startVoiceRecognition() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Nhận diện giọng nói không khả dụng trên thiết bị này.", Toast.LENGTH_SHORT).show();
@@ -229,6 +223,4 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
-
 }

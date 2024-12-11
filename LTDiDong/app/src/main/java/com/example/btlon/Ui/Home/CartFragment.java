@@ -3,6 +3,8 @@ package com.example.btlon.Ui.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
@@ -62,6 +64,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         ZaloPaySDK.init(2553, Environment.SANDBOX); // Khởi tạo SDK ZaloPay
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_cart_fragment, container, false);
@@ -82,8 +85,17 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         setupSpinner();
         updateTotalPrice(); // Cập nhật tổng tiền khi hiển thị giỏ hàng
 
+
+
         return view;
     }
+
+
+
+    private PackageManager getPackageManager() {
+        return requireContext().getPackageManager();
+    }
+
 
     private void initializeUI(View view) {
         txtGioHangTrong = view.findViewById(R.id.txtgiohangtrong2);
@@ -128,17 +140,38 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 handleCheckout();
                 break;
             case "MoMo":
+
                 navigateToResult("Thanh toán MoMo thành công!");
                 break;
             case "ZaloPay":
                 handleZaloPayPayment(total);
+                navigateToResult("Thanh toán ZaloPay thành công!");
                 break;
-                case "Ngân hàng":
-                    navigateToResult("Thanh toán Ngân hàng thành công!");
+            case "Ngân hàng":
+                handleNHPayment(total);
+//                navigateToResult("Thanh toán Ngân hàng thành công!");
                 break;
             default:
                 Toast.makeText(requireContext(), "Phương thức chưa hỗ trợ!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void handleNHPayment(double total) {
+        String accountNumber = "5811322678"; // Số tài khoản
+        String amount = String.valueOf(total); // Số tiền
+        String bankDeeplink = "https://dl.vietqr.io/pay?app=bibv&account=" + accountNumber + "&amount=" + amount;
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bankDeeplink));
+        startActivity(intent);
+
+
+// Kiểm tra nếu có ứng dụng hỗ trợ mở deeplink này
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(requireContext(), "Không tìm thấy ứng dụng.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void handleZaloPayPayment(double total) {
@@ -213,7 +246,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         // Chuyển đổi dữ liệu JSON thành List<List<CartProduct>>
         Gson gson = new Gson();
-        Type type = new TypeToken<List<List<CartProduct>>>() {}.getType();
+        Type type = new TypeToken<List<List<CartProduct>>>() {
+        }.getType();
         List<List<CartProduct>> ordersList = gson.fromJson(ordersJson, type);
 
         if (ordersList == null) {
