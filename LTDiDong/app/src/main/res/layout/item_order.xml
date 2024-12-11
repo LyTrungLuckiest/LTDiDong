@@ -67,13 +67,27 @@
         android:id="@+id/recyclerViewOrderDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_gravity="center"
-        android:id="@+id/tvTotalAmount"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Tổng tiền: "
-        android:paddingBottom="15dp"/>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_gravity="left"
+            android:id="@+id/tvTotalAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="Tổng tiền: "
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp"/>
+        <Button
+            android:id="@+id/btDeleteOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            android:layout_gravity="right"/>
+    </LinearLayout>
+
 
 </LinearLayout>

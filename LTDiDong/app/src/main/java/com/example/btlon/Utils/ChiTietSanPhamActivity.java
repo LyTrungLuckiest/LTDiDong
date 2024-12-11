@@ -215,8 +215,10 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         findViewById(R.id.framegiohang).setOnClickListener(v -> {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("isCartTransition", true); // Truyền biến
+            Log.d("HomeActivity", "Starting HomeActivity with isCartTransition = true");
             startActivity(intent);
         });
+
     }
 
 
