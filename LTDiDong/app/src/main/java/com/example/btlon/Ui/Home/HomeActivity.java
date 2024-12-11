@@ -59,12 +59,16 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 
+
+
         // Kiểm tra flag isCartTransition
         boolean isCartTransition = getIntent().getBooleanExtra("isCartTransition", false);
+        Log.d("HomeActivity", "isCartTransition: " + isCartTransition);
+
         if (isCartTransition) {
             navController.navigate(R.id.cartFragment); // Điều hướng đến CartFragment
             bottomNavigationView.setSelectedItemId(R.id.cartFragment); // Đánh dấu CartFragment là mục được chọn
-            getIntent().putExtra("isCartTransition", false); // Đặt lại flag để tránh sự kiện lặp lại
+//            getIntent().putExtra("isCartTransition", false); // Đặt lại flag để tránh sự kiện lặp lại
         }
 
         // Đảm bảo BottomNavigationView không tự động điều hướng nếu không cần thiết

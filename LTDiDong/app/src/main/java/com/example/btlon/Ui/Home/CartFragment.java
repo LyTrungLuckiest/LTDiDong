@@ -1,6 +1,8 @@
 package com.example.btlon.Ui.Home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
@@ -28,9 +30,12 @@ import com.example.btlon.Data.CartTableHelper;
 import com.example.btlon.Models.CreateOrder;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,10 +46,10 @@ import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CartFragment extends Fragment implements CartAdapter.CartUpdateListener {
-    private TextView gioHangTrong, tongTien;
+    private TextView txtGioHangTrong, txtTongTien;
     private RecyclerView recyclerView;
     private Button btnThanhToan, btnXoaAll;
-    private Spinner spinnerPaymentMethod;
+    private Spinner spinnerPhuongThucThanhToan;
     private CartAdapter cartAdapter;
     private String userId, selectedPaymentMethod = "Tiền mặt";
     private PreferenceManager preferenceManager;
@@ -52,10 +57,9 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // ZaloPay SDK Init
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        ZaloPaySDK.init(2553, Environment.SANDBOX);
+        ZaloPaySDK.init(2553, Environment.SANDBOX); // Khởi tạo SDK ZaloPay
     }
 
     @Override
@@ -68,54 +72,51 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         if (!preferenceManager.isLoggedIn() || TextUtils.isEmpty(userId)) {
             Toast.makeText(requireContext(), "Bạn cần đăng nhập để tiếp tục!", Toast.LENGTH_SHORT).show();
             ScrollView scrollView = view.findViewById(R.id.scrollviewCart);
-            scrollView.setVisibility(View.GONE);
+            scrollView.setVisibility(View.GONE); // Ẩn giỏ hàng nếu chưa đăng nhập
             return view;
         }
 
         initializeUI(view);
-        setupRecyclerView();
+        setRecyclerViewAdapter(getCart(), getCartProducts());
+
         setupSpinner();
-        updateTotalPrice();
+        updateTotalPrice(); // Cập nhật tổng tiền khi hiển thị giỏ hàng
+
         return view;
     }
 
     private void initializeUI(View view) {
-        gioHangTrong = view.findViewById(R.id.txtgiohangtrong2);
-        tongTien = view.findViewById(R.id.txttongtien);
+        txtGioHangTrong = view.findViewById(R.id.txtgiohangtrong2);
+        txtTongTien = view.findViewById(R.id.txttongtien);
         recyclerView = view.findViewById(R.id.recyclerviewCart);
         btnThanhToan = view.findViewById(R.id.btntienhang);
         btnXoaAll = view.findViewById(R.id.btnXoaAll);
-        spinnerPaymentMethod = view.findViewById(R.id.spinnerPaymentMethod);
+        spinnerPhuongThucThanhToan = view.findViewById(R.id.spinnerPaymentMethod);
 
         btnThanhToan.setOnClickListener(v -> handlePayment());
         btnXoaAll.setOnClickListener(v -> deleteAllCartProducts());
-    }
-
-    private void setupRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        cartAdapter = new CartAdapter(requireContext(), getCart(), getCartProducts(), this);
-        recyclerView.setAdapter(cartAdapter);
     }
 
     private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 new String[]{"Tiền mặt", "MoMo", "ZaloPay", "Ngân hàng"});
-        spinnerPaymentMethod.setAdapter(adapter);
-        spinnerPaymentMethod.setSelection(0);
-        spinnerPaymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerPhuongThucThanhToan.setAdapter(adapter);
+        spinnerPhuongThucThanhToan.setSelection(0);
+        spinnerPhuongThucThanhToan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedPaymentMethod = parent.getItemAtPosition(position).toString();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     private void handlePayment() {
-        double total = getTotalPrice();
+        double total = Double.parseDouble(txtTongTien.getText().toString().replace("VND", "").trim());
         if (total <= 0) {
             Toast.makeText(requireContext(), "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
             return;
@@ -124,9 +125,16 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         switch (selectedPaymentMethod) {
             case "Tiền mặt":
                 navigateToResult("Thanh toán tiền mặt thành công!");
+                handleCheckout();
+                break;
+            case "MoMo":
+                navigateToResult("Thanh toán MoMo thành công!");
                 break;
             case "ZaloPay":
                 handleZaloPayPayment(total);
+                break;
+                case "Ngân hàng":
+                    navigateToResult("Thanh toán Ngân hàng thành công!");
                 break;
             default:
                 Toast.makeText(requireContext(), "Phương thức chưa hỗ trợ!", Toast.LENGTH_SHORT).show();
@@ -142,6 +150,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                     @Override
                     public void onPaymentSucceeded(String transactionId, String zpTransId, String message) {
                         navigateToResult("Thanh toán thành công!");
+                        handleCheckout();
                     }
 
                     @Override
@@ -166,41 +175,133 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         startActivity(intent);
     }
 
-    private void deleteAllCartProducts() {
-        CartTableHelper cartTableHelper = new CartTableHelper(requireContext());
-        if (cartTableHelper.deleteCartProductsByCartId(Integer.parseInt(userId))) {
-            Toast.makeText(requireContext(), "Xóa sản phẩm thành công!", Toast.LENGTH_SHORT).show();
-            cartAdapter.updateData(new ArrayList<>(), new HashMap<>());
-            updateTotalPrice();
+    private void setRecyclerViewAdapter(List<Cart> carts, Map<Integer, List<CartProduct>> cartProductsMap) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        if (cartAdapter == null) {
+            cartAdapter = new CartAdapter(requireContext(), carts, cartProductsMap, this);
+            recyclerView.setAdapter(cartAdapter);
+        } else {
+            cartAdapter.updateData(carts, cartProductsMap);
+            cartAdapter.notifyDataSetChanged();
         }
+    }
+
+    private void setupButtonListeners() {
+        btnThanhToan.setOnClickListener(v -> handlePayment());
+    }
+
+    private void handleCheckout() {
+        // Lấy danh sách sản phẩm trong giỏ hàng của người dùng
+        Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
+        List<CartProduct> cartProductList = cartProductsMap.get(Integer.parseInt(userId));
+
+        if (cartProductList == null || cartProductList.isEmpty()) {
+            Toast.makeText(requireContext(), "Không có sản phẩm để thanh toán!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Tính tổng giá trị sản phẩm trong giỏ
+        double total = 0;
+        for (CartProduct product : cartProductList) {
+            total += product.getTotalPrice();
+        }
+
+        // Lấy dữ liệu cũ từ SharedPreferences
+        SharedPreferences preferences = requireContext().getSharedPreferences("CartData", Context.MODE_PRIVATE);
+        String ordersJson = preferences.getString("orders_list", "[]");
+
+        // Chuyển đổi dữ liệu JSON thành List<List<CartProduct>>
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<List<CartProduct>>>() {}.getType();
+        List<List<CartProduct>> ordersList = gson.fromJson(ordersJson, type);
+
+        if (ordersList == null) {
+            ordersList = new ArrayList<>();
+        }
+
+        // Thêm giỏ hàng hiện tại vào ordersList
+        ordersList.add(cartProductList);
+
+        // Lưu lại danh sách mới vào SharedPreferences
+        String updatedOrdersJson = gson.toJson(ordersList);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("orders_list", updatedOrdersJson);
+        editor.putString("payment_method", selectedPaymentMethod);
+        editor.putString("total_amount", String.valueOf(total));
+        editor.putBoolean("isPay", true);
+        editor.apply();
+
+        // Xóa tất cả sản phẩm trong giỏ hàng
+        deleteAllCartProducts();
+
+        // Thông báo thanh toán thành công
+        Toast.makeText(requireContext(), "Thanh toán bằng " + selectedPaymentMethod + ", vui lòng coi hóa đơn", Toast.LENGTH_SHORT).show();
+    }
+
+    private void deleteAllCartProducts() {
+        CartTableHelper cartTableHelper = new CartTableHelper(getContext());
+        boolean isDeleted = cartTableHelper.deleteCartProductsByCartId(Integer.parseInt(userId));
+
+        if (isDeleted) {
+            Log.d("CartFragment", "Tất cả sản phẩm trong giỏ đã được xóa thành công.");
+            updateUIAfterDeletion();
+        } else {
+            Log.e("CartFragment", "Xóa sản phẩm trong giỏ thất bại.");
+        }
+    }
+
+    private void updateUIAfterDeletion() {
+        List<Cart> updatedCarts = getCart();
+        Map<Integer, List<CartProduct>> updatedCartProductsMap = getCartProducts();
+        cartAdapter.updateData(updatedCarts, updatedCartProductsMap);
+        cartAdapter.notifyDataSetChanged();
+        updateTotalPrice();
     }
 
     private void updateTotalPrice() {
-        tongTien.setText(String.format("%s VND", getTotalPrice()));
-    }
-
-    private double getTotalPrice() {
         double total = 0;
         Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
-        List<CartProduct> products = cartProductsMap.getOrDefault(Integer.parseInt(userId), new ArrayList<>());
-        for (CartProduct product : products) {
-            total += product.getTotalPrice();
+        List<CartProduct> cartProductList = cartProductsMap.get(Integer.parseInt(userId));
+
+        if (cartProductList != null) {
+            for (CartProduct product : cartProductList) {
+                total += product.getTotalPrice();
+            }
         }
-        return total;
+
+        txtTongTien.setText(String.format("%s VND", total));
     }
 
     private List<Cart> getCart() {
-        return new CartTableHelper(requireContext()).getCartsByUserId(Integer.parseInt(userId));
+        if (userId == null || userId.isEmpty()) return new ArrayList<>();
+
+        CartTableHelper cartTableHelper = new CartTableHelper(getContext());
+        List<Cart> carts = cartTableHelper.getCartsByUserId(Integer.parseInt(userId));
+        if (carts.isEmpty()) {
+            Cart cart = new Cart(Integer.parseInt(userId), null, new ArrayList<>());
+            cartTableHelper.addCart(cart, Integer.parseInt(userId));
+            carts.add(cart);
+        }
+        return carts;
     }
 
     private Map<Integer, List<CartProduct>> getCartProducts() {
-        return new HashMap() {{
-            put(Integer.parseInt(userId), new CartProductTableHelper(requireContext()).getCartProductsByCartId(Integer.parseInt(userId)));
-        }};
+        Map<Integer, List<CartProduct>> map = new HashMap<>();
+        CartProductTableHelper cartProductTableHelper = new CartProductTableHelper(getContext());
+        List<CartProduct> cartProductList = cartProductTableHelper.getCartProductsByCartId(Integer.parseInt(userId));
+        if (cartProductList != null && !cartProductList.isEmpty()) {
+            map.put(Integer.parseInt(userId), cartProductList);
+        }
+        return map;
     }
 
     @Override
     public void onCartUpdated() {
+        List<Cart> updatedCarts = getCart();
+        Map<Integer, List<CartProduct>> updatedCartProductsMap = getCartProducts();
+        cartAdapter.updateData(updatedCarts, updatedCartProductsMap);
+        cartAdapter.notifyDataSetChanged();
         updateTotalPrice();
     }
 }
