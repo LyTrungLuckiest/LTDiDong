@@ -134,6 +134,29 @@ public class HomeActivity extends AppCompatActivity {
 
             // Xóa flag sau khi điều hướng
             getIntent().removeExtra("isCartTransition");
+
+            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.productFragment:
+                        // Điều hướng đến ProductFragment, không tự động đến CartFragment
+                        navController.navigate(R.id.productFragment);
+                        return true;
+                    case R.id.cartFragment:
+                        // Điều hướng đến CartFragment nếu cần
+                        navController.navigate(R.id.cartFragment);
+                        return true;
+                    case R.id.saleFragment:
+                        // Điều hướng đến , không tự động đến CartFragment
+                        navController.navigate(R.id.saleFragment);
+                        return true;
+                    case R.id.userFragment:
+                        // Điều hướng đến , không tự động đến CartFragment
+                        navController.navigate(R.id.userFragment);
+                        return true;
+                    default:
+                        return false;
+                }
+            });
         }
     }
 
