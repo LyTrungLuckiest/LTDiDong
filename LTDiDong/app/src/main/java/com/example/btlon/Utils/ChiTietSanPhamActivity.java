@@ -30,10 +30,13 @@ import com.example.btlon.Data.RatingTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Ui.Home.CartFragment;
 import com.example.btlon.Ui.Home.HomeActivity;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import vn.zalopay.sdk.Utils;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 
@@ -46,6 +49,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private ProductCommentAdapter commentAdapter;
     private List<Comment> commentList = new ArrayList<>();
     private RatingBar ratingBar;
+    private NotificationBadge badge;
     int productId;
     String userId;
 
@@ -111,6 +115,8 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadCommentsFromDatabase();
+        // Cập nhật badge sau khi quay lại màn hình sản phẩm
+        updateCartBadge();
     }
 
     private void initView() {
@@ -127,6 +133,10 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         tongDanhGia = findViewById(R.id.txtAverageRating);
         ratingTableHelper = new RatingTableHelper(this);
+        badge = findViewById(R.id.menu_sl);
+
+
+
     }
 
     private void setupToolbar() {
@@ -150,6 +160,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             giaSp.setText("");
             imgHinhanh.setImageResource(R.drawable.error_image);
         }
+
     }
 
     private String formatPrice(String price) {
@@ -171,6 +182,9 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         recyclerViewComment.setLayoutManager(new LinearLayoutManager(this));
     }
 
+
+
+
     private void setupAddToCartButton() {
         Button addToCartButton = findViewById(R.id.btnthemvaogiohang);
         if (isLogin) {
@@ -179,16 +193,50 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                     int quantity = Integer.parseInt(Soluong.getText().toString());
                     CartProductTableHelper cartProductTableHelper = new CartProductTableHelper(this);
                     CartProduct cartProduct = new CartProduct(sanPhamMoi, quantity);
-                    cartProductTableHelper.addOrUpdateCartProduct(Integer.parseInt(userId), cartProduct);
-                    Toast.makeText(this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
 
+                    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                    CartProduct existingProduct = cartProductTableHelper.getCartProductByProductId(Integer.parseInt(userId), sanPhamMoi.getId());
+
+                    if (existingProduct != null) {
+                        // Nếu sản phẩm đã có trong giỏ hàng, chỉ cần cập nhật số lượng
+                        int newQuantity = existingProduct.getQuantity() + quantity;
+                        cartProduct.setQuantity(newQuantity);
+                        cartProductTableHelper.addOrUpdateCartProduct(Integer.parseInt(userId), cartProduct);
+                    } else {
+                        // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
+                        cartProductTableHelper.addOrUpdateCartProduct(Integer.parseInt(userId), cartProduct);
+                    }
+
+                    // Cập nhật badge hiển thị số lượng trong giỏ hàng
+                    updateCartBadge();
+
+                    Toast.makeText(this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else Toast.makeText(this, "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
+        }
 
         Tru.setOnClickListener(v -> updateQuantity(-1));
         Cong.setOnClickListener(v -> updateQuantity(1));
     }
+
+    // Phương thức cập nhật badge với tổng số lượng sản phẩm trong giỏ
+    private void updateCartBadge() {
+        CartProductTableHelper cartProductTableHelper = new CartProductTableHelper(this);
+        List<CartProduct> cartProducts = cartProductTableHelper.getCartProductsByCartId(Integer.parseInt(userId));
+
+        int totalQuantity = 0;
+        for (CartProduct product : cartProducts) {
+            totalQuantity += product.getQuantity();  // Tính tổng số lượng sản phẩm trong giỏ
+        }
+
+        badge.setText(String.valueOf(totalQuantity));  // Cập nhật badge với tổng số lượng sản phẩm trong giỏ
+
+        // Debugging: Kiểm tra số lượng sản phẩm trong giỏ
+        Log.d("Cart", "Total quantity in cart: " + totalQuantity);
+    }
+
 
     private void setupCommentButton() {
         if (isLogin) {
@@ -235,6 +283,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         int currentQuantity = Integer.parseInt(Soluong.getText().toString());
         if (currentQuantity + delta > 0) {
             Soluong.setText(String.valueOf(currentQuantity + delta));
+
         }
     }
 
@@ -253,4 +302,6 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
         return totalRating / ratings.size(); // Tính trung bình
     }
+
+
 }

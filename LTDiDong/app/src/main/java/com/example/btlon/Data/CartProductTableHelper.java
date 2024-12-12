@@ -160,4 +160,39 @@ public class CartProductTableHelper extends BaseTableHelper<CartProduct> {
         db.update(TABLE_NAME, contentValues, COL_PRODUCT_ID + " = ?", new String[]{String.valueOf(productId)});
         db.close();
     }
+
+    public CartProduct getCartProductByProductId(int i, int id) {
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase(); // Lấy database ở chế độ đọc
+        Cursor cursor = null;
+        CartProduct cartProduct = null;
+
+        try {
+            // Câu truy vấn để lấy sản phẩm trong giỏ hàng của người dùng theo cartId và productId
+            String selection = COL_CART_ID + " = ? AND " + COL_PRODUCT_ID + " = ?";
+            String[] selectionArgs = {String.valueOf(COL_CART_ID), String.valueOf(COL_PRODUCT_ID)};
+
+            cursor = db.query(
+                    TABLE_NAME,
+                    null, // Chọn tất cả các cột
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Nếu tìm thấy, chuyển đổi Cursor thành CartProduct
+                cartProduct = mapCursorToEntity(cursor);
+            }
+        } catch (Exception e) {
+            Log.e("CartProductTableHelper", "Error fetching cart product: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close(); // Đảm bảo đóng cursor để tránh rò rỉ tài nguyên
+            }
+        }
+
+        return cartProduct;  // Trả về CartProduct nếu tìm thấy, hoặc null nếu không có
+    }
 }

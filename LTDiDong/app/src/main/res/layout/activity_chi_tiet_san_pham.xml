@@ -20,18 +20,25 @@
 
         <FrameLayout
             android:id="@+id/framegiohang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="right"
             android:layout_marginRight="25dp"
-            tools:layout_editor_absoluteX="368dp"
-            tools:layout_editor_absoluteY="7dp">
+
+            >
+            <com.nex3z.notificationbadge.NotificationBadge
+                android:id="@+id/menu_sl"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="top|right"
+                />
+
             <ImageView
+                android:layout_marginTop="10dp"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/shoppingcart"
-                tools:layout_editor_absoluteX="360dp"
-                tools:layout_editor_absoluteY="16dp" />
+                android:layout_gravity="center" />
 
 
         </FrameLayout>
@@ -251,6 +258,8 @@
 
 
     </ScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

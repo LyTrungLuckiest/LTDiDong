@@ -88,6 +88,9 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
     implementation(files("libs/zpdk-release-v3.1.aar"))
 
+    // thông báo
+    implementation("com.nex3z:notification-badge:1.0.4")
+
 
 // Đảm bảo bạn thêm đúng phiên bản Facebook SDK
 
