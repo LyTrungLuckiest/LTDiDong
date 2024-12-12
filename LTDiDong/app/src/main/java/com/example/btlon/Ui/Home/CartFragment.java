@@ -145,7 +145,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 break;
             case "ZaloPay":
                 handleZaloPayPayment(total);
-                navigateToResult("Thanh toán ZaloPay thành công!");
+//                navigateToResult("Thanh toán ZaloPay thành công!");
                 break;
             case "Ngân hàng":
                 handleNHPayment(total);

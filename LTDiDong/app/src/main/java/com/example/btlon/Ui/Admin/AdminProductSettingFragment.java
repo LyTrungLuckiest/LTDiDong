@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -53,20 +55,25 @@ public class AdminProductSettingFragment extends Fragment {
 
     // Declare the ActivityResultLauncher
     private ActivityResultLauncher<Intent> imagePickerLauncher;
+    private static final int STORAGE_PERMISSION_CODE = 100;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.admin_product_setting_fragment, container, false);
-
-        // Initialize ActivityResultLauncher
+// Initialize ActivityResultLauncher
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
-                        selectedImagePath = imageUri.toString(); // Cập nhật đường dẫn ảnh
+                        if (imageUri != null) {
+                            handleImageUri(imageUri); // Xử lý ảnh được chọn
+                        }
                     }
-                });
+                }
+        );
+
 
         recyclerView = view.findViewById(R.id.recyclerViewProducts);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -107,6 +114,49 @@ public class AdminProductSettingFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void openImagePicker() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            // Android 10 trở xuống: Kiểm tra quyền
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        STORAGE_PERMISSION_CODE);
+            } else {
+                launchImagePicker();
+            }
+        } else {
+            // Android 11 trở lên: Không cần quyền
+            launchImagePicker();
+        }
+    }
+
+    private void launchImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        imagePickerLauncher.launch(intent);
+    }
+
+    private void handleImageUri(Uri imageUri) {
+        // Hiển thị ảnh trong ImageView
+        ImageView imageView = getView().findViewById(R.id.img_product);
+        imageView.setImageURI(imageUri);
+
+        // Lưu URI để sử dụng sau
+        selectedImagePath = imageUri.toString();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchImagePicker(); // Quyền được cấp, mở picker
+            } else {
+                Toast.makeText(getContext(), "Cần cấp quyền để chọn ảnh!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     // Method to show Add Product Dialog
@@ -268,15 +318,7 @@ public class AdminProductSettingFragment extends Fragment {
         return 0; // Default to the first item if not found
     }
 
-    // Method to open image picker
-    private void openImagePicker() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        imagePickerLauncher.launch(intent);
-    }
+
 
     // Method to show Delete Product Dialog
     private void showDeleteProductDialog(Product product, int position) {
