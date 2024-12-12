@@ -54,7 +54,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
 
 
         Glide.with(context)
-                .load(product.getImageUrl())
+                .load(product.getImage())
                 .placeholder(R.drawable.traicay)
                 .error(R.drawable.error_image)
                 .into(holder.imgProduct);

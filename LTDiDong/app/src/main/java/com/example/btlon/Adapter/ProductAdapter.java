@@ -70,7 +70,7 @@ public class ProductAdapter extends BaseAdapter {
         txtProductName.setText(product.getName());
         txtPrice.setText(product.getPrice() + " VNĐ/1kg");
         Glide.with(context)
-                .load(product.getImageUrl())
+                .load(product.getImage())
                 .placeholder(R.drawable.traicay)
                 .error(R.drawable.error_image)
                 .into(imgProduct);

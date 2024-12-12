@@ -52,11 +52,40 @@ public class HomeActivity extends AppCompatActivity {
             return;  // Dừng lại không tiếp tục các logic sau
         }
 
+
         // Khởi tạo BottomNavigationView và NavController
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationHome);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerViewHome);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        // Đảm bảo BottomNavigationView không tự động điều hướng nếu không cần thiết
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.productFragment:
+                    // Điều hướng đến ProductFragment, không tự động đến CartFragment
+                    navController.navigate(R.id.productFragment);
+                    return true;
+                case R.id.cartFragment:
+                    // Điều hướng đến CartFragment nếu cần
+                    navController.navigate(R.id.cartFragment);
+                    return true;
+                case R.id.saleFragment:
+                    // Điều hướng đến , không tự động đến CartFragment
+                    navController.navigate(R.id.saleFragment);
+                    return true;
+                case R.id.userFragment:
+                    // Điều hướng đến , không tự động đến CartFragment
+                    navController.navigate(R.id.userFragment);
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        ImageButton btnGiohang=findViewById(R.id.btnGiohang);
 
+        btnGiohang.setOnClickListener(v->{
+            navController.navigate(R.id.cartFragment);
+            bottomNavigationView.setSelectedItemId(R.id.cartFragment);
+        });
         // Xử lý deeplink nếu có
         handleDeepLink(getIntent());
 
@@ -95,6 +124,8 @@ public class HomeActivity extends AppCompatActivity {
         // Menu dropdown
         dropdownButton = findViewById(R.id.menu);
         DropDownbuttonClick();
+
+
     }
 
     @Override
@@ -134,29 +165,6 @@ public class HomeActivity extends AppCompatActivity {
 
             // Xóa flag sau khi điều hướng
             getIntent().removeExtra("isCartTransition");
-
-            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.productFragment:
-                        // Điều hướng đến ProductFragment, không tự động đến CartFragment
-                        navController.navigate(R.id.productFragment);
-                        return true;
-                    case R.id.cartFragment:
-                        // Điều hướng đến CartFragment nếu cần
-                        navController.navigate(R.id.cartFragment);
-                        return true;
-                    case R.id.saleFragment:
-                        // Điều hướng đến , không tự động đến CartFragment
-                        navController.navigate(R.id.saleFragment);
-                        return true;
-                    case R.id.userFragment:
-                        // Điều hướng đến , không tự động đến CartFragment
-                        navController.navigate(R.id.userFragment);
-                        return true;
-                    default:
-                        return false;
-                }
-            });
         }
     }
 
@@ -209,7 +217,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
 
-            popupMenu.setOnDismissListener(menu -> dropdownButton.setImageResource(R.drawable.menu));
+            popupMenu.setOnDismissListener(menu -> dropdownButton.setImageResource(R.drawable.menu));  // Khôi phục lại hình ảnh ban đầu
             dropdownButton.setImageResource(R.drawable.baseline_cancel_24);
             popupMenu.show();
         });

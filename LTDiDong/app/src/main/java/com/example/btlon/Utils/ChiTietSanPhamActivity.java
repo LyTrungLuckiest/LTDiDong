@@ -143,7 +143,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
             tensp.setText(sanPhamMoi.getName() != null ? sanPhamMoi.getName() : "Tên sản phẩm không có");
             mota.setText(sanPhamMoi.getDescription() != null ? sanPhamMoi.getDescription() : "Mô tả không có");
             giaSp.setText(formatPrice(sanPhamMoi.getPrice()));
-            Glide.with(this).load(sanPhamMoi.getImageUrl()).into(imgHinhanh);
+            Glide.with(this).load(sanPhamMoi.getImage()).into(imgHinhanh);
         } else {
             tensp.setText("Không có dữ liệu sản phẩm");
             mota.setText("");

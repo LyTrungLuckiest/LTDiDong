@@ -50,7 +50,8 @@ public class AdminProductSettingFragment extends Fragment {
     private List<Product> productList;
     private ProductTableHelper productTableHelper;
     private Button btnAddProduct;
-    private String selectedImagePath = ""; // Đường dẫn ảnh được chọn
+    private String selectedImagePath;
+
     private Spinner spinnerCategory;
 
     // Declare the ActivityResultLauncher
@@ -117,6 +118,7 @@ public class AdminProductSettingFragment extends Fragment {
     }
 
     private void openImagePicker() {
+        selectedImagePath = ""; // Đường dẫn ảnh được chọn
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             // Android 10 trở xuống: Kiểm tra quyền
             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -139,12 +141,13 @@ public class AdminProductSettingFragment extends Fragment {
     }
 
     private void handleImageUri(Uri imageUri) {
+        selectedImagePath = imageUri.toString();
         // Hiển thị ảnh trong ImageView
         ImageView imageView = getView().findViewById(R.id.img_product);
         imageView.setImageURI(imageUri);
 
         // Lưu URI để sử dụng sau
-        selectedImagePath = imageUri.toString();
+
     }
 
     @Override
@@ -260,6 +263,7 @@ public class AdminProductSettingFragment extends Fragment {
                     String description = edtProductDescription.getText().toString().trim();
                     String stockStr = edtProductStock.getText().toString().trim();
 
+
                     if (TextUtils.isEmpty(name) || TextUtils.isEmpty(priceStr)) {
                         Toast.makeText(getContext(), "Tên và giá sản phẩm không thể để trống!", Toast.LENGTH_SHORT).show();
                         return;
@@ -267,6 +271,7 @@ public class AdminProductSettingFragment extends Fragment {
 
                     // If no new image selected, keep the old one
                     String updatedImagePath = TextUtils.isEmpty(selectedImagePath) ? product.getImage() : selectedImagePath;
+
 
                     try {
                         product.setName(name);
@@ -317,7 +322,6 @@ public class AdminProductSettingFragment extends Fragment {
         }
         return 0; // Default to the first item if not found
     }
-
 
 
     // Method to show Delete Product Dialog
