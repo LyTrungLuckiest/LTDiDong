@@ -6,6 +6,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
 
         UserTableHelper userTableHelper = new UserTableHelper(this);
         PreferenceManager preferenceManager = new PreferenceManager(this);
@@ -80,9 +82,9 @@ public class HomeActivity extends AppCompatActivity {
                     return false;
             }
         });
-        ImageButton btnGiohang=findViewById(R.id.btnGiohang);
+        ImageButton btnGiohang = findViewById(R.id.btnGiohang);
 
-        btnGiohang.setOnClickListener(v->{
+        btnGiohang.setOnClickListener(v -> {
             navController.navigate(R.id.cartFragment);
             bottomNavigationView.setSelectedItemId(R.id.cartFragment);
         });
@@ -223,7 +225,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Khởi tạo nhận diện giọng nói
     private void startVoiceRecognition() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Nhận diện giọng nói không khả dụng trên thiết bị này.", Toast.LENGTH_SHORT).show();
@@ -232,14 +233,22 @@ public class HomeActivity extends AppCompatActivity {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi-VN"); // Đặt ngôn ngữ là Tiếng Việt
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hãy nói gì đó...");
 
         try {
             startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
         } catch (Exception e) {
-            Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Lỗi khởi tạo nhận diện giọng nói: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private void performVoiceSearch(String query) {
+        // Chuyển đến màn hình tìm kiếm với kết quả từ nhận diện giọng nói
+        Intent intent = new Intent(HomeActivity.this, SearchResultsActivity.class);
+        intent.putExtra("search_query", query);
+        startActivity(intent);
     }
 
     @Override
@@ -251,7 +260,16 @@ public class HomeActivity extends AppCompatActivity {
             if (result != null && !result.isEmpty()) {
                 String recognizedText = result.get(0);
                 Toast.makeText(this, "Đã nhận diện: " + recognizedText, Toast.LENGTH_SHORT).show();
+
+                // Gọi chức năng tìm kiếm sản phẩm
+                performVoiceSearch(recognizedText);
+            } else {
+                Toast.makeText(this, "Không nhận diện được giọng nói.", Toast.LENGTH_SHORT).show();
             }
+        } else if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(this, "Nhận diện giọng nói đã bị hủy.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
