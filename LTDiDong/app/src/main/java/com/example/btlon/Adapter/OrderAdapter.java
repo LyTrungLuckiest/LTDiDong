@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.btlon.Data.Order;
 import com.example.btlon.Data.OrderDetail;
 import com.example.btlon.Data.OrderTableHelper;
+import com.example.btlon.Data.OrderdetailTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
 
@@ -40,12 +41,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orders.get(position);
         OrderTableHelper orderTableHelper = new OrderTableHelper(context);
-        PreferenceManager preferenceManager = new PreferenceManager(context);
-        String userId = preferenceManager.getUserId();
+        OrderdetailTableHelper orderdetailTableHelper= new OrderdetailTableHelper(context);
         Log.d("OrderAdapter", "Binding order with ID: " + order.getOrderId());
         // Hiển thị mã đơn hàng và ngày
         holder.tvOrderId.setText("Mã đơn hàng: #" + order.getOrderId());
         holder.tvOrderDate.setText("Ngày: " + order.getOrderDate());
+        holder.tvState.setText(order.isStatus()?"Đã thanh toán":"Chờ thanh toán");
+        if(!order.isStatus()){
+            holder.btDeleteOrder.setText("Hủy đơn");
+        }else holder.btDeleteOrder.setVisibility(View.GONE);
+
+        Log.d("OrderAdapter", "check date: " + order.getOrderDate());
 
         // Lấy danh sách chi tiết đơn hàng
         List<OrderDetail> details = order.getOrderDetails();  // Lấy trực tiếp từ Order
@@ -67,33 +73,38 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.recyclerViewOrderDetail.setAdapter(detailAdapter);
         holder.recyclerViewOrderDetail.setLayoutManager(new LinearLayoutManager(context));
 
-        holder.btDeleteOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int currentPosition = holder.getAdapterPosition(); // Lấy vị trí hiện tại của ViewHolder
-                if (currentPosition == RecyclerView.NO_POSITION) {
-                    return; // Nếu vị trí không hợp lệ, thoát khỏi phương thức
+        //Xử lý đổi lại text cho hóa đơn ở nút delete thành xác nhận khi la admin hoặc staff (đơn hàng đến nơi ng dùng đẫ thanh toán
+        if(holder.btDeleteOrder.getText().toString().equals("Hủy đơn")){
+            holder.btDeleteOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int currentPosition = holder.getAdapterPosition(); // Lấy vị trí hiện tại của ViewHolder
+                    if (currentPosition == RecyclerView.NO_POSITION) {
+                        return; // Nếu vị trí không hợp lệ, thoát khỏi phương thức
+                    }
+
+                    Order currentOrder = orders.get(currentPosition);
+
+                    // Xóa đơn hàng khỏi cơ sở dữ liệu
+                    boolean isDeleted = orderTableHelper.deleteOrder(currentOrder.getOrderId());
+
+                    if (isDeleted) {
+                        orderdetailTableHelper.deleteOrderDetailsByOrderId(currentOrder.getOrderId());
+                        // Loại bỏ đơn hàng khỏi danh sách
+                        orders.remove(currentPosition);
+
+                        // Cập nhật lại RecyclerView
+                        notifyItemRemoved(currentPosition);
+                        notifyItemRangeChanged(currentPosition, orders.size());
+
+                        Log.d("OrderAdapter", "Deleted order with ID: " + currentOrder.getOrderId());
+                    } else {
+                        Log.e("OrderAdapter", "Failed to delete order with ID: " + currentOrder.getOrderId());
+                    }
                 }
+            });
 
-                Order currentOrder = orders.get(currentPosition);
-
-                // Xóa đơn hàng khỏi cơ sở dữ liệu
-                boolean isDeleted = orderTableHelper.deleteOrder(currentOrder.getOrderId());
-
-                if (isDeleted) {
-                    // Loại bỏ đơn hàng khỏi danh sách
-                    orders.remove(currentPosition);
-
-                    // Cập nhật lại RecyclerView
-                    notifyItemRemoved(currentPosition);
-                    notifyItemRangeChanged(currentPosition, orders.size());
-
-                    Log.d("OrderAdapter", "Deleted order with ID: " + currentOrder.getOrderId());
-                } else {
-                    Log.e("OrderAdapter", "Failed to delete order with ID: " + currentOrder.getOrderId());
-                }
-            }
-        });
+        } //else xử lý thanh toán ở đây set lại cho hóa đơn status la true
 
 
     }
@@ -108,19 +119,24 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         this.orders = newOrders;  // Cập nhật danh sách đơn hàng mới
         notifyDataSetChanged();  // Thông báo cho adapter rằng dữ liệu đã thay đổi
     }
+    public interface OnOrderClickListener {
+        void onOrderClick(int orderId);  // Callback để lấy orderId
+    }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOrderId, tvOrderDate, tvTotalAmount;
+        TextView tvOrderId, tvOrderDate, tvTotalAmount,tvState;
         RecyclerView recyclerViewOrderDetail;
         Button btDeleteOrder;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             tvOrderId = itemView.findViewById(R.id.tvOrderId);
+            tvState = itemView.findViewById(R.id.tvState);
             tvOrderDate = itemView.findViewById(R.id.tvOrderDate);
             tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
             recyclerViewOrderDetail = itemView.findViewById(R.id.recyclerViewOrderDetail);
             btDeleteOrder = itemView.findViewById(R.id.btDeleteOrder);
         }
     }
+
 }

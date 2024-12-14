@@ -30,6 +30,13 @@ public class Order {
         this.orderDetails = orderDetails;
         this.status = status;
     }
+    public Order(int orderId, Users user, String orderDate, boolean status, List<OrderDetail> orderDetails) {
+        this.orderId = orderId;
+        this.user = user;
+        this.orderDate = orderDate;
+        this.orderDetails = orderDetails;
+        this.status = status;
+    }
 
     public boolean isStatus() {
         return status;

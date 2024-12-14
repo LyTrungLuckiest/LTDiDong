@@ -84,4 +84,10 @@
     <string name="add">Thêm</string>
 
 
+    <string-array name="order_setting_options">
+        <item>Thêm</item>
+        <item>Xóa</item>
+    </string-array>
+
+
 </resources>

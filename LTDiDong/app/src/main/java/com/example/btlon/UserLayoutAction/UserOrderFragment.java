@@ -57,7 +57,7 @@ public class UserOrderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_oder, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_order, container, false);
 
         // Khởi tạo các helper
         userTableHelper = new UserTableHelper(requireContext());
@@ -162,10 +162,11 @@ public class UserOrderFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Xóa tất cả đơn hàng của người dùng khỏi cơ sở dữ liệu
+                orderdetailTableHelper.deleteOrderDetailsByUserId(Integer.parseInt(userId));
                 boolean isDeleted = orderTableHelper.deleteAllOrdersByUserId(Integer.parseInt(userId));
                 if (isDeleted) {
                     // Xóa chi tiết đơn hàng khỏi cơ sở dữ liệu
-                    orderdetailTableHelper.deleteOrderDetailsByUserId(Integer.parseInt(userId));
+
 
                     // Cập nhật lại danh sách đơn hàng và làm mới RecyclerView
                     List<Order> updatedOrders = getOrders(currentUser);  // Lấy lại danh sách đơn hàng từ cơ sở dữ liệu
@@ -193,32 +194,38 @@ public class UserOrderFragment extends Fragment {
         Cursor cursor = null;
 
         try {
-            cursor = orderTableHelper.getOrdersForUser(user.getUserId());  // Truy vấn đơn hàng cho người dùng
+            cursor = orderTableHelper.getOrdersForUser(user.getUserId());  // Query orders for the user
 
             if (cursor != null) {
-                // Kiểm tra tất cả tên cột trong cursor để biết chắc có các cột cần thiết
+                // Check all column names to make sure we have the required columns
                 String[] columnNames = cursor.getColumnNames();
                 for (String columnName : columnNames) {
                     Log.d("Cursor", "Column name: " + columnName);
                 }
 
-                if (cursor.moveToFirst()) {  // Nếu có dữ liệu trong cursor
+                if (cursor.moveToFirst()) {  // If cursor has data
                     do {
-                        // Lấy index của cột order_id
+                        // Get the index of each column
                         int orderIdIndex = cursor.getColumnIndex("order_id");
+                        int orderDateIndex = cursor.getColumnIndex("order_date");  // Assuming there's an order date column
+                        int orderStatusIndex = cursor.getColumnIndex("status");   // Assuming there's a status column
 
-                        // Kiểm tra nếu chỉ số cột hợp lệ (>= 0)
-                        if (orderIdIndex >= 0) {
-                            // Lấy giá trị order_id từ cursor
+                        // Check if column indexes are valid (>= 0)
+                        if (orderIdIndex >= 0 && orderDateIndex >= 0 && orderStatusIndex >= 0) {
+                            // Retrieve values from cursor
                             int orderId = cursor.getInt(orderIdIndex);
+                            String orderDate = cursor.getString(orderDateIndex);  // Example: order date as string
+                            boolean orderStatus = cursor.getInt(orderStatusIndex)==1;  // Example: order status
 
-                            // Lấy chi tiết đơn hàng từ cơ sở dữ liệu
+
+                            // Get the order details (items in the order)
                             List<OrderDetail> orderDetails = getOrderDetails(orderId);
 
-                            // Tạo đối tượng Order và thêm vào danh sách, thêm orderId vào constructor
-                            orders.add(new Order(orderId, user, orderDetails));  // Now passing orderId
+                            // Create the Order object with additional fields
+                            Order order = new Order(orderId, user, orderDate, orderStatus, orderDetails);  // Pass additional fields to the constructor
+                            orders.add(order);
                         } else {
-                            Log.e("Cursor", "'order_id' column not found");
+                            Log.e("Cursor", "Required columns not found in cursor.");
                         }
                     } while (cursor.moveToNext());
                 } else {
@@ -230,7 +237,7 @@ public class UserOrderFragment extends Fragment {
         } catch (Exception e) {
             Log.e("Cursor", "Error while processing cursor: " + e.getMessage());
         } finally {
-            // Ensure the cursor is closed properly even if an exception occurs
+            // Ensure cursor is closed properly even if an exception occurs
             if (cursor != null) {
                 cursor.close();
             }
@@ -238,6 +245,7 @@ public class UserOrderFragment extends Fragment {
 
         return orders;
     }
+
 
 
     // Hàm lấy các chi tiết đơn hàng

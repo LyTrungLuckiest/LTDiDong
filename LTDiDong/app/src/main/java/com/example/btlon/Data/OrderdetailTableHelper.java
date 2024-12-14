@@ -109,20 +109,20 @@ public class OrderdetailTableHelper extends BaseTableHelper<OrderDetail> {
     public boolean deleteOrderDetailsByUserId(int userId) {
         SQLiteDatabase db = sqliteHelper.getWritableDatabase();
 
-        // Truy vấn SQL để xóa order detail có order_id liên quan đến user_id
-        String query = "DELETE FROM Order_Details WHERE order_id IN (SELECT order_id FROM Orders WHERE user_id = ?)";
-
         try {
-            // Thực thi câu lệnh SQL
+            db.execSQL("PRAGMA foreign_keys = ON;");
+            // Truy vấn SQL để xóa order details dựa trên user_id
+            String query = "DELETE FROM Order_Details " +
+                    "WHERE order_id IN (SELECT order_id FROM Orders WHERE user_id = ?)";
             db.execSQL(query, new Object[]{userId});
+            Log.d("OrderDetailTableHelper", "Deleted order details for user_id: " + userId);
             return true;
         } catch (Exception e) {
-            Log.e("OrderDetailTableHelper", "Lỗi khi xóa order details cho user_id: " + userId, e);
+            Log.e("OrderDetailTableHelper", "Error deleting order details for user_id: " + userId, e);
             return false;
-        } finally {
-            db.close();
         }
     }
+
     // Xóa tất cả các OrderDetail
     public boolean deleteAllOrderDetails() {
         SQLiteDatabase db = sqliteHelper.getWritableDatabase();
@@ -145,6 +145,30 @@ public class OrderdetailTableHelper extends BaseTableHelper<OrderDetail> {
             db.close();
         }
     }
+    public boolean deleteOrderDetailsByOrderId(int orderId) {
+        SQLiteDatabase db = sqliteHelper.getWritableDatabase();
+
+        try {
+            // Truy vấn SQL để xóa tất cả order details theo order_id
+            int rowsDeleted = db.delete(TABLE_NAME, COL_ORDER_ID + " = ?", new String[]{String.valueOf(orderId)});
+
+            if (rowsDeleted > 0) {
+                Log.d("OrderDetailTableHelper", "Đã xóa " + rowsDeleted + " chi tiết đơn hàng với order_id: " + orderId);
+                return true;
+            } else {
+                Log.d("OrderDetailTableHelper", "Không có chi tiết đơn hàng nào để xóa với order_id: " + orderId);
+                return false;
+            }
+        } catch (Exception e) {
+            Log.e("OrderDetailTableHelper", "Lỗi khi xóa order details cho order_id: " + orderId, e);
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+
+
+
 
 
 }

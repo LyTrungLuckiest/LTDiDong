@@ -57,9 +57,9 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
                     if(role.equals("Admin")){
                     navController.navigate(R.id.action_settingsFragment_to_adminProductSettingFragment, bundle);
                     break;}
-//                case "Hóa đơn":
-//                    navController.navigate(R.id.action_settingsFragment_to_adminOrderSettingFragment, bundle);
-//                    break;
+                case "Hóa đơn":
+                    navController.navigate(R.id.action_settingsFragment_to_adminOrderFragment, bundle);
+                    break;
                 case "Danh mục sản phẩm":
                     if(role.equals("Admin")) {
                         navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
