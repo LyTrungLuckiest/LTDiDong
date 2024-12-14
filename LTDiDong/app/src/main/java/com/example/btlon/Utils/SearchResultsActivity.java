@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +27,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_results_activity);
 
+
         // Ánh xạ view
         // Nút thoát
         ImageButton btnExit = findViewById(R.id.btnExit);
@@ -36,6 +38,13 @@ public class SearchResultsActivity extends AppCompatActivity {
         // Nhận từ khóa từ Intent
         Intent intent = getIntent();
         String query = intent.getStringExtra("search_query");
+        if (query != null && !query.isEmpty()) {
+            Toast.makeText(this, "Tìm kiếm sản phẩm: " + query, Toast.LENGTH_SHORT).show();
+
+            // Xử lý logic tìm kiếm sản phẩm tại đây
+        } else {
+            Toast.makeText(this, "Không có từ khóa tìm kiếm.", Toast.LENGTH_SHORT).show();
+        }
 
         // Tìm kiếm và hiển thị kết quả ban đầu
         if (query != null) {
@@ -57,6 +66,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void performSearch(String query) {
         // Thực hiện tìm kiếm từ cơ sở dữ liệu
