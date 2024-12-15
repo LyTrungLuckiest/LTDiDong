@@ -35,7 +35,8 @@ public class AuthLogoutHelper {
         PreferenceManager preferenceManager = new PreferenceManager(activity);
         preferenceManager.clearLoginState();
         Intent intent = new Intent(activity, HomeActivity.class);
-        activity.startActivity(intent);
         activity.finish();
+        activity.startActivity(intent);
+
     }
 }
