@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -55,7 +56,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     private CartAdapter cartAdapter;
     private String userId, selectedPaymentMethod = "Tiền mặt";
     private PreferenceManager preferenceManager;
-
+    private EditText edtNhapDiaChi;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +108,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         btnThanhToan.setOnClickListener(v -> handlePayment());
         btnXoaAll.setOnClickListener(v -> deleteAllCartProducts());
+        edtNhapDiaChi = view.findViewById(R.id.edtnhapdiachi); //
     }
 
     private void setupSpinner() {
@@ -128,6 +130,11 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     private void handlePayment() {
+        String address = edtNhapDiaChi.getText().toString().trim(); // Lấy địa chỉ nhập vào
+        if (TextUtils.isEmpty(address)) {
+            Toast.makeText(requireContext(), "Vui lòng nhập địa chỉ giao hàng!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         double total = Double.parseDouble(txtTongTien.getText().toString().replace("VND", "").trim());
         if (total <= 0) {
             Toast.makeText(requireContext(), "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
