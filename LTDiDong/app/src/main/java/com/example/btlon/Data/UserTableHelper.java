@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -141,8 +142,38 @@ public class UserTableHelper extends BaseTableHelper<Users> {
     }
 
     public List<Users> getAllUsers() {
-        return getAll(new String[]{COL_ID, COL_USERNAME, COL_PASSWORD, COL_ROLE}, null, null, null);
+        List<Users> usersList = new ArrayList<>();
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            // Lấy chỉ số cột cho từng trường, đảm bảo rằng cột tồn tại
+            int usernameIndex = cursor.getColumnIndex(COL_USERNAME);
+            int passwordIndex = cursor.getColumnIndex(COL_PASSWORD);
+            int roleIndex = cursor.getColumnIndex(COL_ROLE);
+
+            // Kiểm tra xem các chỉ số cột có hợp lệ không (>= 0)
+            if (usernameIndex >= 0 && passwordIndex >= 0 && roleIndex >= 0) {
+                do {
+                    String username = cursor.getString(usernameIndex);
+                    String password = cursor.getString(passwordIndex);
+                    String role = cursor.getString(roleIndex);
+
+                    // Kiểm tra xem username có hợp lệ không
+                    if (!TextUtils.isEmpty(username)) {
+                        Users user = new Users(username, password, role);
+                        usersList.add(user);
+                    }
+                } while (cursor.moveToNext());
+            } else {
+                Log.e("SQLite", "Một hoặc nhiều cột không tồn tại trong cơ sở dữ liệu!");
+            }
+        }
+        cursor.close();
+        db.close();
+        return usersList;
     }
+
 
     public boolean updateUser(int userId, String username, String password, String role) {
         if(userId == Integer.parseInt(PreferenceManager.getUserId())) {

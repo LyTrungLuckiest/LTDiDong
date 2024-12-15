@@ -21,20 +21,30 @@
                 android:id="@+id/tvCategoryId"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="2"
                 android:textAlignment="center"
                 android:background="@drawable/square_shape_stroke_black"
-                android:text="Category Id"
+                android:text="Id"
                 android:textSize="20sp"
                 android:padding="10dp"/>
             <TextView
                 android:id="@+id/tvTotalOrder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:textAlignment="center"
                 android:background="@drawable/square_shape_stroke_black"
-                android:text="so luong don dat"
+                android:text="Số lượng đặt"
+                android:textSize="20sp"
+                android:padding="10dp"/>
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:textAlignment="center"
+                android:background="@drawable/square_shape_stroke_black"
+                android:text="Sp bán chạy"
                 android:textSize="20sp"
                 android:padding="10dp"/>
         </LinearLayout>

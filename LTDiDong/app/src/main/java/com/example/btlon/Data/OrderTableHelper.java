@@ -370,11 +370,13 @@ public class OrderTableHelper extends BaseTableHelper<Order> {
         Cursor cursor = null;
 
         try {
-            // Truy vấn SQL để lấy số lượng đơn hàng theo category_id
-            String query = "SELECT p.category_id, COUNT(od.order_id) AS total_orders " +
+            // Truy vấn SQL để lấy số lượng đơn hàng và sản phẩm bán chạy nhất theo category_id
+            String query = "SELECT p.category_id, COUNT(od.order_id) AS total_orders, " +
+                    "       p.name AS most_selling_product " +
                     "FROM Order_Details od " +
                     "JOIN Products p ON od.product_id = p.product_id " +
-                    "GROUP BY p.category_id";
+                    "GROUP BY p.category_id " +
+                    "ORDER BY total_orders DESC";
 
             // Thực thi truy vấn
             cursor = db.rawQuery(query, null);
@@ -385,11 +387,13 @@ public class OrderTableHelper extends BaseTableHelper<Order> {
                     // Lấy dữ liệu từ cursor
                     int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow("category_id"));
                     int totalOrders = cursor.getInt(cursor.getColumnIndexOrThrow("total_orders"));
+                    String mostSellingProduct = cursor.getString(cursor.getColumnIndexOrThrow("most_selling_product"));
 
-                    Log.d("Cursor Data", "categoryId: " + categoryId + ", totalOrders: " + totalOrders);
+                    // Log dữ liệu lấy được từ cursor (tuỳ chọn)
+                    Log.d("Cursor Data", "categoryId: " + categoryId + ", totalOrders: " + totalOrders + ", mostSellingProduct: " + mostSellingProduct);
 
                     // Tạo đối tượng CategoryOrderCount và thêm vào danh sách
-                    categoryOrderCountList.add(new CategoryOrderCount(categoryId, totalOrders));
+                    categoryOrderCountList.add(new CategoryOrderCount(categoryId, totalOrders, mostSellingProduct));
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -402,6 +406,8 @@ public class OrderTableHelper extends BaseTableHelper<Order> {
 
         return categoryOrderCountList;
     }
+
+
 
 
 
