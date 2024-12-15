@@ -145,7 +145,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         switch (selectedPaymentMethod) {
             case "Tiền mặt":
-                navigateToResult("Thanh toán tiền mặt thành công!");
+                navigateToResult("Vui lòng thanh toán tiền khi nhận hàng ");
                 handleCheckout();
                 break;
             case "MoMo":
@@ -243,6 +243,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             Toast.makeText(requireContext(), "Không có sản phẩm để thanh toán!", Toast.LENGTH_SHORT).show();
             return;
         }
+        ProductTableHelper productTableHelper = new ProductTableHelper(getContext());
 
         // Tính tổng giá trị sản phẩm trong giỏ
         double total = 0;
@@ -250,7 +251,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             total += product.getTotalPrice();
 
             // Cập nhật số lượng trong Database
-            updateProductQuantity(product.getProduct().getId(), product.getQuantity());
+            productTableHelper.updateProductQuantity(product.getProduct().getId(), product.getQuantity()); // Sell 5 units
+
         }
 
         // Lấy dữ liệu cũ từ SharedPreferences
@@ -285,28 +287,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         // Thông báo thanh toán thành công
         Toast.makeText(requireContext(), "Thanh toán bằng " + selectedPaymentMethod + ", vui lòng coi hóa đơn", Toast.LENGTH_SHORT).show();
-    }
-    private void updateProductQuantity(int productId, int purchasedQuantity) {
-        ProductTableHelper productTableHelper = new ProductTableHelper(getContext());
-
-        // Lấy sản phẩm từ Database
-        Product product = productTableHelper.getProductById(productId);
-
-        if (product != null) {
-            int newStockQuantity = product.getStockQuantity() - purchasedQuantity;
-            int newSoldQuantity = product.getSoldQuantity() + purchasedQuantity;
-
-            // Kiểm tra nếu số lượng tồn kho >= 0
-            if (newStockQuantity < 0) {
-                Toast.makeText(requireContext(), "Số lượng sản phẩm không đủ!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Cập nhật số lượng mới vào Database
-            productTableHelper.updateProductQuantity(productId, newStockQuantity, newSoldQuantity);
-        } else {
-            Log.e("CartFragment", "Không tìm thấy sản phẩm với ID: " + productId);
-        }
     }
 
 
