@@ -101,7 +101,7 @@
                 android:id="@+id/btnCall"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/user_tab_btshape"
+                android:background="@drawable/user_tab_bot"
                 android:backgroundTint="@null"
                 android:drawableLeft="@drawable/phone"
                 android:drawableRight="@drawable/arrow_right_icon"
@@ -110,57 +110,12 @@
                 android:textColor="@color/text_color"
                 app:backgroundTint="@null" />
 
-            <Button
-                android:id="@+id/btUserFeedBack"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/user_tab_bot"
-                android:backgroundTint="@null"
-                android:drawableLeft="@drawable/message"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Góp ý / Liên hệ"
-                android:textAlignment="textStart"
-                android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/userPointLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/toolbar_background"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/user_tab_btshape"
-                android:text="Ưu đãi"
-                android:textAlignment="center"
-                android:textSize="17sp" />
-
-            <Button
-                android:id="@+id/btUserGift"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/user_tab_bot"
-                android:backgroundTint="@null"
-                android:drawableLeft="@drawable/gift"
-                android:drawableRight="@drawable/arrow_right_icon"
-                android:text="Quà của tôi"
-                android:textAlignment="textStart"
-                android:textColor="@color/text_color"
-                app:backgroundTint="@null" />
 
 
 
         </LinearLayout>
+
+
         <Button
             android:id="@+id/btnDangnhap"
             android:layout_width="match_parent"

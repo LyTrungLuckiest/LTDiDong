@@ -20,7 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class SignupTabFragment extends Fragment {
 
-    private EditText edtUsername, edtPassword, edtConfirmPassword;
+    private EditText edtUsername, edtPassword, edtConfirmPassword,edtName;
     private Button btSignup;
     private UserTableHelper userTableHelper;
 
@@ -30,10 +30,12 @@ public class SignupTabFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_signup_tab_fragment, container, false);
 
+
         edtUsername = view.findViewById(R.id.signup_user);
         edtPassword = view.findViewById(R.id.signup_password);
         edtConfirmPassword = view.findViewById(R.id.signup_passwor_checkout);
         btSignup = view.findViewById(R.id.btnSignup);
+        edtName= view.findViewById(R.id.signup_name);
 
         new PasswordToggleHelper(edtPassword, view.findViewById(R.id.togglePasswordVisibility1));
         new PasswordToggleHelper(edtConfirmPassword, view.findViewById(R.id.togglePasswordVisibilityCheckouty2));
@@ -46,6 +48,7 @@ public class SignupTabFragment extends Fragment {
             String username = edtUsername.getText().toString().trim();
             String password = edtPassword.getText().toString().trim();
             String confirmPassword = edtConfirmPassword.getText().toString().trim();
+            String name = edtName.getText().toString().trim();
 
             if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();

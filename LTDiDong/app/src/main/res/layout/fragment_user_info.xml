@@ -34,26 +34,6 @@
             android:textAlignment="center"
             android:textSize="25dp" />
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Anh" />
-
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Chị" />
-        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,6 +45,7 @@
             android:paddingBottom="15dp">
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -72,6 +53,7 @@
                 android:text="Họ và tên" />
 
             <EditText
+                android:id="@+id/edtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bkg"
@@ -79,6 +61,7 @@
                 android:padding="10dp" />
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -86,6 +69,7 @@
                 android:text="Số điện thoại" />
 
             <EditText
+                android:id="@+id/edtPhonenNumer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bkg"
@@ -94,6 +78,7 @@
 
 
             <Button
+                android:id="@+id/btSaveInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

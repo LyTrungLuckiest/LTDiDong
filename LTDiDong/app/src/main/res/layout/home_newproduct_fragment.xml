@@ -37,7 +37,7 @@
             android:background="@color/background"
             android:horizontalSpacing="5dp"
             android:numColumns="2"
-            android:padding="5dp"
+            android:padding="10dp"
             android:verticalSpacing="5dp" />
 
 

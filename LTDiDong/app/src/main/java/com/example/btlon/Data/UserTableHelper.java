@@ -18,6 +18,9 @@ public class UserTableHelper extends BaseTableHelper<Users> {
     private static final String COL_USERNAME = "username";
     private static final String COL_PASSWORD = "password";
     private static final String COL_ROLE = "role";
+    private static final String COL_NAME = "name";
+    private static final String COL_PHONE = "phone_number";
+
     private SqliteHelper sqliteHelper;
     private Context Context;
 
@@ -39,6 +42,8 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         String username = cursor.getString(cursor.getColumnIndexOrThrow(COL_USERNAME));
         String password = cursor.getString(cursor.getColumnIndexOrThrow(COL_PASSWORD));
         String role = cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME));
+        String phone = cursor.getString(cursor.getColumnIndexOrThrow(COL_PHONE));
         return new Users(id, username, password, role);
     }
 
@@ -94,6 +99,30 @@ public class UserTableHelper extends BaseTableHelper<Users> {
         values.put(COL_PASSWORD, password);
         return insert(values); // Trả về kết quả thực tế từ phương thức insert
     }
+
+
+    public boolean updateUserName(int userId, String name, String phone) {
+        // Khởi tạo ContentValues để lưu trữ giá trị
+        ContentValues values = new ContentValues();
+        values.put(COL_NAME, name);
+        values.put(COL_PHONE, phone);
+
+        // Thêm log để kiểm tra thông tin được truyền vào
+        Log.d("UserTableHelper", "Cập nhật thông tin người dùng: userId = " + userId + ", name = " + name + ", phone = " + phone);
+
+        // Cập nhật tên người dùng theo userId
+        boolean isUpdated = update(values, COL_ID + "=?", new String[]{String.valueOf(userId)});
+
+        // Thêm log để kiểm tra kết quả của câu lệnh update
+        if (isUpdated) {
+            Log.d("UserTableHelper", "Cập nhật thành công cho userId = " + userId);
+        } else {
+            Log.d("UserTableHelper", "Cập nhật không thành công cho userId = " + userId);
+        }
+
+        return isUpdated;
+    }
+
 
 
     private boolean isUsernameExists(String username) {
@@ -230,6 +259,42 @@ public class UserTableHelper extends BaseTableHelper<Users> {
                 String role = cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE));
 
                 user = new Users(id, username, password, role);
+            } else {
+                Log.d("UserTableHelper", "Không tìm thấy user với ID: " + userId);
+            }
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi lấy thông tin người dùng từ userId: " + userId, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return user;
+    }
+    public Users getUserNamePhoneById(int userId) {
+        Users user = null;
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Truy vấn lấy thông tin người dùng dựa trên userId
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_ID + " = ?";
+            Log.d("SQL Debug", "Truy vấn: " + query + ", userId: " + userId);
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Lấy thông tin người dùng từ cursor
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(COL_USERNAME));
+                String password = cursor.getString(cursor.getColumnIndexOrThrow(COL_PASSWORD));
+                String role = cursor.getString(cursor.getColumnIndexOrThrow(COL_ROLE));
+                String name=cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME));
+                String phone=cursor.getString(cursor.getColumnIndexOrThrow(COL_PHONE));
+
+
+
+                user = new Users(id, username, password, role,name,phone);
             } else {
                 Log.d("UserTableHelper", "Không tìm thấy user với ID: " + userId);
             }

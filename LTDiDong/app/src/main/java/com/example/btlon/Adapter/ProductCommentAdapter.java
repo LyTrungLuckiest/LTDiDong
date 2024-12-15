@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btlon.Data.Comment;
+import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Data.Users;
 import com.example.btlon.R;
+import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.List;
 
@@ -34,12 +37,19 @@ public class ProductCommentAdapter extends RecyclerView.Adapter<ProductCommentAd
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment comment = comments.get(position);
+        UserTableHelper userTableHelper = new UserTableHelper(context);
+        Users users =userTableHelper.getUserNamePhoneById(comment.getUserId());
 
         // Gán content vào txtComment
         holder.txtComment.setText(comment.getContent());
 
-        // Chuyển userId thành chuỗi và gán vào txtUserId
-        holder.txtUserId.setText(String.valueOf(comment.getUserId()));
+        if (users.getName() != null && !users.getName().isEmpty()) {
+            holder.txtUserName.setText(users.getName());
+        } else {
+            holder.txtUserName.setText("Unknown user");
+        }
+
+
     }
 
     @Override
@@ -48,13 +58,13 @@ public class ProductCommentAdapter extends RecyclerView.Adapter<ProductCommentAd
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
-        TextView txtUserId;
+        TextView txtUserName;
 
         TextView txtComment;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtUserId=itemView.findViewById(R.id.txtUser);
+            txtUserName=itemView.findViewById(R.id.txtUser);
             txtComment = itemView.findViewById(R.id.txtComment);
 
         }

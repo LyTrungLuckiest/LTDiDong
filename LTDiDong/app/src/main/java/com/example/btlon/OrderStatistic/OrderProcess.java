@@ -2,10 +2,15 @@ package com.example.btlon.OrderStatistic;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +40,7 @@ public class OrderProcess extends Fragment {
     private ProductTableHelper productTableHelper;
     private UserTableHelper userTableHelper;  // Khai báo UserTableHelper để kiểm tra quyền người dùng
     private PreferenceManager preferenceManager;  // Khai báo PreferenceManager để lấy userId
+    private Button btBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,5 +80,19 @@ public class OrderProcess extends Fragment {
         orderAdapter.notifyDataSetChanged();
 
         return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        try {
+            btBack = view.findViewById(R.id.btBackOrderProcess);
+            if (btBack != null) {
+                NavController navController = Navigation.findNavController(view);
+                btBack.setOnClickListener(v -> navController.popBackStack());
+            }
+        } catch (IllegalStateException e) {
+            Log.e("NavigationError", "NavController không tìm thấy: " + e.getMessage());
+        }
     }
 }

@@ -27,6 +27,19 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:padding="10dp" />
+        <Button
+            android:id="@+id/btBackOrderProcess"
+            android:layout_gravity="center|bottom"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_bkg"
+            android:text="Thoát"
+            android:textColor="@color/text_color"
+            android:textSize="20sp"
+            app:backgroundTint="@null"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            />
 
 
     </LinearLayout>

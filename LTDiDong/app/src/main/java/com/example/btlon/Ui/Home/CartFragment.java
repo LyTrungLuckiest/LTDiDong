@@ -254,6 +254,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             ordersList = new ArrayList<>();
         }
 
+
         // Thêm giỏ hàng hiện tại vào ordersList
         ordersList.add(cartProductList);
 

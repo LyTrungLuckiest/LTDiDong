@@ -43,18 +43,18 @@ public class UserFragment extends Fragment {
         Button btnLogout = rootView.findViewById(R.id.btnLogout);
         Button btnDangnhap = rootView.findViewById(R.id.btnDangnhap);
         LinearLayout userInfoLayout = rootView.findViewById(R.id.infouser); // Lấy LinearLayout chứa thông tin người dùng
-        LinearLayout userPointLayout = rootView.findViewById(R.id.userPointLayout);
+
 
         // Kiểm tra trạng thái đăng nhập và ẩn/hiện các phần tử
         if (preferenceManager.isLoggedIn()) {
             btnDangnhap.setVisibility(View.GONE);  // Ẩn nút Đăng nhập nếu đã đăng nhập
             userInfoLayout.setVisibility(View.VISIBLE);
-            userPointLayout.setVisibility(View.VISIBLE);// Hiển thị thông tin người dùng nếu đã đăng nhập
+
             btnLogout.setVisibility(View.VISIBLE);  // Hiển thị nút Đăng xuất nếu đã đăng nhập
         } else {
             btnDangnhap.setVisibility(View.VISIBLE);    // Hiển thị nút Đăng nhập nếu chưa đăng nhập
             userInfoLayout.setVisibility(View.GONE);
-            userPointLayout.setVisibility(View.GONE);
+
             btnLogout.setVisibility(View.GONE);    // Ẩn nút Đăng xuất nếu chưa đăng nhập
         }
         btnDangnhap.setOnClickListener(v -> {
@@ -109,12 +109,6 @@ public class UserFragment extends Fragment {
         });
         view.findViewById(R.id.btUserOrder).setOnClickListener(v -> {
             navController.navigate(R.id.action_userFragment_to_userOderFragment);
-        });
-        view.findViewById(R.id.btUserGift).setOnClickListener(v -> {
-            navController.navigate(R.id.action_userFragment_to_userGiftFragment);
-        });
-        view.findViewById(R.id.btUserFeedBack).setOnClickListener(v -> {
-            navController.navigate(R.id.action_userFragment_to_userFeedBackFragment);
         });
        
     }
