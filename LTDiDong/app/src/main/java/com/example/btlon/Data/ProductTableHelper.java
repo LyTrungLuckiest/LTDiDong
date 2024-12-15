@@ -19,6 +19,7 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
     private static final String COL_IMAGE = "image_url";
     private static final String COL_QUANTITY = "stock_quantity";
     private static final String COL_CATEGORY_ID = "category_id";
+    private static final String COL_SOLD_QUANTITY = "sold_quantity";
 
 
     private SQLiteDatabase database;
@@ -51,11 +52,11 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         String image = cursor.getString(cursor.getColumnIndexOrThrow(COL_IMAGE));
         String description = cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPTION));
         int stock = cursor.getInt(cursor.getColumnIndexOrThrow(COL_QUANTITY));
+        int soldQuantity = cursor.getInt(cursor.getColumnIndexOrThrow(COL_SOLD_QUANTITY));
         int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(COL_CATEGORY_ID));
 
-        return new Product(id, name, description, price, image, stock, categoryId);
+        return new Product(id, name, description, price, image, stock, categoryId, soldQuantity);
     }
-
 
 
     public List<Product> getAllProducts() {
@@ -161,6 +162,7 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         values.put(COL_CATEGORY_ID, product.getCategory_id()); // Thêm category_id
         return update(values, COL_ID + "=?", new String[]{String.valueOf(product.getId())});
     }
+
     public String getCategoryName(int categoryId) {
         String categoryName = null;
         String query = "SELECT name FROM Categories WHERE category_id = ?";
@@ -182,6 +184,7 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
 
         return categoryName;
     }
+
     public Product getProductById(int productId) {
         Cursor cursor = null;
 
@@ -212,8 +215,20 @@ public class ProductTableHelper extends BaseTableHelper<Product> {
         }
 
         return null; // Nếu không tìm thấy sản phẩm
+
+
     }
 
+    public boolean updateProductQuantity(int productId, int stockQuantity, int soldQuantity) {
+        ContentValues values = new ContentValues();
+        values.put("stock_quantity", stockQuantity);
+        values.put("sold_quantity", soldQuantity);
+
+        int rowsAffected = db.update("Products", values, "product_id = ?", new String[]{String.valueOf(productId)});
+        db.close();
+
+        return rowsAffected > 0;
+    }
 
 
 }

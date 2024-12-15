@@ -30,6 +30,8 @@ import com.example.btlon.Data.Cart;
 import com.example.btlon.Data.CartProduct;
 import com.example.btlon.Data.CartProductTableHelper;
 import com.example.btlon.Data.CartTableHelper;
+import com.example.btlon.Data.Product;
+import com.example.btlon.Data.ProductTableHelper;
 import com.example.btlon.Models.CreateOrder;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
@@ -147,7 +149,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 handleCheckout();
                 break;
             case "MoMo":
-
                 navigateToResult("Thanh toán MoMo thành công!");
                 break;
             case "ZaloPay":
@@ -156,6 +157,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 break;
             case "Ngân hàng":
                 handleNHPayment(total);
+
 //                navigateToResult("Thanh toán Ngân hàng thành công!");
                 break;
             default:
@@ -164,8 +166,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     private void handleNHPayment(double total) {
-        String accountNumber = "5811322678"; // Số tài khoản
-        String amount = String.valueOf(total); // Số tiền
+        String accountNumber = "5811322678";
+        String amount = String.valueOf(total);
         String bankDeeplink = "https://dl.vietqr.io/pay?app=bibv&account=" + accountNumber + "&amount=" + amount;
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bankDeeplink));
@@ -175,6 +177,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 // Kiểm tra nếu có ứng dụng hỗ trợ mở deeplink này
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
+            handleCheckout();
         } else {
             Toast.makeText(requireContext(), "Không tìm thấy ứng dụng.", Toast.LENGTH_SHORT).show();
         }
@@ -232,7 +235,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     private void handleCheckout() {
-        // Lấy danh sách sản phẩm trong giỏ hàng của người dùng
+        // Lấy danh sách sản phẩm trong giỏ hàng
         Map<Integer, List<CartProduct>> cartProductsMap = getCartProducts();
         List<CartProduct> cartProductList = cartProductsMap.get(Integer.parseInt(userId));
 
@@ -245,6 +248,9 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         double total = 0;
         for (CartProduct product : cartProductList) {
             total += product.getTotalPrice();
+
+            // Cập nhật số lượng trong Database
+            updateProductQuantity(product.getProduct().getId(), product.getQuantity());
         }
 
         // Lấy dữ liệu cũ từ SharedPreferences
@@ -280,6 +286,29 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         // Thông báo thanh toán thành công
         Toast.makeText(requireContext(), "Thanh toán bằng " + selectedPaymentMethod + ", vui lòng coi hóa đơn", Toast.LENGTH_SHORT).show();
     }
+    private void updateProductQuantity(int productId, int purchasedQuantity) {
+        ProductTableHelper productTableHelper = new ProductTableHelper(getContext());
+
+        // Lấy sản phẩm từ Database
+        Product product = productTableHelper.getProductById(productId);
+
+        if (product != null) {
+            int newStockQuantity = product.getStockQuantity() - purchasedQuantity;
+            int newSoldQuantity = product.getSoldQuantity() + purchasedQuantity;
+
+            // Kiểm tra nếu số lượng tồn kho >= 0
+            if (newStockQuantity < 0) {
+                Toast.makeText(requireContext(), "Số lượng sản phẩm không đủ!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Cập nhật số lượng mới vào Database
+            productTableHelper.updateProductQuantity(productId, newStockQuantity, newSoldQuantity);
+        } else {
+            Log.e("CartFragment", "Không tìm thấy sản phẩm với ID: " + productId);
+        }
+    }
+
 
     private void deleteAllCartProducts() {
         CartTableHelper cartTableHelper = new CartTableHelper(getContext());
