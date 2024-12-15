@@ -53,7 +53,7 @@ public class UserOrderFragment extends Fragment {
     private String userId;
     private List<CartProduct> cartProductArrayList;
     private ProductTableHelper productTableHelper;
-    private Button btDeleteData;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class UserOrderFragment extends Fragment {
         cartProductArrayList = new ArrayList<>();
         orderdetailTableHelper = new OrderdetailTableHelper(requireContext());
         productTableHelper = new ProductTableHelper(requireContext());
-        btDeleteData = view.findViewById(R.id.btDeleteData);
+
 
         // Khởi tạo RecyclerView
         recyclerViewOrder = view.findViewById(R.id.recyclerViewOrder);
@@ -158,27 +158,6 @@ public class UserOrderFragment extends Fragment {
         recyclerViewOrder.setAdapter(orderAdapter);
         orderAdapter.notifyDataSetChanged();
 
-        btDeleteData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Xóa tất cả đơn hàng của người dùng khỏi cơ sở dữ liệu
-                orderdetailTableHelper.deleteOrderDetailsByUserId(Integer.parseInt(userId));
-                boolean isDeleted = orderTableHelper.deleteAllOrdersByUserId(Integer.parseInt(userId));
-                if (isDeleted) {
-                    // Xóa chi tiết đơn hàng khỏi cơ sở dữ liệu
-
-
-                    // Cập nhật lại danh sách đơn hàng và làm mới RecyclerView
-                    List<Order> updatedOrders = getOrders(currentUser);  // Lấy lại danh sách đơn hàng từ cơ sở dữ liệu
-                    orderAdapter.updateOrders(updatedOrders);  // Cập nhật lại dữ liệu cho Adapter
-                    orderAdapter.notifyDataSetChanged();  // Thông báo adapter để làm mới RecyclerView
-
-                    Log.d("Main", "Tất cả đơn hàng đã được xóa thành công.");
-                } else {
-                    Log.e("Main", "Không thể xóa tất cả đơn hàng hoặc không có đơn hàng để xóa.");
-                }
-            }
-        });
 
         //reset oder and oder detail
 //        orderTableHelper.deleteAllOrders();

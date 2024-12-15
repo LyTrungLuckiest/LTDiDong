@@ -39,6 +39,7 @@ public class OrderByCategoryAdapter extends RecyclerView.Adapter<OrderByCategory
 
         holder.tvCategoryId.setText(categoryOrderCount.getCategoryId()+"");
         holder.tvTotalOrder.setText(categoryOrderCount.getTotalOrders()+"");
+        holder.tvMostSellingProduct.setText(categoryOrderCount.getMostSellingProductName()+"");
 
     }
 
@@ -49,13 +50,14 @@ public class OrderByCategoryAdapter extends RecyclerView.Adapter<OrderByCategory
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvCategoryId, tvTotalOrder;
+        TextView tvCategoryId, tvTotalOrder,tvMostSellingProduct;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             // Initialize views
             tvCategoryId = itemView.findViewById(R.id.tvCategoryIdOrderByCategory);
             tvTotalOrder = itemView.findViewById(R.id.tvTotalOrderOrderbyCategory);
+            tvMostSellingProduct=itemView.findViewById(R.id.tvMostSellingProduct);
 
         }
     }

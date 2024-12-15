@@ -51,16 +51,16 @@
     <!-- Layout nhập địa chỉ -->
 
     <LinearLayout
-        android:id="@+id/form"
+        android:id="@+id/addressInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:background="@drawable/viewpager_bkg"
+        android:background="@drawable/item_bkg"
         android:orientation="vertical"
         android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btUserAddressBack"
         tools:ignore="MissingConstraints">
 
         <LinearLayout

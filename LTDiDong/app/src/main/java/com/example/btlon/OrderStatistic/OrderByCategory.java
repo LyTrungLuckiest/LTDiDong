@@ -43,6 +43,7 @@ public class OrderByCategory extends Fragment {
 
         List<CategoryOrderCount> categoryOrderCounts = orderTableHelper.getOrdersGroupedByCategory();
 
+
         adapter = new OrderByCategoryAdapter(requireContext(),categoryOrderCounts);
         recyclerView.setAdapter(adapter);
         return view;
