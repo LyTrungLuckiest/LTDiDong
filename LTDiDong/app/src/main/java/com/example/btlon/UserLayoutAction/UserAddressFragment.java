@@ -24,8 +24,6 @@ import com.example.btlon.Adapter.AddressAdapter;
 import com.example.btlon.Data.Address;
 import com.example.btlon.Data.AddressTableHelper;
 import com.example.btlon.R;
-import com.example.btlon.Utils.PreferenceManager;
-
 import java.util.ArrayList;
 
 public class UserAddressFragment extends Fragment {
@@ -43,36 +41,29 @@ public class UserAddressFragment extends Fragment {
     private boolean isEditMode = false;
     private Address editingAddress = null;
     private AddressTableHelper addressTableHelper;
-    private String userId; // ID của người dùng từ SharedPreferences
+    private int userId; // ID của người dùng từ SharedPreferences
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_address, container, false);
 
-        PreferenceManager preferenceManager = new PreferenceManager(requireActivity());
-       userId = preferenceManager.getUserId();
+        // Lấy userId từ SharedPreferences
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getInt("userId", -1);
 
-        if (userId.isEmpty()) {
+        if (userId == -1) {
             Toast.makeText(getContext(), "Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại!", Toast.LENGTH_SHORT).show();
             return view;
         }
 
         // Khởi tạo các view
-        LinearLayout linearLayout = view.findViewById(R.id.form);
         recyclerView = view.findViewById(R.id.recycleviewAddress);
         addAddressButton = view.findViewById(R.id.btUserAddAddress);
+        addressInputLayout = view.findViewById(R.id.addressInputLayout);
         addressEditText = view.findViewById(R.id.edtAddressInfo);
         saveButton = view.findViewById(R.id.btSaveAddress);
         checkboxDefault = view.findViewById(R.id.checkboxDefaultAddress);
         btCancelAdd = view.findViewById(R.id.btCancelAddAddress);
-
-        linearLayout.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        addAddressButton.setOnClickListener(v -> {
-            resetForm();
-            recyclerView.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.VISIBLE);
-        });
 
         // Khởi tạo AddressTableHelper
         addressTableHelper = new AddressTableHelper(getContext());
@@ -82,27 +73,46 @@ public class UserAddressFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        // Xử lý nút "Lưu"
-        saveButton.setOnClickListener(v -> {
-            handleSave();
-            recyclerView.setVisibility(View.VISIBLE);
-            linearLayout.setVisibility(View.GONE);
+        // Ẩn layout nhập địa chỉ ban đầu
+        addressInputLayout.setVisibility(View.GONE);
+
+        // Xử lý nút "Thêm địa chỉ mới"
+        addAddressButton.setOnClickListener(v -> {
+            resetForm();
+            addressInputLayout.setVisibility(View.VISIBLE);
         });
 
-        // Set Delete Address Callback
+        // Xử lý nút "Lưu"
+        saveButton.setOnClickListener(v -> handleSave());
+
+        // Xử lý xóa địa chỉ
         adapter.setOnDeleteAddressCallback((address, position) -> {
-            addressTableHelper.deleteAddress(address.getId());
-            addressList.remove(position);
-            adapter.notifyItemRemoved(position);
-            Toast.makeText(getContext(), "Địa chỉ đã được xóa", Toast.LENGTH_SHORT).show();
+            Log.d("UserAddressFragment", "Đang cố gắng xóa địa chỉ tại vị trí: " + position);
+            if (position >= 0 && position < addressList.size()) {
+                Log.d("UserAddressFragment", "Địa chỉ sẽ bị xóa: " + address.getAddress());
+
+                // Xóa địa chỉ trong cơ sở dữ liệu
+                addressTableHelper.deleteAddress(address.getId());
+
+                // Xóa địa chỉ khỏi danh sách
+                addressList.remove(position);
+
+                // Cập nhật RecyclerView
+                adapter.notifyItemRemoved(position); // Cập nhật thông báo cho RecyclerView
+                adapter.notifyItemRangeChanged(position, addressList.size()); // Đồng bộ lại các item sau khi xóa
+            } else {
+                Log.e("UserAddressFragment", "Không thể xóa, vị trí không hợp lệ: " + position);
+            }
         });
+
+
+
 
         // Callback từ Adapter khi chỉnh sửa địa chỉ
         adapter.setOnEditAddressCallback(address -> {
             isEditMode = true;
             editingAddress = address;
-            linearLayout.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+            addressInputLayout.setVisibility(View.VISIBLE);
 
             // Đổ dữ liệu địa chỉ vào form
             addressEditText.setText(address.getAddress());
@@ -111,8 +121,7 @@ public class UserAddressFragment extends Fragment {
 
         btCancelAdd.setOnClickListener(v -> {
             resetForm();
-            linearLayout.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            addressInputLayout.setVisibility(View.GONE);
         });
 
         return view;
@@ -147,9 +156,9 @@ public class UserAddressFragment extends Fragment {
 
             addressTableHelper.updateAddress(editingAddress);
         } else {
-            Address newAddress = new Address(addressList.size() + 1, Integer.parseInt(userId), address, isDefault);
+            Address newAddress = new Address(addressList.size() + 1, userId, address, isDefault);
             addressList.add(newAddress);
-            addressTableHelper.addNewAddressForUser(Integer.parseInt(userId), address);
+            addressTableHelper.addNewAddressForUser(userId,address);
 
             if (isDefault) {
                 clearDefaultForOthers(newAddress);
@@ -160,9 +169,11 @@ public class UserAddressFragment extends Fragment {
         resetForm();
     }
 
+
     private void resetForm() {
         addressEditText.setText("");
         checkboxDefault.setChecked(false);
+        addressInputLayout.setVisibility(View.GONE);
         isEditMode = false;
         editingAddress = null;
     }
@@ -186,10 +197,11 @@ public class UserAddressFragment extends Fragment {
     }
 
     private void loadAllAddresses() {
-        addressList.clear();
-        addressList.addAll(addressTableHelper.getAllAddressesForUser(Integer.parseInt(userId)));
-        adapter.notifyDataSetChanged();
+        addressList.clear();  // Đảm bảo làm mới danh sách
+        addressList.addAll(addressTableHelper.getAllAddressesForUser(userId));  // Lấy lại địa chỉ từ DB
+        adapter.notifyDataSetChanged();  // Cập nhật RecyclerView
     }
+
 
     @Override
     public void onResume() {
@@ -222,4 +234,5 @@ public class UserAddressFragment extends Fragment {
             Log.e("UserAddressFragment", "Lỗi khi thiết lập nút quay lại: " + e.getMessage());
         }
     }
+
 }

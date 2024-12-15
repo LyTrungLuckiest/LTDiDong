@@ -1,12 +1,12 @@
 package com.example.btlon.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressViewHolder> {
 
-    private ArrayList<Address> addressList;
-    private Context context;
+    private final ArrayList<Address> addressList;
+    private final Context context;
 
     private OnEditAddressCallback editAddressCallback;
     private OnDeleteAddressCallback deleteAddressCallback;
@@ -40,13 +40,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
         Address address = addressList.get(position);
 
-        if (address != null) {
-            holder.addressTextView.setText(address.getAddress());
-        } else {
-            Log.e("AddressAdapter", "Address at position " + position + " is null.");
-
-            holder.addressTextView.setText("Address not available");
-        }
+        holder.addressTextView.setText(address.getAddress());
 
         // Handle Edit button click
         holder.btEditAddress.setOnClickListener(v -> {
@@ -55,10 +49,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
             }
         });
 
-        // Handle Delete button click
+        // Xử lý sự kiện xóa
         holder.btDeleteAddress.setOnClickListener(v -> {
             if (deleteAddressCallback != null) {
-                deleteAddressCallback.onDeleteAddress(address, position);
+                deleteAddressCallback.onDeleteAddress(address, holder.getAdapterPosition());
             }
         });
     }
@@ -85,9 +79,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.AddressV
     }
 
     public static class AddressViewHolder extends RecyclerView.ViewHolder {
-        private TextView addressTextView;
-        private Button btEditAddress;
-        private Button btDeleteAddress;
+        private final TextView addressTextView;
+        private final Button btEditAddress;
+        private final Button btDeleteAddress;
 
         public AddressViewHolder(@NonNull View itemView) {
             super(itemView);
