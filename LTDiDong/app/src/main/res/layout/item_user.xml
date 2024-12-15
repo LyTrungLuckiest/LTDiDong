@@ -45,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/role" />
+        android:text="@string/role"
+        android:textSize="16sp"/>
 
     <LinearLayout
         android:layout_width="0dp"

@@ -191,60 +191,51 @@ public class UserOrderFragment extends Fragment {
     // Hàm lấy danh sách các đơn hàng từ cơ sở dữ liệu
     private List<Order> getOrders(Users user) {
         List<Order> orders = new ArrayList<>();
+        List<Order> unpaidOrders = new ArrayList<>();
+        List<Order> paidOrders = new ArrayList<>();
         Cursor cursor = null;
 
         try {
-            cursor = orderTableHelper.getOrdersForUser(user.getUserId());  // Query orders for the user
+            cursor = orderTableHelper.getOrdersForUser(user.getUserId());
 
-            if (cursor != null) {
-                // Check all column names to make sure we have the required columns
-                String[] columnNames = cursor.getColumnNames();
-                for (String columnName : columnNames) {
-                    Log.d("Cursor", "Column name: " + columnName);
-                }
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int orderIdIndex = cursor.getColumnIndex("order_id");
+                    int orderDateIndex = cursor.getColumnIndex("order_date");
+                    int orderStatusIndex = cursor.getColumnIndex("status");
 
-                if (cursor.moveToFirst()) {  // If cursor has data
-                    do {
-                        // Get the index of each column
-                        int orderIdIndex = cursor.getColumnIndex("order_id");
-                        int orderDateIndex = cursor.getColumnIndex("order_date");  // Assuming there's an order date column
-                        int orderStatusIndex = cursor.getColumnIndex("status");   // Assuming there's a status column
+                    if (orderIdIndex >= 0 && orderDateIndex >= 0 && orderStatusIndex >= 0) {
+                        int orderId = cursor.getInt(orderIdIndex);
+                        String orderDate = cursor.getString(orderDateIndex);
+                        boolean orderStatus = cursor.getInt(orderStatusIndex) == 1;
 
-                        // Check if column indexes are valid (>= 0)
-                        if (orderIdIndex >= 0 && orderDateIndex >= 0 && orderStatusIndex >= 0) {
-                            // Retrieve values from cursor
-                            int orderId = cursor.getInt(orderIdIndex);
-                            String orderDate = cursor.getString(orderDateIndex);  // Example: order date as string
-                            boolean orderStatus = cursor.getInt(orderStatusIndex)==1;  // Example: order status
+                        List<OrderDetail> orderDetails = getOrderDetails(orderId);
+                        Order order = new Order(orderId, user, orderDate, orderStatus, orderDetails);
 
-
-                            // Get the order details (items in the order)
-                            List<OrderDetail> orderDetails = getOrderDetails(orderId);
-
-                            // Create the Order object with additional fields
-                            Order order = new Order(orderId, user, orderDate, orderStatus, orderDetails);  // Pass additional fields to the constructor
-                            orders.add(order);
+                        // Phân loại hóa đơn
+                        if (!orderStatus) {
+                            unpaidOrders.add(order); // Hóa đơn chưa thanh toán
                         } else {
-                            Log.e("Cursor", "Required columns not found in cursor.");
+                            paidOrders.add(order); // Hóa đơn đã thanh toán
                         }
-                    } while (cursor.moveToNext());
-                } else {
-                    Log.e("Cursor", "No data found in cursor.");
-                }
-            } else {
-                Log.e("Cursor", "Cursor is null.");
+                    }
+                } while (cursor.moveToNext());
             }
         } catch (Exception e) {
             Log.e("Cursor", "Error while processing cursor: " + e.getMessage());
         } finally {
-            // Ensure cursor is closed properly even if an exception occurs
             if (cursor != null) {
                 cursor.close();
             }
         }
 
+        // Gộp danh sách: hóa đơn chưa thanh toán trước, đã thanh toán sau
+        orders.addAll(unpaidOrders);
+        orders.addAll(paidOrders);
+
         return orders;
     }
+
 
 
 

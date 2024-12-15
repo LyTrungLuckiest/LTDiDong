@@ -48,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         PreferenceManager preferenceManager = new PreferenceManager(this);
 
         // Kiểm tra xem người dùng đã đăng nhập và là admin chưa
-        if (preferenceManager.isLoggedIn() && Objects.equals(userTableHelper.checkRole(preferenceManager.getUserId()), "Admin")) {
+        if (preferenceManager.isLoggedIn() && (Objects.equals(userTableHelper.checkRole(preferenceManager.getUserId()), "Admin")||Objects.equals(userTableHelper.checkRole(preferenceManager.getUserId()), "Staff"))) {
             Intent intent = new Intent(HomeActivity.this, AdminActivity.class);
             startActivity(intent);
             return;  // Dừng lại không tiếp tục các logic sau
@@ -123,9 +123,8 @@ public class HomeActivity extends AppCompatActivity {
         ImageButton btnMicrophone = findViewById(R.id.btnGiongnoi);
         btnMicrophone.setOnClickListener(v -> startVoiceRecognition());
 
-        // Menu dropdown
-        dropdownButton = findViewById(R.id.menu);
-        DropDownbuttonClick();
+        // Menu dropdow
+
 
 
     }
@@ -193,37 +192,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Xử lý sự kiện click menu dropdown
-    private void DropDownbuttonClick() {
-        dropdownButton.setOnClickListener(view -> {
-            PopupMenu popupMenu = new PopupMenu(this, dropdownButton);
-            MenuInflater inflater = popupMenu.getMenuInflater();
-            inflater.inflate(R.menu.popupmenu, popupMenu.getMenu());
 
-            popupMenu.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.option_1:
-                        Toast.makeText(this, "Lựa chọn 1 đã được chọn", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.option_2:
-                        Toast.makeText(this, "Lựa chọn 2 đã được chọn", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.option_3:
-                        Toast.makeText(this, "Lựa chọn 3 đã được chọn", Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.option_4:
-                        Toast.makeText(this, "Lựa chọn 4 đã được chọn", Toast.LENGTH_SHORT).show();
-                        return true;
-                    default:
-                        return false;
-                }
-            });
-
-            popupMenu.setOnDismissListener(menu -> dropdownButton.setImageResource(R.drawable.menu));  // Khôi phục lại hình ảnh ban đầu
-            dropdownButton.setImageResource(R.drawable.baseline_cancel_24);
-            popupMenu.show();
-        });
-    }
 
     private void startVoiceRecognition() {
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {

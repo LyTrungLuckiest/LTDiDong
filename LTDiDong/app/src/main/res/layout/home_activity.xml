@@ -65,31 +65,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:weightSum="10"
+                android:padding="5dp"
                 tools:ignore="UselessParent">
 
-                <ImageButton
-                    android:id="@+id/menu"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/custom_button"
-                    android:contentDescription="@string/menu"
-                    android:scaleType="center"
-                    android:src="@drawable/menu" />
+
 
                 <SearchView
                     android:id="@+id/searchview"
                     android:queryHint="Tìm kiếm sản phẩm ...."
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="7"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@drawable/edittext_bkg"
-                    android:paddingTop="4dp" />
+                    />
 
                 <ImageButton
                     android:id="@+id/btnGiongnoi"
-                    android:layout_width="48dp"
+                    android:layout_width="0dp"
                     android:layout_height="48dp"
+                    android:layout_weight="1.5"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
                     android:contentDescription="@string/giong_noi"
@@ -98,23 +94,14 @@
 
                 <ImageButton
                     android:id="@+id/btnGiohang"
-                    android:layout_width="48dp"
+                    android:layout_width="0dp"
                     android:layout_height="48dp"
+                    android:layout_weight="1.5"
                     android:layout_margin="4dp"
                     android:background="@drawable/custom_button"
                     android:contentDescription="@string/gio_hang"
                     android:scaleType="center"
                     android:src="@drawable/shoppingcart" />
-
-                <ImageButton
-                    android:id="@+id/btnThongbao"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/custom_button"
-                    android:contentDescription="@string/thong_bao"
-                    android:scaleType="center"
-                    android:src="@drawable/notification" />
             </LinearLayout>
 
         </LinearLayout>

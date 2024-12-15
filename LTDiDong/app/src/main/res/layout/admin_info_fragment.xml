@@ -63,7 +63,6 @@
             android:textColor="@color/black"
             app:backgroundTint="@color/design_default_color_background" />
 
-
     </LinearLayout>
 
 

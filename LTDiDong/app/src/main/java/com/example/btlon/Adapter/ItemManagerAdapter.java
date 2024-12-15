@@ -51,20 +51,21 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
             switch (item.getTitle()) {
                 case "Người dùng":
                     if(role.equals("Admin")){
-                    navController.navigate(R.id.action_settingsFragment_to_adminUserSettingFragment, bundle);
-                    break;}
+                    navController.navigate(R.id.action_settingsFragment_to_adminUserSettingFragment, bundle);}
+                    break;
                 case "Sản phẩm":
                     if(role.equals("Admin")){
-                    navController.navigate(R.id.action_settingsFragment_to_adminProductSettingFragment, bundle);
-                    break;}
+                    navController.navigate(R.id.action_settingsFragment_to_adminProductSettingFragment, bundle);}
+                    break;
                 case "Hóa đơn":
-                    navController.navigate(R.id.action_settingsFragment_to_adminOrderFragment, bundle);
+                    if(role.equals("Admin")||role.equals("Staff")){
+                    navController.navigate(R.id.action_settingsFragment_to_adminOrderFragment, bundle);}
                     break;
                 case "Danh mục sản phẩm":
                     if(role.equals("Admin")) {
-                        navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);
+                        navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);}
                         break;
-                    }
+
 //
             }
         });
