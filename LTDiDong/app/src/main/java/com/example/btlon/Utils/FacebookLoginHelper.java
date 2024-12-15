@@ -3,6 +3,8 @@ package com.example.btlon.Utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -50,7 +52,7 @@ public class FacebookLoginHelper {
             }
 
             @Override
-            public void onError(FacebookException error) {
+            public void onError(@NonNull FacebookException error) {
                 listener.onLoginError(error);
             }
         });
@@ -67,7 +69,7 @@ public class FacebookLoginHelper {
                         // Lấy role người dùng và lưu trạng thái đăng nhập
                         PreferenceManager preferenceManager = new PreferenceManager(activity);
                         String role = preferenceManager.getUserRole();  // Lấy role từ shared preferences
-                        preferenceManager.saveLoginState(true, "facebook", user.getUid(), null, role);
+                        preferenceManager.saveLoginState(true, "facebook", String.valueOf(user.getUid().hashCode()), null, role);
 
                         listener.onLoginSuccess(user);
                     } else {
