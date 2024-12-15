@@ -19,7 +19,7 @@
     <string name="exit">Exit</string>
     <string name="giao_den">Giao Đến</string>
     <string name="nhap_thong_tin_khach_hang">Nhập thông tin địa chỉ nhận hàng</string>
-    <string name="sieu_thi_BXH">Địa Chỉ: </string>
+    <string name="sieu_thi_BXH">  </string>
     <string name="gio_hang_trong">Giỏ Hàng Trống</string>
     <string name="tien_hang">Tổng Đơn</string>
     <string name="_75_000">000.000đ</string>
