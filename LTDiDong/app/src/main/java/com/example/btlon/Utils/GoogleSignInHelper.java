@@ -102,7 +102,7 @@ public class GoogleSignInHelper {
 
             PreferenceManager preferenceManager = new PreferenceManager(activity);
             String role = preferenceManager.getUserRole();
-            preferenceManager.saveLoginState(true, "google", user.getUid(), null, role);
+            preferenceManager.saveLoginState(true, "google", String.valueOf(user.getUid().hashCode()), null, role);
 
 
             Intent intent = new Intent(activity, HomeActivity.class);
