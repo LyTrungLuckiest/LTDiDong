@@ -3,7 +3,6 @@ package com.example.btlon.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.navigation.Navigation;
-
 import com.bumptech.glide.Glide;
-import com.example.btlon.Data.Product;
+import com.example.btlon.Model.Product;
 import com.example.btlon.R;
 import com.example.btlon.Utils.ChiTietSanPhamActivity;
 import com.example.btlon.Utils.PreferenceManager;

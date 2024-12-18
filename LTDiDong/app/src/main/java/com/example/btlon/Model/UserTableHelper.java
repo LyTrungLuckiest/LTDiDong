@@ -1,4 +1,4 @@
-package com.example.btlon.Data;
+package com.example.btlon.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -148,20 +148,22 @@ public class UserTableHelper extends BaseTableHelper<Users> {
 
         if (cursor.moveToFirst()) {
             // Lấy chỉ số cột cho từng trường, đảm bảo rằng cột tồn tại
+            int userIdIndex = cursor.getColumnIndex(COL_ID);  // Lấy chỉ số cột user_id
             int usernameIndex = cursor.getColumnIndex(COL_USERNAME);
             int passwordIndex = cursor.getColumnIndex(COL_PASSWORD);
             int roleIndex = cursor.getColumnIndex(COL_ROLE);
 
             // Kiểm tra xem các chỉ số cột có hợp lệ không (>= 0)
-            if (usernameIndex >= 0 && passwordIndex >= 0 && roleIndex >= 0) {
+            if (userIdIndex >= 0 && usernameIndex >= 0 && passwordIndex >= 0 && roleIndex >= 0) {
                 do {
+                    int userId = cursor.getInt(userIdIndex);  // Lấy giá trị user_id
                     String username = cursor.getString(usernameIndex);
                     String password = cursor.getString(passwordIndex);
                     String role = cursor.getString(roleIndex);
 
                     // Kiểm tra xem username có hợp lệ không
                     if (!TextUtils.isEmpty(username)) {
-                        Users user = new Users(username, password, role);
+                        Users user = new Users(userId, username, password, role); // Cập nhật để tạo đối tượng Users với userId
                         usersList.add(user);
                     }
                 } while (cursor.moveToNext());

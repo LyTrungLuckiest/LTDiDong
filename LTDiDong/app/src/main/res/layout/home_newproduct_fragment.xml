@@ -12,14 +12,13 @@
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
+
         <ViewFlipper
             android:id="@+id/viewFlipper1"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@color/white">
+             />
 
-
-        </ViewFlipper>
 
         <TextView
             android:layout_width="wrap_content"

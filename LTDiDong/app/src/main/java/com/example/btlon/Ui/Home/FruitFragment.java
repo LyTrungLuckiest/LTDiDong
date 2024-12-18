@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.btlon.Adapter.ProductAdapter;
-import com.example.btlon.Data.ProductTableHelper;
-import com.example.btlon.Data.Product;
+import com.example.btlon.Model.ProductTableHelper;
+import com.example.btlon.Model.Product;
 import com.example.btlon.R;
 
 import java.util.List;

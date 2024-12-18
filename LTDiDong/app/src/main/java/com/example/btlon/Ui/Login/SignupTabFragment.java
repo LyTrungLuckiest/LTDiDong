@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Model.UserTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.KeyboardHelper;
 import com.example.btlon.Utils.PasswordToggleHelper;

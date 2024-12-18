@@ -1,11 +1,13 @@
 package com.example.btlon.Adapter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -14,7 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btlon.R;
-import com.example.btlon.Data.ItemManager;
+import com.example.btlon.Model.ItemManager;
 import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.List;
@@ -22,8 +24,10 @@ import java.util.List;
 public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.ItemManagerViewHolder> {
 
     private List<ItemManager> itemList;
+    Context context;
 
-    public ItemManagerAdapter(List<ItemManager> itemList) {
+    public ItemManagerAdapter(List<ItemManager> itemList,Context context) {
+        this.context=context;
         this.itemList = itemList;
     }
 
@@ -52,10 +56,16 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
                 case "Người dùng":
                     if(role.equals("Admin")){
                     navController.navigate(R.id.action_settingsFragment_to_adminUserSettingFragment, bundle);}
+                    else{
+                        Toast.makeText(context,"Phải có quền admin",Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case "Sản phẩm":
                     if(role.equals("Admin")){
                     navController.navigate(R.id.action_settingsFragment_to_adminProductSettingFragment, bundle);}
+                    else{
+                        Toast.makeText(context,"Phải có quền admin",Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case "Hóa đơn":
                     if(role.equals("Admin")||role.equals("Staff")){
@@ -64,6 +74,9 @@ public class ItemManagerAdapter extends RecyclerView.Adapter<ItemManagerAdapter.
                 case "Danh mục sản phẩm":
                     if(role.equals("Admin")) {
                         navController.navigate(R.id.action_settingsFragment_to_adminCategorySettingFragment, bundle);}
+                    else{
+                        Toast.makeText(context,"Phải có quền admin",Toast.LENGTH_SHORT).show();
+                    }
                         break;
 
 //

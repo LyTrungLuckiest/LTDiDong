@@ -1,4 +1,4 @@
-package com.example.btlon.Data;
+package com.example.btlon.Model;
 
 public class OrderDetail {
     private int orderDetailId;

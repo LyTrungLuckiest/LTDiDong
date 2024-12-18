@@ -3,7 +3,6 @@ package com.example.btlon.Utils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,24 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.btlon.Adapter.ProductCommentAdapter;
-import com.example.btlon.Data.CartProduct;
-import com.example.btlon.Data.CartProductTableHelper;
-import com.example.btlon.Data.CartTableHelper;
-import com.example.btlon.Data.Comment;
-import com.example.btlon.Data.CommentTableHelper;
-import com.example.btlon.Data.Product;
-import com.example.btlon.Data.Rating;
-import com.example.btlon.Data.RatingTableHelper;
+import com.example.btlon.Model.CartProduct;
+import com.example.btlon.Model.CartProductTableHelper;
+import com.example.btlon.Model.Comment;
+import com.example.btlon.Model.CommentTableHelper;
+import com.example.btlon.Model.Product;
+import com.example.btlon.Model.Rating;
+import com.example.btlon.Model.RatingTableHelper;
 import com.example.btlon.R;
-import com.example.btlon.Ui.Home.CartFragment;
 import com.example.btlon.Ui.Home.HomeActivity;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import vn.zalopay.sdk.Utils;
 
 public class ChiTietSanPhamActivity extends AppCompatActivity {
 

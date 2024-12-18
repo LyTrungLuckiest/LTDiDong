@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.btlon.Adapter.CategoryPagerAdapter;
-import com.example.btlon.Data.Category;
+import com.example.btlon.Model.Category;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.example.btlon.Data.CategoryTableHelper;
+import com.example.btlon.Model.CategoryTableHelper;
 import com.example.btlon.R;
 
 import java.util.List;

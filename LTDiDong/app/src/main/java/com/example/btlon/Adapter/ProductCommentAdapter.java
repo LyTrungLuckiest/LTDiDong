@@ -4,17 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btlon.Data.Comment;
-import com.example.btlon.Data.UserTableHelper;
-import com.example.btlon.Data.Users;
+import com.example.btlon.Model.Comment;
+import com.example.btlon.Model.UserTableHelper;
+import com.example.btlon.Model.Users;
 import com.example.btlon.R;
-import com.example.btlon.Utils.PreferenceManager;
 
 import java.util.List;
 

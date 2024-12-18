@@ -17,8 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.btlon.Adapter.OrderByDateAdapter;
-import com.example.btlon.Adapter.OrderByUserAdapter;
-import com.example.btlon.Data.OrderTableHelper;
+import com.example.btlon.Model.OrderTableHelper;
 import com.example.btlon.R;
 
 import java.util.List;

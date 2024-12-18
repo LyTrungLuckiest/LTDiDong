@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:weightSum="4">
+    android:padding="8dp"
+    android:weightSum="8.5">
 
     <TextView
         android:id="@+id/txtId"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
         android:gravity="center"
@@ -23,27 +21,27 @@
 
     <TextView
         android:id="@+id/txtName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2.25"
         android:gravity="center"
         android:text="@string/username"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2.25"
         android:gravity="center"
         android:text="@string/password"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/txtRole"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:text="@string/role"
         android:textSize="16sp"/>
@@ -51,7 +49,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal">
 

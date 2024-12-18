@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btlon.Data.ItemManager;
+import com.example.btlon.Model.ItemManager;
 import com.example.btlon.Adapter.ItemManagerAdapter;
 import com.example.btlon.R;
 
@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
 
         AddItems(itemList);
 
-        ItemManagerAdapter adapter = new ItemManagerAdapter(itemList);
+        ItemManagerAdapter adapter = new ItemManagerAdapter(itemList,requireContext());
         recyclerView.setAdapter(adapter);
 
         return view;

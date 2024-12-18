@@ -1,6 +1,5 @@
 package com.example.btlon.UserLayoutAction;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,14 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.btlon.Data.UserTableHelper;
-import com.example.btlon.Data.Users;
+import com.example.btlon.Model.UserTableHelper;
+import com.example.btlon.Model.Users;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
 

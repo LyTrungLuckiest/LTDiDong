@@ -6,24 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 
 import com.example.btlon.Adapter.ItemAdminOrderAdapter;
-import com.example.btlon.Adapter.ItemManagerAdapter;
-import com.example.btlon.Adapter.OrderAdapter;
-import com.example.btlon.Data.ItemAdminOrder;
-import com.example.btlon.Data.ItemManager;
-import com.example.btlon.Data.Order;
-import com.example.btlon.Data.OrderTableHelper;
+import com.example.btlon.Model.ItemAdminOrder;
 import com.example.btlon.R;
 
 import java.util.ArrayList;

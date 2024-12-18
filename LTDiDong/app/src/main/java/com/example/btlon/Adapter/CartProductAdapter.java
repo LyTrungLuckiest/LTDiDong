@@ -12,11 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.Data.CartProduct;
-import com.example.btlon.Data.CartProductTableHelper;
-import com.example.btlon.Data.CartTableHelper;
-import com.example.btlon.Data.Product;
-import com.example.btlon.Data.ProductTableHelper;
+import com.example.btlon.Model.CartProduct;
+import com.example.btlon.Model.CartProductTableHelper;
+import com.example.btlon.Model.CartTableHelper;
+import com.example.btlon.Model.Product;
+import com.example.btlon.Model.ProductTableHelper;
 import com.example.btlon.R;
 
 import java.util.List;

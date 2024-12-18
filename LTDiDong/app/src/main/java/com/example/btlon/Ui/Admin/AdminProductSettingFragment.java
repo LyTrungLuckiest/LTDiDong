@@ -33,10 +33,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.btlon.Adapter.ProductAdapterRecycler;
-import com.example.btlon.Data.Category;
-import com.example.btlon.Data.CategoryTableHelper;
-import com.example.btlon.Data.Product;
-import com.example.btlon.Data.ProductTableHelper;
+import com.example.btlon.Model.Category;
+import com.example.btlon.Model.CategoryTableHelper;
+import com.example.btlon.Model.Product;
+import com.example.btlon.Model.ProductTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.GridSpacingItemDecoration;
 

@@ -21,8 +21,8 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.btlon.Adapter.AddressAdapter;
-import com.example.btlon.Data.Address;
-import com.example.btlon.Data.AddressTableHelper;
+import com.example.btlon.Model.Address;
+import com.example.btlon.Model.AddressTableHelper;
 import com.example.btlon.R;
 import java.util.ArrayList;
 

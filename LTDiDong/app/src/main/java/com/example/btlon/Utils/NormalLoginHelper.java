@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Model.UserTableHelper;
 import com.example.btlon.Ui.Admin.AdminActivity;
 import com.example.btlon.Ui.Home.HomeActivity;
 

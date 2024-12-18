@@ -17,9 +17,9 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Model.UserTableHelper;
 import com.example.btlon.R;
-import com.example.btlon.Data.Users;
+import com.example.btlon.Model.Users;
 import com.example.btlon.Adapter.UserAdapter;
 import com.example.btlon.Utils.PasswordToggleHelper;
 

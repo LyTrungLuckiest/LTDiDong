@@ -1,4 +1,4 @@
-package com.example.btlon.Models;
+package com.example.btlon.Model;
 
 import android.util.Log;
 

@@ -12,11 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btlon.Data.Order;
-import com.example.btlon.Data.OrderDetail;
-import com.example.btlon.Data.OrderTableHelper;
-import com.example.btlon.Data.OrderdetailTableHelper;
-import com.example.btlon.Data.UserTableHelper;
+import com.example.btlon.Model.Order;
+import com.example.btlon.Model.OrderDetail;
+import com.example.btlon.Model.OrderTableHelper;
+import com.example.btlon.Model.OrderdetailTableHelper;
+import com.example.btlon.Model.UserTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
 

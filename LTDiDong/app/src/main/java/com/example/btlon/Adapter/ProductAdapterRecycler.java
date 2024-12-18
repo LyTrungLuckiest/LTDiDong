@@ -13,9 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.btlon.Data.Category;
-import com.example.btlon.Data.Product;
-import com.example.btlon.Data.ProductTableHelper;
+import com.example.btlon.Model.Product;
 import com.example.btlon.R;
 import com.example.btlon.Utils.ChiTietSanPhamActivity;
 import com.example.btlon.Utils.PreferenceManager;
@@ -37,6 +35,7 @@ public class ProductAdapterRecycler extends RecyclerView.Adapter<ProductAdapterR
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(context).inflate(R.layout.item_product_admin, parent, false);
         return new ViewHolder(view);
     }

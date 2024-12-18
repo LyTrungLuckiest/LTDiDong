@@ -4,13 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.btlon.Data.Category;
-import com.example.btlon.R;
+import com.example.btlon.Model.Category;
 import com.example.btlon.Ui.Home.Best_Selling_Product_Fragment;
 import com.example.btlon.Ui.Home.FruitFragment;
 import com.example.btlon.Ui.Home.New_Product_Fragment;
 import com.example.btlon.Ui.Home.ProductFragment;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 

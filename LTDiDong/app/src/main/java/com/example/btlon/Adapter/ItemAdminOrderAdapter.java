@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.btlon.Data.ItemAdminOrder;
+import com.example.btlon.Model.ItemAdminOrder;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
 

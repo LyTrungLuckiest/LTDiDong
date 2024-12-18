@@ -17,14 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.btlon.Adapter.OrderAdapter;
-import com.example.btlon.Data.CartProduct;
-import com.example.btlon.Data.CartProductTableHelper;
-import com.example.btlon.Data.Order;
-import com.example.btlon.Data.OrderTableHelper;
-import com.example.btlon.Data.OrderdetailTableHelper;
-import com.example.btlon.Data.ProductTableHelper;
-import com.example.btlon.Data.UserTableHelper;
-import com.example.btlon.Data.Users;
+import com.example.btlon.Model.Order;
+import com.example.btlon.Model.OrderTableHelper;
+import com.example.btlon.Model.OrderdetailTableHelper;
+import com.example.btlon.Model.ProductTableHelper;
+import com.example.btlon.Model.UserTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
 

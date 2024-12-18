@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btlon.Adapter.CategoryAdapter;
-import com.example.btlon.Data.Category;
-import com.example.btlon.Data.CategoryTableHelper;
+import com.example.btlon.Model.Category;
+import com.example.btlon.Model.CategoryTableHelper;
 import com.example.btlon.R;
 
 import java.util.ArrayList;

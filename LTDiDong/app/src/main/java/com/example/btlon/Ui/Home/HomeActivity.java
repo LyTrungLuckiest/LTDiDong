@@ -6,21 +6,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.btlon.Data.UserTableHelper;
-import com.example.btlon.Data.Users;
+import com.example.btlon.Model.UserTableHelper;
 import com.example.btlon.R;
 import com.example.btlon.Ui.Admin.AdminActivity;
 import com.example.btlon.Utils.PreferenceManager;
@@ -30,7 +25,6 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
