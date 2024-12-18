@@ -158,7 +158,7 @@ public class UserAddressFragment extends Fragment {
         } else {
             Address newAddress = new Address(addressList.size() + 1, userId, address, isDefault);
             addressList.add(newAddress);
-            addressTableHelper.addNewAddressForUser(userId,address);
+            addressTableHelper.addNewAddressForUser(userId,address,isDefault);
 
             if (isDefault) {
                 clearDefaultForOthers(newAddress);
@@ -189,16 +189,31 @@ public class UserAddressFragment extends Fragment {
 
     private void clearDefaultForOthers(Address currentAddress) {
         for (Address address : addressList) {
-            if (address != currentAddress) {
-                address.setDefault(false);
+            if (address != currentAddress && address.isDefault()) {
+                address.setDefault(false); // Xóa trạng thái mặc định của các địa chỉ khác
                 addressTableHelper.updateAddress(address);
             }
         }
     }
 
+
     private void loadAllAddresses() {
         addressList.clear();  // Đảm bảo làm mới danh sách
         addressList.addAll(addressTableHelper.getAllAddressesForUser(userId));  // Lấy lại địa chỉ từ DB
+
+        // Đảm bảo chỉ có một địa chỉ mặc định
+        boolean foundDefault = false;
+        for (Address address : addressList) {
+            if (address.isDefault()) {
+                if (foundDefault) {
+                    address.setDefault(false); // Nếu có hơn một địa chỉ mặc định, chỉ giữ lại một
+                    addressTableHelper.updateAddress(address);
+                } else {
+                    foundDefault = true;
+                }
+            }
+        }
+
         adapter.notifyDataSetChanged();  // Cập nhật RecyclerView
     }
 

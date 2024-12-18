@@ -1,6 +1,8 @@
 package com.example.btlon.Ui.Home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -25,13 +27,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.btlon.Adapter.AddressCartAdapter;
 import com.example.btlon.Adapter.CartAdapter;
+import com.example.btlon.Model.Address;
+import com.example.btlon.Model.AddressTableHelper;
 import com.example.btlon.Model.Cart;
 import com.example.btlon.Model.CartProduct;
 import com.example.btlon.Model.CartProductTableHelper;
 import com.example.btlon.Model.CartTableHelper;
 import com.example.btlon.Model.ProductTableHelper;
 import com.example.btlon.Model.CreateOrder;
+import com.example.btlon.Model.UserTableHelper;
+import com.example.btlon.Model.Users;
 import com.example.btlon.R;
 import com.example.btlon.Utils.PreferenceManager;
 import com.google.common.reflect.TypeToken;
@@ -50,12 +57,12 @@ import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
 public class CartFragment extends Fragment implements CartAdapter.CartUpdateListener {
-    private TextView txtGioHangTrong, txtTongTien;
+    private TextView txtGioHangTrong, txtTongTien,txtAddress;
     private RecyclerView recyclerView;
-    private Button btnThanhToan, btnXoaAll;
+    private Button btnThanhToan, btnXoaAll,btChooseAddress;
     private Spinner spinnerPhuongThucThanhToan;
     private CartAdapter cartAdapter;
-    private String userId, selectedPaymentMethod = "Tiền mặt";
+    private String userId, selectedPaymentMethod = "Tiền mặt",address;
     private PreferenceManager preferenceManager;
     private EditText edtNhapDiaChi;
     @Override
@@ -70,9 +77,39 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_cart_fragment, container, false);
+        initializeUI(view);
 
         preferenceManager = new PreferenceManager(requireContext());
         userId = preferenceManager.getUserId();
+
+        AddressTableHelper addressTableHelper=new AddressTableHelper(requireContext());
+        address = addressTableHelper.getDefaultAddressForUser(Integer.parseInt(userId)).getAddress();
+
+        btChooseAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Query the database to get a list of addresses
+                List<Address> addressList = addressTableHelper.getAllAddressesForUser(Integer.parseInt(userId));
+                Log.d("CartFragment", "Fetched address list size: " + addressList.size());
+
+                // Log each address for debugging purposes
+                for (Address address : addressList) {
+                    Log.d("CartFragment", "Address: " + address.getAddress());
+                }
+                if (addressList.isEmpty()) {
+                    // If no addresses are found, show input dialog to add a new address
+                    showInputAddressDialog();
+                } else {
+                    // If there are addresses, show a dialog to select one
+                    showAddressSelectionDialog(addressList);
+                }
+            }
+        });
+
+
+        if(address!=null&&!address.isEmpty()){
+            txtAddress.setText(address);
+        }
 
         if (!preferenceManager.isLoggedIn() || TextUtils.isEmpty(userId)) {
             Toast.makeText(requireContext(), "Bạn cần đăng nhập để tiếp tục!", Toast.LENGTH_SHORT).show();
@@ -81,7 +118,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
             return view;
         }
 
-        initializeUI(view);
+
         setRecyclerViewAdapter(getCart(), getCartProducts());
 
         setupSpinner();
@@ -106,10 +143,10 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         btnThanhToan = view.findViewById(R.id.btntienhang);
         btnXoaAll = view.findViewById(R.id.btnXoaAll);
         spinnerPhuongThucThanhToan = view.findViewById(R.id.spinnerPaymentMethod);
-
+        txtAddress=view.findViewById(R.id.txtAddress);
+        btChooseAddress=view.findViewById(R.id.btChooseAddress);
         btnThanhToan.setOnClickListener(v -> handlePayment());
         btnXoaAll.setOnClickListener(v -> deleteAllCartProducts());
-        edtNhapDiaChi = view.findViewById(R.id.edtnhapdiachi); //
     }
 
     private void setupSpinner() {
@@ -131,7 +168,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     }
 
     private void handlePayment() {
-        String address = edtNhapDiaChi.getText().toString().trim(); // Lấy địa chỉ nhập vào
+        String address = txtAddress.getText().toString().trim(); // Lấy địa chỉ nhập vào
         if (TextUtils.isEmpty(address)) {
             Toast.makeText(requireContext(), "Vui lòng nhập địa chỉ giao hàng!", Toast.LENGTH_SHORT).show();
             return;
@@ -353,5 +390,70 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         cartAdapter.updateData(updatedCarts, updatedCartProductsMap);
         cartAdapter.notifyDataSetChanged();
         updateTotalPrice();
+    }
+
+    private void showInputAddressDialog() {
+        // Create an AlertDialog with a custom layout
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Enter New Address");
+
+        // Inflate the custom layout for address input
+        View view = getLayoutInflater().inflate(R.layout.dialog_input_address, null);
+        final TextView textView = view.findViewById(R.id.editTextAddress);
+        builder.setView(view);
+
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newAddress = textView.getText().toString();
+                if (!newAddress.isEmpty()) {
+                    // Save the new address to the database
+                    saveNewAddress(newAddress);
+                    Toast.makeText(requireContext(), "New address added!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Address cannot be empty!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancel", null);
+
+        builder.show();
+    }
+
+    // Method to show the dialog to select an address from the list
+    private void showAddressSelectionDialog(List<Address> addressList) {
+        // Use the AddressAdapter to display addresses
+        AddressCartAdapter adapter = new AddressCartAdapter(addressList,requireContext());
+
+        // Create a RecyclerView to display the address list
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Select Address");
+
+        // Create RecyclerView
+        RecyclerView recyclerView = new RecyclerView(requireContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setAdapter(adapter);
+
+        builder.setView(recyclerView);
+        builder.setNegativeButton("Cancel", null);
+
+        builder.show();
+    }
+
+
+    // Method to fetch the address list from the database (replace with your database query)
+    private List<Address> getAddressListFromDatabase() {
+       AddressTableHelper addressTableHelper= new AddressTableHelper(requireContext());
+        return addressTableHelper.getAllAddressesForUser(Integer.parseInt(userId));
+    }
+
+    // Method to save a new address to the database (replace with your database query)
+    private void saveNewAddress(String address) {
+        UserTableHelper userTableHelper= new UserTableHelper(requireContext());
+        Users user=userTableHelper.getUserById(Integer.parseInt(userId));
+        Address newAddress = new Address();
+        newAddress.setAddress(address);
+
     }
 }

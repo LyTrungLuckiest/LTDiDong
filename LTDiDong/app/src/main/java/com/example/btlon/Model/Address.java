@@ -19,6 +19,9 @@ public class Address {
         this.address = address;
         this.isDefault = isDefault;
     }
+    public Address(){
+
+    }
 
 
     public int getId() {

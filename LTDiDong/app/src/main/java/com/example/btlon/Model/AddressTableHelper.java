@@ -49,17 +49,17 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
 
 
     // Thêm địa chỉ cho người dùng cụ thể
-    public boolean addNewAddressForUser(int userId, String newAddress) {
+    public boolean addNewAddressForUser(int userId, String newAddress, boolean isDefault) {
         ContentValues values = new ContentValues();
-        values.put(COL_USER_ID, userId);  // Gắn user_id đúng
+        values.put(COL_USER_ID, userId);
         values.put(COL_ADDRESS, newAddress);
-        values.put(COL_IS_DEFAULT, 0);  // Chưa đặt mặc định, hoặc tùy vào yêu cầu
+        values.put(COL_IS_DEFAULT, isDefault ? 1 : 0); // Lưu trạng thái mặc định chính xác
 
-        // Thêm địa chỉ vào cơ sở dữ liệu
-        Log.d("AddressTableHelper", "Thêm địa chỉ mới cho userId " + userId + ": " + newAddress);
-
-        return insert(values);
+        long result = db.insert(TABLE_NAME, null, values);
+        return result != -1;
     }
+
+
 
 
     // Update address
@@ -73,6 +73,17 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
     public boolean deleteAddress(int addressId) {
         return delete(COL_ADDRESS_ID + "=?", new String[]{String.valueOf(addressId)});  // Use COL_ADDRESS_ID here
     }
+    public void setDefaultAddress(int addressId, int userId) {
+        // Bỏ trạng thái mặc định của tất cả các địa chỉ khác
+        ContentValues values = new ContentValues();
+        values.put(COL_IS_DEFAULT, 0);
+        update(values, COL_USER_ID + "=?", new String[]{String.valueOf(userId)});
+
+        // Đặt địa chỉ hiện tại làm mặc định
+        values.put(COL_IS_DEFAULT, 1);
+        update(values, COL_ADDRESS_ID + "=?", new String[]{String.valueOf(addressId)});
+    }
+
 
 
     // Lấy tất cả địa chỉ của người dùng hiện tại
@@ -105,5 +116,39 @@ public class AddressTableHelper extends BaseTableHelper<Address> {
         Log.d("AddressTableHelper", "Loaded " + addresses.size() + " addresses for userId " + userId);
         return addresses;
     }
+    // Lấy địa chỉ mặc định của một người dùng
+    public Address getDefaultAddressForUser(int userId) {
+        Address defaultAddress = null;
+        Cursor cursor = null;
+
+        try {
+            // Query to get the default address (isDefault = 1) for the user (user_id)
+            String selection = COL_USER_ID + "=? AND " + COL_IS_DEFAULT + "=?";
+            String[] selectionArgs = {String.valueOf(userId), "1"};
+
+            cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, null);
+
+            // If a default address is found, map it to an Address object
+            if (cursor != null && cursor.moveToFirst()) {
+                defaultAddress = mapCursorToEntity(cursor);
+            }
+        } catch (Exception e) {
+            Log.e("AddressTableHelper", "Error fetching default address: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        // If no default address is found, return a new Address with "Địa chỉ trống"
+        if (defaultAddress == null) {
+            defaultAddress = new Address();
+            defaultAddress.setAddress("Địa chỉ trống");
+        }
+
+        Log.d("AddressTableHelper", "Default address for userId " + userId + ": " + defaultAddress.getAddress());
+        return defaultAddress;
+    }
+
 
 }
