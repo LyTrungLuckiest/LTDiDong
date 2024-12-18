@@ -18,12 +18,19 @@ import com.example.btlon.R;
 import java.util.List;
 
 public class AddressCartAdapter extends RecyclerView.Adapter<AddressCartAdapter.AddressCartViewHolder> {
-    private  List<Address> addressList;
-    private  Context context;
+    private List<Address> addressList;
+    private Context context;
+    private OnItemClickListener onItemClickListener;
 
-    public AddressCartAdapter(List<Address> addressList, Context context) {
+    // Interface to handle clicks
+    public interface OnItemClickListener {
+        void onItemClick(Address address);
+    }
+
+    public AddressCartAdapter(List<Address> addressList, Context context, OnItemClickListener onItemClickListener) {
         this.addressList = addressList;
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -36,8 +43,14 @@ public class AddressCartAdapter extends RecyclerView.Adapter<AddressCartAdapter.
     @Override
     public void onBindViewHolder(@NonNull AddressCartViewHolder holder, int position) {
         Address address = addressList.get(position);
-        Log.d("AddressCartAdapter", "Address: " + address.getAddress());
         holder.txtAddress.setText(address.getAddress());
+
+        // Set click listener for each item
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(address);
+            }
+        });
     }
 
     @Override
@@ -48,11 +61,9 @@ public class AddressCartAdapter extends RecyclerView.Adapter<AddressCartAdapter.
     public static class AddressCartViewHolder extends RecyclerView.ViewHolder {
         private TextView txtAddress;
 
-
         public AddressCartViewHolder(@NonNull View itemView) {
             super(itemView);
             txtAddress = itemView.findViewById(R.id.txtCartAddress);
-
         }
     }
 }

@@ -16,7 +16,8 @@
         android:background="@color/background"
         app:layout_constraintTop_toTopOf="parent"
         app:title="CHI TIẾT SẢN PHẨM"
-        app:titleMarginStart="50dp">
+        app:titleMarginStart="50dp"
+        android:layout_marginTop="30dp">
 
         <FrameLayout
             android:id="@+id/framegiohang"

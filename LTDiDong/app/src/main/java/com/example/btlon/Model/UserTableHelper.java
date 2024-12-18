@@ -341,6 +341,87 @@ public class UserTableHelper extends BaseTableHelper<Users> {
 
         return user;
     }
+    public boolean addUpdateUserAddress(int userId, String address) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        boolean isUpdated = false;
+
+        try {
+            db = sqliteHelper.getWritableDatabase(); // Get the writable database
+
+            // Check if an address already exists for the given user
+            String query = "SELECT * FROM Users WHERE user_id = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Address exists, update it
+                ContentValues values = new ContentValues();
+                values.put("address", address);
+                int rowsUpdated = db.update("Users", values, "user_id = ?", new String[]{String.valueOf(userId)});
+                if (rowsUpdated > 0) {
+                    isUpdated = true;
+                    Log.d("UserTableHelper", "Đã cập nhật địa chỉ cho người dùng với ID: " + userId);
+                }
+            } else {
+                // Address doesn't exist, insert a new one
+                ContentValues values = new ContentValues();
+                values.put("user_id", userId);
+                values.put("address", address);
+                long result = db.insert("address", null, values);
+                if (result > 0) {
+                    isUpdated = true;
+                    Log.d("UserTableHelper", "Đã thêm địa chỉ cho người dùng với ID: " + userId);
+                } else {
+                    Log.e("UserTableHelper", "Không thể thêm địa chỉ cho người dùng với ID: " + userId);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi thêm hoặc cập nhật địa chỉ cho người dùng với ID: " + userId, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close(); // Ensure the cursor is closed
+            }
+            if (db != null) {
+                db.close(); // Ensure the database is closed
+            }
+        }
+
+        return isUpdated;
+    }
+
+
+    public String getUserAddressById(int userId) {
+        String address = ""; // Default to empty string if no address is found
+        SQLiteDatabase db = sqliteHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            // Query to fetch address based on userId from the Users table
+            String query = "SELECT address FROM Users WHERE user_id = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // If an address is found, assign it to the 'address' variable
+                address = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+
+                // Log the address
+                Log.d("UserTableHelper", "Địa chỉ của người dùng với ID " + userId + " là: " + address);
+            } else {
+                Log.d("UserTableHelper", "Không tìm thấy địa chỉ cho người dùng với ID: " + userId);
+            }
+        } catch (Exception e) {
+            Log.e("UserTableHelper", "Lỗi khi lấy địa chỉ cho người dùng với ID: " + userId, e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return address; // Return either the address or an empty string
+    }
+
+
 
 
 

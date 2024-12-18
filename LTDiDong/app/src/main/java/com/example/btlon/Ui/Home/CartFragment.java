@@ -64,7 +64,9 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
     private CartAdapter cartAdapter;
     private String userId, selectedPaymentMethod = "Tiền mặt",address;
     private PreferenceManager preferenceManager;
-    private EditText edtNhapDiaChi;
+    private AlertDialog dialog;
+    private  UserTableHelper userTableHelper;
+    private AddressTableHelper addressTableHelper;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,9 +83,16 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
         preferenceManager = new PreferenceManager(requireContext());
         userId = preferenceManager.getUserId();
+        userTableHelper = new UserTableHelper(getContext());
+        addressTableHelper = new AddressTableHelper(getContext());
 
-        AddressTableHelper addressTableHelper=new AddressTableHelper(requireContext());
-        address = addressTableHelper.getDefaultAddressForUser(Integer.parseInt(userId)).getAddress();
+        if (userId != null && !userId.isEmpty()) {
+            address = addressTableHelper.getDefaultAddressForUser(Integer.parseInt(userId)).getAddress();
+        } else {
+            // Handle the case when userId is invalid or not logged in
+            Toast.makeText(requireContext(), "Invalid user ID!", Toast.LENGTH_SHORT).show();
+        }
+
 
         btChooseAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +117,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
 
         if(address!=null&&!address.isEmpty()){
-            txtAddress.setText(address);
+            String userAddress = userTableHelper.getUserAddressById(Integer.parseInt(userId));
+            txtAddress.setText(userAddress);
         }
 
         if (!preferenceManager.isLoggedIn() || TextUtils.isEmpty(userId)) {
@@ -408,7 +418,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
                 String newAddress = textView.getText().toString();
                 if (!newAddress.isEmpty()) {
                     // Save the new address to the database
-                    saveNewAddress(newAddress);
+                    txtAddress.setText(newAddress);
+                    boolean update = userTableHelper.addUpdateUserAddress(Integer.parseInt(userId),newAddress);
                     Toast.makeText(requireContext(), "New address added!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(requireContext(), "Address cannot be empty!", Toast.LENGTH_SHORT).show();
@@ -423,8 +434,22 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
 
     // Method to show the dialog to select an address from the list
     private void showAddressSelectionDialog(List<Address> addressList) {
-        // Use the AddressAdapter to display addresses
-        AddressCartAdapter adapter = new AddressCartAdapter(addressList,requireContext());
+        // Create the AddressCartAdapter with the listener
+        AddressCartAdapter.OnItemClickListener listener = new AddressCartAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Address address) {
+                // Update the txtAddress with the selected address
+                txtAddress.setText(address.getAddress());  // Assuming txtAddress is the TextView to be updated
+                // Dismiss the dialog after selection
+                boolean update = userTableHelper.addUpdateUserAddress(Integer.parseInt(userId),address.getAddress());
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        };
+
+        // Create the AddressCartAdapter
+        AddressCartAdapter adapter = new AddressCartAdapter(addressList, requireContext(), listener);
 
         // Create a RecyclerView to display the address list
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
@@ -438,22 +463,12 @@ public class CartFragment extends Fragment implements CartAdapter.CartUpdateList
         builder.setView(recyclerView);
         builder.setNegativeButton("Cancel", null);
 
-        builder.show();
+        // Use the class-level dialog variable
+        dialog = builder.create();
+
+        // Set custom dialog width and height
+        dialog.show();
     }
 
 
-    // Method to fetch the address list from the database (replace with your database query)
-    private List<Address> getAddressListFromDatabase() {
-       AddressTableHelper addressTableHelper= new AddressTableHelper(requireContext());
-        return addressTableHelper.getAllAddressesForUser(Integer.parseInt(userId));
-    }
-
-    // Method to save a new address to the database (replace with your database query)
-    private void saveNewAddress(String address) {
-        UserTableHelper userTableHelper= new UserTableHelper(requireContext());
-        Users user=userTableHelper.getUserById(Integer.parseInt(userId));
-        Address newAddress = new Address();
-        newAddress.setAddress(address);
-
-    }
 }
