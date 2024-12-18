@@ -1,5 +1,6 @@
 package com.example.btlon.Ui.Login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import com.example.btlon.Adapter.ViewPagerAdapter;
 import com.example.btlon.R;
+import com.example.btlon.Ui.Home.HomeActivity;
 import com.google.android.material.tabs.TabLayout;
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,7 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager);
         btnQuaylai = findViewById(R.id.btnQuaylai);
-        btnQuaylai.setOnClickListener(v -> finish());
+        btnQuaylai.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+
+
+        });
 
 
         tabLayout.addTab(tabLayout.newTab().setText("Đăng nhập"));
